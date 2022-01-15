@@ -4,7 +4,7 @@ namespace App\Actions\Fortify;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use App\Actions\Fortify\Features;
+use Laravel\Jetstream\Features;
 
 trait HasProfilePhoto
 {

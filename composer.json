@@ -16,7 +16,8 @@
         "spatie/laravel-permission": "^5.3",
         "ext-soap": "*",
         "ext-json": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+	  "ext-libxml": "*"
 	},
     "require-dev": {
         "facade/ignition": "^2.5",
