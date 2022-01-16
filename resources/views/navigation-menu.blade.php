@@ -12,12 +12,62 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('purchases.index') }}" :active="request()->routeIs('purchases.index')">
-                        {{ __('Purchases') }}
-                    </x-jet-nav-link>
+                    @hasrole('Verified')
+{{--                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">--}}
+{{--                        {{ __('Dashboard') }}--}}
+{{--                    </x-jet-nav-link>--}}
+                        @hasanyrole('Grocer|Administrator|Super-Admin')
+                            <x-jet-nav-link href="{{ route('purchases.index') }}" :active="request()->routeIs('purchases.index')">
+                                {{ __('Purchases') }}
+                            </x-jet-nav-link>
+                        @hasanyrole('Administrator|Super-Admin')
+                            <x-jet-nav-link href="{{ route('control.markets.inventories') }}" :active="request()->routeIs('control.markets.inventories')">
+                                {{ __('Inventories') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('control.markets.settlements') }}" :active="request()->routeIs('control.markets.settlements')">
+                                {{ __('Settlements') }}
+                            </x-jet-nav-link>
+                        @endhasanyrole
+                            <x-jet-nav-link href="{{ route('warehouse.shipments') }}" :active="request()->routeIs('warehouse.shipments')">
+                                {{ __('Shipments') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('monitor.sales') }}" :active="request()->routeIs('monitor.sales')">
+                                {{ __('Sales') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('monitor.inventories') }}" :active="request()->routeIs('monitor.inventories')">
+                                {{ __('Inventories') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('monitor.orders') }}" :active="request()->routeIs('monitor.orders')">
+                                {{ __('Orders') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('monitor.expired') }}" :active="request()->routeIs('monitor.expired')">
+                                {{ __('Expired') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('warehouse.requirements') }}" :active="request()->routeIs('warehouse.requirements')">
+                                {{ __('Requirements') }}
+                            </x-jet-nav-link>
+                        @endhasanyrole
+                        @hasanyrole('Seller|Manager')
+                            <x-jet-nav-link href="{{ route('market.index') }}" :active="request()->routeIs('market.index')">
+                                {{ __('Market') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('market.sales') }}" :active="request()->routeIs('market.sales')">
+                                {{ __('Sales') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('market.inventory') }}" :active="request()->routeIs('market.inventory')">
+                                {{ __('Inventory') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('market.orders') }}" :active="request()->routeIs('market.orders')">
+                                {{ __('Orders') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('market.expired') }}" :active="request()->routeIs('market.expired')">
+                                {{ __('Expired') }}
+                            </x-jet-nav-link>
+                            <x-jet-nav-link href="{{ route('market.requests') }}" :active="request()->routeIs('market.requests')">
+                                {{ __('Requests') }}
+                            </x-jet-nav-link>
+                        @endhasanyrole
+                    @endhasrole
                 </div>
             </div>
 
