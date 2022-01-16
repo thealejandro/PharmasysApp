@@ -15,7 +15,7 @@ class CreateManagersTable extends Migration
     {
         Schema::create('managers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnUpdate();
             $table->foreignId('user_approve_id')->constrained('users', 'id');
             $table->timestamps();
             $table->softDeletes();

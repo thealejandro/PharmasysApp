@@ -15,6 +15,7 @@ class CreateStoresTable extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('storeID')->unique();
             $table->string('name');
             $table->foreignId('manager_id')->constrained('managers')->cascadeOnUpdate();
             $table->integer('phone')->nullable();

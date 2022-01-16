@@ -15,10 +15,11 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('itemID')->unique();
             $table->unsignedBigInteger('codeBar')->unique();
             $table->string('name');
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate();
-            $table->foreignId('laboratory_id')->constrained('laboratories')->cascadeOnUpdate();
+            $table->foreignId('category_id')->constrained('categories', 'categoryID')->cascadeOnUpdate();
+            $table->foreignId('laboratory_id')->constrained('laboratories', 'laboratoryID')->cascadeOnUpdate();
             $table->timestamps();
             $table->softDeletes();
         });

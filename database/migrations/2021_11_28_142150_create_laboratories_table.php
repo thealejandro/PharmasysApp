@@ -15,9 +15,10 @@ class CreateLaboratoriesTable extends Migration
     {
         Schema::create('laboratories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('laboratoryID')->unique();
             $table->string('name');
-            $table->foreignId('provider_id')->nullable()->constrained('providers')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('contact_id')->nullable()->constrained('contacts')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('provider_id')->nullable()->constrained('providers', 'providerID')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('contact_id')->nullable()->constrained('contacts', 'id')->cascadeOnUpdate()->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

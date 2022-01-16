@@ -15,7 +15,7 @@ class CreateSalesRecordsTable extends Migration
     {
         Schema::create('sales_records', function (Blueprint $table) {
             $table->id();
-            $table->string('identifier_system_record')->unique();
+            $table->string('saleID')->unique();
             $table->foreignId('seller_id')->constrained('sellers')->cascadeOnUpdate();
             $table->foreignId('settlement_record_id')->nullable()->constrained('settlement_records', 'id')->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('store_id')->constrained('stores')->cascadeOnUpdate();

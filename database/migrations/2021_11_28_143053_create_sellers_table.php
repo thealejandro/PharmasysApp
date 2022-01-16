@@ -16,7 +16,7 @@ class CreateSellersTable extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate();
-            $table->foreignId('store_id')->nullable()->constrained('stores')->cascadeOnUpdate();
+            $table->foreignId('store_id')->nullable()->constrained('stores', 'storeID')->cascadeOnUpdate();
             $table->timestamps();
             $table->softDeletes();
         });
