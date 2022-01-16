@@ -66,7 +66,10 @@ trait HasProfilePhoto
      */
     protected function defaultProfilePhotoUrl()
     {
-        return 'https://ui-avatars.com/api/?name='.urlencode($this->username).'&color=7F9CF5&background=EBF4FF';
+//        return 'https://ui-avatars.com/api/?name='.urlencode($this->first_name).'&color=7F9CF5&background=EBF4FF';
+        $length = ($this->last_name === NULL) ? '1' : '2';
+        $name = urlencode($this->first_name).'+'.urlencode($this->last_name);
+        return "https://ui-avatars.com/api/?name=".$name."&rounded=true&bold=true&background=random&length=".urlencode($length);
     }
 
     /**
