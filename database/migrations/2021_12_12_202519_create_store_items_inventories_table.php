@@ -15,8 +15,8 @@ class CreateStoreItemsInventoriesTable extends Migration
     {
         Schema::create('store_items_inventories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('store_id')->constrained('stores')->cascadeOnUpdate();
-            $table->foreignId('item_codeBar_id')->constrained('items', 'codeBar')->cascadeOnUpdate();
+            $table->foreignId('store_id')->constrained('stores', 'storeID')->cascadeOnUpdate();
+            $table->foreignId('itemID')->constrained('items', 'itemID')->cascadeOnUpdate();
             $table->integer('quantity_countable')->default(0);
             $table->integer('quantity_uncountable')->default(0);
             $table->json('article_data');
@@ -35,7 +35,7 @@ class CreateStoreItemsInventoriesTable extends Migration
     {
         Schema::table('store_items_inventories', function (Blueprint $tab) {
             $tab->dropForeign(['store_id']);
-            $tab->dropForeign(['item_codeBar_id']);
+            $tab->dropForeign(['itemID']);
         });
         Schema::dropIfExists('store_items_inventories');
     }
