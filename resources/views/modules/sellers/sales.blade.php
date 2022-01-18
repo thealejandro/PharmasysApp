@@ -5,5 +5,6 @@
 
     <x-module>
         <livewire:items-finder :query="''" />
+        <livewire:sales-table />
     </x-module>
 </x-app-layout>
