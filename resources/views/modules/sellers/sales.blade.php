@@ -4,6 +4,6 @@
     </x-slot>
 
     <x-module>
-
+        <x-items-finder></x-items-finder>
     </x-module>
 </x-app-layout>
