@@ -1,6 +1,6 @@
 <div class="m-1">
     <div class="overflow-x-auto">
-        <table class="table w-full table-compact">
+        <table class="table w-full">
             <thead>
                 <tr>
                     <th>Código</th>

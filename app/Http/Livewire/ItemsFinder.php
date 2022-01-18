@@ -13,14 +13,11 @@ class ItemsFinder extends Component
     protected $items = [];
     protected $seller;
 
-    public function mount()
+    public function render()
     {
         $this->seller = Sellers::where('user_id', auth()->user()->id)
             ->first();
-    }
 
-    public function render()
-    {
         $this->items = StoreItemsInventories::where('store_id', $this->seller->store_id)
             // ->where('name', 'like', "%{$this->query}%")
             ->limit(25)

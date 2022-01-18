@@ -1,6 +1,6 @@
 <div class="m-1">
     <div class="form-control">
-        <input type="text" class="input input-bordered" placeholder="Buscar productos">
+        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model='query'>
     </div>
 
     <div class="overflow-x-auto">
