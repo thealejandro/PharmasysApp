@@ -15,7 +15,7 @@ class CreateInventoryOfWarehouseItemsTable extends Migration
     {
         Schema::create('inventory_of_warehouse_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('item_codeBar_id')->constrained('items', 'codeBar')->cascadeOnUpdate();
+            $table->foreignId('itemID')->constrained('items', 'itemID')->cascadeOnUpdate();
             $table->integer('quantity_countable')->default(0);
             $table->integer('quantity_uncountable')->default(0);
             $table->json('article_data');
@@ -34,7 +34,7 @@ class CreateInventoryOfWarehouseItemsTable extends Migration
     public function down()
     {
         Schema::table('inventory_of_warehouse_items', function (Blueprint $tab) {
-            $tab->dropForeign(['item_codeBar_id']);
+            $tab->dropForeign(['itemID']);
         });
         Schema::dropIfExists('inventory_of_warehouse_items');
     }

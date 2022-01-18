@@ -16,7 +16,7 @@ class CreateInventoryRecordsTable extends Migration
         Schema::create('inventory_records', function (Blueprint $table) {
             $table->id();
             $table->string('internalID')->unique();
-            $table->foreignId('store_id')->constrained('stores')->cascadeOnUpdate();
+            $table->foreignId('store_id')->constrained('stores', 'storeID');
             $table->dateTime('start_date')->nullable();
             $table->dateTime('finish_date')->nullable();
             $table->double('financial_state')->default(0);
