@@ -16,9 +16,11 @@ class CreatePurchasesRecordsTable extends Migration
         Schema::create('purchases_records', function (Blueprint $table) {
             $table->id();
             $table->date('date_of_purchase');
+            $table->foreignId('providerID')->constrained('providers', 'providerID')->cascadeOnUpdate();
+            $table->unsignedBigInteger('invoiceSystemID')->nullable();
             $table->json('invoiceDetails');
-            $table->boolean('invoiceCountable');
-            $table->json('purchaseDetails');
+            $table->boolean('invoiceCountable')->default(FALSE);
+            $table->json('itemsPurchase');
             $table->foreignId('inventoryRecords')->constrained('inventory_records', 'id')->cascadeOnUpdate();
             $table->boolean('purchaseVerified')->default(FALSE);
             $table->timestamps();
