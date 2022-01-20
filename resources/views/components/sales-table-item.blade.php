@@ -9,7 +9,7 @@
             <input type="number" class="input input-bordered" placeholder="cantidad" wire:model='quantity' min="0">
         </div>
     </td>
-    <td>{{ $presentation['price'] }}</td>
+    <td>{{ Helper::GTMoney($price) }}</td>
     <td>
         <div class="form-control">
             <select wire:model='price' class="select select-bordered uppercase">
@@ -21,5 +21,5 @@
             </select>
         </div>
     </td>
-    <td>{{ $subTotal }}</td>
+    <td>{{ Helper::GTMoney($subTotal) }}</td>
 </tr>

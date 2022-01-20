@@ -27,7 +27,7 @@
                         <td>{{ $item->itemID }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->quantity_countable + $item->quantity_uncountable }}</td>
-                        <td>{{ $presentation['price'] }}</td>
+                        <td>{{ Helper::GTMoney($presentation['price']) }}</td>
                         <td>{{ "{$location['estante']} - {$location['nivel']} - {$location['caja']}" }}</td>
                         <td>---</td>
                     </tr>
