@@ -76,4 +76,18 @@ class SoapFELController extends SoapController
             return $e->getMessage();
         }
     }
+
+    public function certificateDTE()
+    {
+        try {
+            self::setWSDL('https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl');
+            $service = InstanceSoapClient::init();
+
+            $query = $service->RequestTransaction([
+
+                                                  ]);
+        } catch (\SoapFault $e) {
+            return $e->getMessage();
+        }
+    }
 }
