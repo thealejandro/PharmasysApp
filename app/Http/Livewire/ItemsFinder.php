@@ -37,6 +37,9 @@ class ItemsFinder extends Component
         ]);
     }
 
+    /**
+     * @param int $id 'store_items_inventories'.'id'
+     */
     public function addItem($id)
     {
         $this->emit('item-added', $id);

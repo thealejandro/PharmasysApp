@@ -32,7 +32,9 @@ class SalesTable extends Component
             'items' => $this->items
         ]);
     }
-
+    /**
+     * @param int $id 'store_items_inventories'.'id'
+     */
     public function itemAdded($id)
     {
         $this->itemIds[] = $id;

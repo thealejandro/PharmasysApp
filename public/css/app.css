@@ -2709,6 +2709,21 @@ html {
 .artboard.phone {
   width: 320px;
 }
+.input-sm {
+  height: 2rem;
+  font-size: .875rem;
+  line-height: 2rem;
+  padding-left: .75rem;
+  padding-right: .75rem;
+}
+.select-sm {
+  height: 2rem;
+  font-size: .875rem;
+  line-height: 2rem;
+  padding-left: .75rem;
+  padding-right: 2rem;
+  min-height: 2rem;
+}
 .fixed {
   position: fixed;
 }
