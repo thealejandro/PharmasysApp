@@ -29,11 +29,16 @@ class ItemsFinder extends Component
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
             ->where('store_id', $this->seller->store_id)
             ->where('items.name', 'like', "%{$this->query}%")
-            ->limit(25)
+            ->limit(10)
             ->get();
 
         return view('components.items-finder', [
             'items' => $this->items
         ]);
+    }
+
+    public function addItem($id)
+    {
+        $this->emit('item-added', $id);
     }
 }
