@@ -19,10 +19,20 @@
                     <tr>
                         <td>{{ $item->itemID }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>0</td>
+                        <td>
+                            <input type="number" class="input input-bordered" placeholder="cantidad" value="1">
+                        </td>
                         <td>{{ $presentation['price'] }}</td>
-                        <td>?</td>
-                        <td>0</td>
+                        <td>
+                            <select class="select select-bordered">
+                                @foreach ($item->article_data['presentations'] as $presentation)
+                                    <option value="{{ $presentation['price'] }}" class="uppercase">
+                                        {{ $presentation['name'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>{{ $presentation['price'] }}</td>
                     </tr>
                 @endforeach
             </tbody>

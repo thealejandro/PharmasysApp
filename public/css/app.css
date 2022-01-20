@@ -2571,6 +2571,9 @@ html {
     transform: translateY(0);
   }
 }
+.select-bordered {
+  --tw-border-opacity: 0.2;
+}
 .select-disabled::-moz-placeholder,.select[disabled]::-moz-placeholder {
   --tw-placeholder-opacity: 0.2;
   color: hsla(var(--bc) / var(--tw-placeholder-opacity, 1));
