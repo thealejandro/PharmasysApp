@@ -9,7 +9,7 @@
         <div class="form-control">
             <input type="number"
                 class="input input-bordered {{ $isBadQuantity || $isOutOfStock ? 'border-red-500' : '' }}"
-                placeholder="cantidad" wire:model='quantity' min="0">
+                placeholder="cantidad" wire:model.lazy='quantity' min="0">
         </div>
         @if ($isBadQuantity)
             <div class="text-sm font-bold mt-1">Cantidad inválida</div>
@@ -30,5 +30,10 @@
             </select>
         </div>
     </td>
-    <td>{{ Helper::GTMoney($subTotal) }}</td>
+    <td>
+        {{ Helper::GTMoney($subTotal) }}
+        <div class="w-full h-auto" wire:loading.block wire:target='quantity, price'>
+            <x-line-loader></x-line-loader>
+        </div>
+    </td>
 </tr>

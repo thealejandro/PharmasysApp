@@ -1,5 +1,8 @@
 <div class="m-1">
     <div class="overflow-x-auto">
+        <div class="w-full h-auto" wire:loading>
+            <x-line-loader></x-line-loader>
+        </div>
         <table class="table w-full">
             <thead>
                 <tr>

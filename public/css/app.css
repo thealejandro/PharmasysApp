@@ -2756,6 +2756,10 @@ html {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -2879,6 +2883,12 @@ html {
 .h-full {
   height: 100%;
 }
+.h-2 {
+  height: 0.5rem;
+}
+.h-auto {
+  height: auto;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -2926,6 +2936,12 @@ html {
 }
 .w-\[90\%\] {
   width: 90%;
+}
+.w-1\/5 {
+  width: 20%;
+}
+.w-1\/2 {
+  width: 50%;
 }
 .min-w-0 {
   min-width: 0px;
@@ -3005,6 +3021,24 @@ html {
 .animate-pulse {
   -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@-webkit-keyframes ping {
+
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes ping {
+
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+.animate-ping {
+  -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+          animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 .cursor-default {
   cursor: default;
@@ -3092,9 +3126,6 @@ html {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.whitespace-pre-wrap {
-  white-space: pre-wrap;
-}
 .rounded-md {
   border-radius: 0.375rem;
 }
@@ -3170,13 +3201,13 @@ html {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
-.border-gray-600 {
-  --tw-border-opacity: 1;
-  border-color: rgb(75 85 99 / var(--tw-border-opacity));
-}
 .border-red-500 {
   --tw-border-opacity: 1;
   border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
+.border-gray-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -3226,6 +3257,10 @@ html {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+}
 .bg-indigo-400 {
   --tw-bg-opacity: 1;
   background-color: rgb(129 140 248 / var(--tw-bg-opacity));
@@ -3234,9 +3269,13 @@ html {
   --tw-bg-opacity: 1;
   background-color: rgb(220 252 231 / var(--tw-bg-opacity));
 }
-.bg-red-300 {
+.bg-blue-500 {
   --tw-bg-opacity: 1;
-  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+.bg-blue-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
   --tw-bg-opacity: 0.25;
@@ -3589,15 +3628,15 @@ html {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
 .transition-colors {
   transition-property: color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.transition-transform {
+  transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -3625,28 +3664,8 @@ html {
 .ease-linear {
   transition-timing-function: linear;
 }
-.menu :where(li).odd\:disabled:nth-child(odd)>a,.menu :where(li).disabled>button,.menu :where(li).disabled>span {
-  cursor: auto;
-}
-.menu li.odd\:disabled:nth-child(odd)>a:hover,.menu li.disabled>button:hover,.menu li.disabled>span:hover {
-  background-color: transparent;
-}
-.menu li.odd\:disabled:nth-child(odd)>a,.menu li.disabled>button,.menu li.disabled>span {
-  --tw-text-opacity: 0.2;
-  color: hsla(var(--bc) / var(--tw-text-opacity, 1));
-}
 .odd\:opacity-60:nth-child(odd) {
   opacity: 0.6;
-}
-.menu :where(li).even\:disabled:nth-child(even)>a,.menu :where(li).disabled>button,.menu :where(li).disabled>span {
-  cursor: auto;
-}
-.menu li.even\:disabled:nth-child(even)>a:hover,.menu li.disabled>button:hover,.menu li.disabled>span:hover {
-  background-color: transparent;
-}
-.menu li.even\:disabled:nth-child(even)>a,.menu li.disabled>button,.menu li.disabled>span {
-  --tw-text-opacity: 0.2;
-  color: hsla(var(--bc) / var(--tw-text-opacity, 1));
 }
 .even\:opacity-60:nth-child(even) {
   opacity: 0.6;

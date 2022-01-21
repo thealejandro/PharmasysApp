@@ -1,6 +1,9 @@
 <div class="m-1">
     <div class="form-control">
-        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model='query'>
+        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model.debounce.500ms='query'>
+    </div>
+    <div wire:loading wire:target='query' class="w-full h-auto">
+        <x-line-loader></x-line-loader>
     </div>
     <div class="overflow-x-auto">
         <table class="table w-full">
