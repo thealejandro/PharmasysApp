@@ -2990,11 +2990,30 @@ html {
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
+@-webkit-keyframes pulse {
+
+  50% {
+    opacity: .5;
+  }
+}
+@keyframes pulse {
+
+  50% {
+    opacity: .5;
+  }
+}
+.animate-pulse {
+  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 .cursor-default {
   cursor: default;
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.cursor-not-allowed {
+  cursor: not-allowed;
 }
 .list-inside {
   list-style-position: inside;
@@ -3072,6 +3091,9 @@ html {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
 }
 .rounded-md {
   border-radius: 0.375rem;
@@ -3152,6 +3174,10 @@ html {
   --tw-border-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-border-opacity));
 }
+.border-red-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+}
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -3207,6 +3233,10 @@ html {
 .bg-green-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(220 252 231 / var(--tw-bg-opacity));
+}
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
   --tw-bg-opacity: 0.25;
@@ -3564,6 +3594,13 @@ html {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
+.transition-colors {
+  transition-property: color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
 .duration-150 {
   transition-duration: 150ms;
 }
@@ -3588,16 +3625,36 @@ html {
 .ease-linear {
   transition-timing-function: linear;
 }
+.menu :where(li).odd\:disabled:nth-child(odd)>a,.menu :where(li).disabled>button,.menu :where(li).disabled>span {
+  cursor: auto;
+}
+.menu li.odd\:disabled:nth-child(odd)>a:hover,.menu li.disabled>button:hover,.menu li.disabled>span:hover {
+  background-color: transparent;
+}
+.menu li.odd\:disabled:nth-child(odd)>a,.menu li.disabled>button,.menu li.disabled>span {
+  --tw-text-opacity: 0.2;
+  color: hsla(var(--bc) / var(--tw-text-opacity, 1));
+}
+.odd\:opacity-60:nth-child(odd) {
+  opacity: 0.6;
+}
+.menu :where(li).even\:disabled:nth-child(even)>a,.menu :where(li).disabled>button,.menu :where(li).disabled>span {
+  cursor: auto;
+}
+.menu li.even\:disabled:nth-child(even)>a:hover,.menu li.disabled>button:hover,.menu li.disabled>span:hover {
+  background-color: transparent;
+}
+.menu li.even\:disabled:nth-child(even)>a,.menu li.disabled>button,.menu li.disabled>span {
+  --tw-text-opacity: 0.2;
+  color: hsla(var(--bc) / var(--tw-text-opacity, 1));
+}
+.even\:opacity-60:nth-child(even) {
+  opacity: 0.6;
+}
 .hover\:scale-95:hover {
   --tw-scale-x: .95;
   --tw-scale-y: .95;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-@-webkit-keyframes pulse {
-
-  50% {
-    opacity: .5;
-  }
 }
 @keyframes pulse {
 

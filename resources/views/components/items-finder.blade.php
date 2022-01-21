@@ -16,17 +16,19 @@
             </thead>
             <tbody>
                 @foreach ($items as $item)
-                    <tr class="hover cursor-pointer hover:scale-95 transition-transform hover:animate-pulse ease-linear"
+                    @php
+                        $location = $item->article_data['location'];
+                        //Retrives the first presentation
+                        $presentation = $item->article_data['presentations'][0];
+                        $stock = $item->quantity_countable + $item->quantity_uncountable;
+                        $zeroStock = $stock <= 0 ? 1 : 0;
+                    @endphp
+                    <tr class="{{ $zeroStock ? 'cursor-not-allowed even:opacity-60 odd:opacity-60' : 'hover cursor-pointer hover:scale-95 transition-transform hover:animate-pulse ease-linear' }}"
                         onclick="document.getElementById('close-modal').click()"
-                        wire:click="addItem({{ $item->store_items_inventories_id }})">
-                        @php
-                            $location = $item->article_data['location'];
-                            //Retrives the first presentation
-                            $presentation = $item->article_data['presentations'][0];
-                        @endphp
+                        wire:click="addItem({{ $item->store_items_inventories_id }}, {{ $zeroStock }})">
                         <td>{{ $item->itemID }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->quantity_countable + $item->quantity_uncountable }}</td>
+                        <td>{{ $stock }}</td>
                         <td>{{ Helper::GTMoney($presentation['price']) }}</td>
                         <td>{{ "{$location['estante']} - {$location['nivel']} - {$location['caja']}" }}</td>
                         <td>---</td>

@@ -39,9 +39,12 @@ class ItemsFinder extends Component
 
     /**
      * @param int $id 'store_items_inventories'.'id'
+     * @param boolean $zeroStock Determines if stock is 0
      */
-    public function addItem($id)
+    public function addItem($id, $zeroStock)
     {
-        $this->emit('item-added', $id);
+        if (!$zeroStock) {
+            $this->emit('item-added', $id);
+        }
     }
 }

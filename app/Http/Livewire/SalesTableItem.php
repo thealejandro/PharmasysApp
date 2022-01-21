@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\StoreItemsInventories;
 use Livewire\Component;
 
 class SalesTableItem extends Component
@@ -10,6 +11,8 @@ class SalesTableItem extends Component
     public $quantity = 1;
     public $price = 0;
     public $subTotal = 0;
+    public $isBadQuantity = false;
+    public $isOutOfStock = false;
 
     protected $rules = [
         'item.store_items_inventories_id' => 'required',
@@ -28,7 +31,19 @@ class SalesTableItem extends Component
 
     public function render()
     {
-        $this->subTotal = $this->quantity * $this->price;
+
+        $this->quantity = intval($this->quantity);
+        $this->price = floatval($this->price);
+
+        $stock = StoreItemsInventories::selectRaw('(quantity_countable + quantity_uncountable) as stock')
+            ->where('id', $this->item->store_items_inventories_id)
+            ->first()
+            ->stock ?? 0;
+
+        $this->isBadQuantity = $this->quantity <= 0;
+        $this->isOutOfStock =  $stock <= 0 || $this->quantity > $stock;
+
+        $this->subTotal = $this->quantity *  $this->price;
         return view('components.sales-table-item');
     }
 }

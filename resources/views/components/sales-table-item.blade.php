@@ -4,10 +4,19 @@
     @endphp
     <td>{{ $item->itemID }}</td>
     <td>{{ $item->name }}</td>
-    <td>
+    <td
+        class="{{ $isBadQuantity || $isOutOfStock ? 'bg-red-300 border-red-500 border transition-colors animate-pulse' : '' }}">
         <div class="form-control">
-            <input type="number" class="input input-bordered" placeholder="cantidad" wire:model='quantity' min="0">
+            <input type="number"
+                class="input input-bordered {{ $isBadQuantity || $isOutOfStock ? 'border-red-500' : '' }}"
+                placeholder="cantidad" wire:model='quantity' min="0">
         </div>
+        @if ($isBadQuantity)
+            <div class="text-sm font-bold mt-1">Cantidad inválida</div>
+        @endif
+        @if ($isOutOfStock)
+            <div class="text-sm font-bold mt-1">Productos insuficientes</div>
+        @endif
     </td>
     <td>{{ Helper::GTMoney($price) }}</td>
     <td>
