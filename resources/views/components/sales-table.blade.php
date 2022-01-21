@@ -1,5 +1,13 @@
 <div class="m-1">
     <div class="overflow-x-auto">
+        @php
+            $total = array_reduce($itemsStructure, fn($c, $i) => ($c += $i['subTotal']));
+        @endphp
+        <div class="flex justify-center items-center my-2">
+            <div class="badge badge-success badge-lg text-lg">
+                Total: {{ Helper::GTMoney($total) }}
+            </div>
+        </div>
         <div class="w-full h-auto" wire:loading>
             <x-line-loader></x-line-loader>
         </div>
@@ -12,6 +20,7 @@
                     <th>Precio</th>
                     <th>Presentación</th>
                     <th>Subtotal</th>
+                    <th class="text-center">Eliminar</th>
                 </tr>
             </thead>
             <tbody>

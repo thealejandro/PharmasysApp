@@ -28,7 +28,7 @@
                     @endphp
                     <tr class="{{ $zeroStock ? 'cursor-not-allowed even:opacity-60 odd:opacity-60' : 'hover cursor-pointer hover:scale-95 transition-transform hover:animate-pulse ease-linear' }}"
                         onclick="document.getElementById('close-modal').click()"
-                        wire:click="addItem({{ $item->store_items_inventories_id }}, {{ $zeroStock }})">
+                        wire:click="addItem({{ $item->store_items_inventories_id }}, {{ $zeroStock }}, {{ $presentation['price'] }})">
                         <td>{{ $item->itemID }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $stock }}</td>

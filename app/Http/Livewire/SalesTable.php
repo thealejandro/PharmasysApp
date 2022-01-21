@@ -7,11 +7,12 @@ use Livewire\Component;
 
 class SalesTable extends Component
 {
-    public $itemIds = [];
+    public $itemsStructure = [];
     protected $items = [];
 
     protected  $listeners = [
-        'item-added' => 'itemAdded'
+        'item-added' => 'itemAdded',
+        'item-deleted' => 'itemDeleted'
     ];
 
     public function render()
@@ -25,7 +26,7 @@ class SalesTable extends Component
             'article_data'
         )
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
-            ->whereIn('store_items_inventories.id', $this->itemIds)
+            ->whereIn('store_items_inventories.id', array_map(fn ($e) => $e['id'], $this->itemsStructure))
             ->get();
 
         return view('components.sales-table', [
@@ -33,10 +34,30 @@ class SalesTable extends Component
         ]);
     }
     /**
-     * @param int $id 'store_items_inventories'.'id'
+     * @param array $itemStrcutre the itemStructure follow the next pattern:
+     * [
+     *  'id' => int,
+     *  'quantity' => int,
+     *  'subTotal' => number,
+     * ]
      */
-    public function itemAdded($id)
+    public function itemAdded($itemStructure)
     {
-        $this->itemIds[] = $id;
+        $ids = array_map(fn ($i) => $i['id'], $this->itemsStructure);
+        if (!in_array($itemStructure['id'], $ids)) {
+            $this->itemsStructure[] = $itemStructure;
+        }
+    }
+
+    /**
+     * @param array $itemStrcutre the itemStructure follow the next pattern:
+     * [
+     *  'id' => int,
+     *  'quantity' => int,
+     *  'subTotal' => number,
+     * ]
+     */
+    public function itemDeleted($itemStructure)
+    {
     }
 }

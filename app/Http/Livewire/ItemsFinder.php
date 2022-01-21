@@ -40,11 +40,16 @@ class ItemsFinder extends Component
     /**
      * @param int $id 'store_items_inventories'.'id'
      * @param boolean $zeroStock Determines if stock is 0
+     * @param int|float $price The price of item
      */
-    public function addItem($id, $zeroStock)
+    public function addItem($id, $zeroStock, $price)
     {
         if (!$zeroStock) {
-            $this->emit('item-added', $id);
+            $this->emit('item-added', [
+                'id' => $id,
+                'quantity' => 1,
+                'subTotal' => $price
+            ]);
         }
     }
 }
