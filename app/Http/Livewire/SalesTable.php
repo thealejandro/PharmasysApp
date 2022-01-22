@@ -80,7 +80,8 @@ class SalesTable extends Component
                 return [
                     'id' => $itemStructure['id'],
                     'quantity' => $itemStructure['quantity'],
-                    'subTotal' => $itemStructure['subTotal']
+                    'subTotal' => $itemStructure['subTotal'],
+                    'units' => $itemStructure['units']
                 ];
             }
             return $i;

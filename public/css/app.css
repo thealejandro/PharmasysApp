@@ -2351,27 +2351,6 @@ html {
   --tw-border-opacity: 1;
   border-color: hsla(var(--nf) / var(--tw-border-opacity, 1));
 }
-.btn-outline.btn-primary .badge-outline {
-  background-color: transparent;
-  --tw-border-opacity: 1;
-  border-color: hsla(var(--p) / var(--tw-border-opacity, 1));
-  --tw-text-opacity: 1;
-  color: hsla(var(--p) / var(--tw-text-opacity, 1));
-}
-.btn-outline.btn-secondary .badge-outline {
-  background-color: transparent;
-  --tw-border-opacity: 1;
-  border-color: hsla(var(--s) / var(--tw-border-opacity, 1));
-  --tw-text-opacity: 1;
-  color: hsla(var(--s) / var(--tw-text-opacity, 1));
-}
-.btn-outline.btn-accent .badge-outline {
-  background-color: transparent;
-  --tw-border-opacity: 1;
-  border-color: hsla(var(--a) / var(--tw-border-opacity, 1));
-  --tw-text-opacity: 1;
-  color: hsla(var(--a) / var(--tw-text-opacity, 1));
-}
 .btn-outline:hover .badge {
   --tw-bg-opacity: 1;
   background-color: hsla(var(--b2) / var(--tw-bg-opacity, 1));
@@ -2926,22 +2905,10 @@ html {
   min-height: 2rem;
   font-size: .875rem;
 }
-.btn-lg {
-  height: 4rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  min-height: 4rem;
-  font-size: 1.125rem;
-}
 .btn-square:where(.btn-sm) {
   height: 2rem;
   padding: 0;
   width: 2rem;
-}
-.btn-square:where(.btn-lg) {
-  height: 4rem;
-  padding: 0;
-  width: 4rem;
 }
 .btn-circle:where(.btn-xs) {
   border-radius: 9999px;
@@ -2966,25 +2933,6 @@ html {
   height: 4rem;
   padding: 0;
   width: 4rem;
-}
-.badge-outline {
-  background-color: transparent;
-  border-color: currentColor;
-  --tw-border-opacity: 0.5;
-  --tw-text-opacity: 1;
-  color: hsla(var(--bc) / var(--tw-text-opacity, 1));
-}
-.badge-outline.badge-primary {
-  --tw-text-opacity: 1;
-  color: hsla(var(--p) / var(--tw-text-opacity, 1));
-}
-.badge-outline.badge-secondary {
-  --tw-text-opacity: 1;
-  color: hsla(var(--s) / var(--tw-text-opacity, 1));
-}
-.badge-outline.badge-accent {
-  --tw-text-opacity: 1;
-  color: hsla(var(--a) / var(--tw-text-opacity, 1));
 }
 .badge-success {
   --tw-bg-opacity: 0.1;
@@ -3039,10 +2987,6 @@ html {
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-}
-.my-3 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
 }
 .ml-3 {
   margin-left: 0.75rem;
@@ -3834,10 +3778,6 @@ html {
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity));
 }
-.text-primary {
-  --tw-text-opacity: 1;
-  color: hsla(var(--p) / var(--tw-text-opacity));
-}
 .underline {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
@@ -3961,25 +3901,15 @@ html {
 .even\:opacity-60:nth-child(even) {
   opacity: 0.6;
 }
-.hover\:scale-95:hover {
-  --tw-scale-x: .95;
-  --tw-scale-y: .95;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
-@keyframes pulse {
-
-  50% {
-    opacity: .5;
-  }
-}
-.hover\:animate-pulse:hover {
-  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.hover\:scale-95:hover {
+  --tw-scale-x: .95;
+  --tw-scale-y: .95;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 @keyframes spin {
 
@@ -3991,16 +3921,15 @@ html {
   -webkit-animation: spin 1s linear infinite;
           animation: spin 1s linear infinite;
 }
-@keyframes ping {
+@keyframes pulse {
 
-  75%, 100% {
-    transform: scale(2);
-    opacity: 0;
+  50% {
+    opacity: .5;
   }
 }
-.hover\:animate-ping:hover {
-  -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
-          animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+.hover\:animate-pulse:hover {
+  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;

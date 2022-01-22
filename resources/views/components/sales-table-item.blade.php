@@ -21,9 +21,9 @@
     <td>{{ Helper::GTMoney($price) }}</td>
     <td>
         <div class="form-control">
-            <select wire:model='price' class="select select-bordered uppercase">
-                @foreach ($item->article_data['presentations'] as $p)
-                    <option value="{{ $p['price'] }}">
+            <select wire:model='presentationKey' class="select select-bordered uppercase">
+                @foreach ($item->article_data['presentations'] as $key => $p)
+                    <option value="{{ $key }}">
                         {{ $p['name'] }}
                     </option>
                 @endforeach
@@ -32,7 +32,7 @@
     </td>
     <td>
         {{ Helper::GTMoney($subTotal) }}
-        <div class="w-full h-auto" wire:loading.block wire:target='quantity, price'>
+        <div class="w-full h-auto" wire:loading.block wire:target='quantity, presentationKey'>
             <x-line-loader></x-line-loader>
         </div>
     </td>

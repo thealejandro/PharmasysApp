@@ -42,13 +42,14 @@ class ItemsFinder extends Component
      * @param boolean $zeroStock Determines if stock is 0
      * @param int|float $price The price of item
      */
-    public function addItem($id, $zeroStock, $price)
+    public function addItem($id, $zeroStock, $price, $units)
     {
         if (!$zeroStock) {
             $this->emit('item-added', [
                 'id' => $id,
                 'quantity' => 1,
-                'subTotal' => $price
+                'subTotal' => $price,
+                'units' => $units
             ]);
         }
     }

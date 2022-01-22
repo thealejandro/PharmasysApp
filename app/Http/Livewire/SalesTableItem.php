@@ -13,6 +13,7 @@ class SalesTableItem extends Component
     public $subTotal = 0;
     public $isBadQuantity = false;
     public $isOutOfStock = false;
+    public $presentationKey = 0;
 
     protected $rules = [
         'item.store_items_inventories_id' => 'required',
@@ -40,7 +41,8 @@ class SalesTableItem extends Component
     public function updated()
     {
         $this->quantity = intval($this->quantity);
-        $this->price = floatval($this->price);
+        $this->presentationKey = intval($this->presentationKey);
+        $this->price = $this->item->article_data['presentations'][$this->presentationKey]['price'];
 
         $stock = StoreItemsInventories::selectRaw('(quantity_countable + quantity_uncountable) as stock')
             ->where('id', $this->item->store_items_inventories_id)
@@ -60,7 +62,8 @@ class SalesTableItem extends Component
         $this->emitUp('item-deleted', [
             'id' => $this->item->store_items_inventories_id,
             'quantity' => $this->quantity,
-            'subTotal' => $this->subTotal
+            'subTotal' => $this->subTotal,
+            'units' => 0
         ]);
     }
 
@@ -69,7 +72,10 @@ class SalesTableItem extends Component
         $this->emitUp('item-updated', [
             'id' => $this->item->store_items_inventories_id,
             'quantity' => $this->quantity,
-            'subTotal' => $this->subTotal
+            'subTotal' => $this->subTotal,
+            'units' =>  $this->isBadQuantity || $this->isOutOfStock ? //Has any error in quantity
+                -1 : // Set -1
+                $this->item->article_data['presentations'][$this->presentationKey]['quantity'] //Set quantity
         ]);
     }
 }
