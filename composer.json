@@ -17,8 +17,9 @@
         "ext-soap": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
-	  "ext-libxml": "*"
-	},
+	  "ext-libxml": "*",
+        "ext-intl": "*"
+    },
     "require-dev": {
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
