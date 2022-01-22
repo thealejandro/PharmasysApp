@@ -46,4 +46,13 @@ class SalesTableItem extends Component
         $this->subTotal = $this->quantity *  $this->price;
         return view('components.sales-table-item');
     }
+
+    public function delete()
+    {
+        $this->emitUp('item-deleted', [
+            'id' => $this->item->store_items_inventories_id,
+            'quantity' => $this->quantity,
+            'subTotal' => $this->subTotal
+        ]);
+    }
 }

@@ -59,5 +59,8 @@ class SalesTable extends Component
      */
     public function itemDeleted($itemStructure)
     {
+        $this->itemsStructure = array_filter($this->itemsStructure, function ($i) use ($itemStructure) {
+            return $i['id'] !== $itemStructure['id'];
+        });
     }
 }

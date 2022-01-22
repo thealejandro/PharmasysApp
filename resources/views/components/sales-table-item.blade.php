@@ -37,7 +37,8 @@
         </div>
     </td>
     <td class="text-center">
-        <button class="btn btn-circle btn-sm hover:bg-red-500 hover:border-red-500 hover:scale-110 hover:animate-spin">
+        <button class="btn btn-circle btn-sm hover:bg-red-500 hover:border-red-500 hover:scale-110 hover:animate-spin"
+            wire:click='delete'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 class="inline-block w-6 h-6 stroke-current">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
