@@ -20,6 +20,7 @@ class CreateItemsTable extends Migration
             $table->string('name');
             $table->foreignId('category_id')->constrained('categories', 'categoryID')->cascadeOnUpdate();
             $table->foreignId('laboratory_id')->constrained('laboratories', 'laboratoryID')->cascadeOnUpdate();
+            $table->boolean('generic')->default(FALSE);
             $table->timestamps();
             $table->softDeletes();
         });
