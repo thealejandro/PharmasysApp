@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Items;
+use App\Models\SalesRecord;
+use App\Models\Sellers;
 use App\Models\StoreItemsInventories;
 use Livewire\Component;
 
@@ -40,6 +43,8 @@ class SalesTable extends Component
      *  'id' => int,
      *  'quantity' => int,
      *  'subTotal' => number,
+     *  'units' => int,
+     *  'presentationKey' => int,
      * ]
      */
     public function itemAdded($itemStructure)
@@ -56,6 +61,8 @@ class SalesTable extends Component
      *  'id' => int,
      *  'quantity' => int,
      *  'subTotal' => number,
+     *  'units' => int
+     *  'presentationKey' => int,
      * ]
      */
     public function itemDeleted($itemStructure)
@@ -71,6 +78,8 @@ class SalesTable extends Component
      *  'id' => int,
      *  'quantity' => int,
      *  'subTotal' => number,
+     *  'units' => int,
+     *  'presentationKey' => int,
      * ]
      */
     public function itemUpdated($itemStructure)
@@ -81,10 +90,68 @@ class SalesTable extends Component
                     'id' => $itemStructure['id'],
                     'quantity' => $itemStructure['quantity'],
                     'subTotal' => $itemStructure['subTotal'],
-                    'units' => $itemStructure['units']
+                    'units' => $itemStructure['units'],
+                    'presentationKey' => $itemStructure['presentationKey']
                 ];
             }
             return $i;
         }, $this->itemsStructure);
+    }
+
+    public function sell()
+    {
+        $seller = Sellers::where('user_id', auth()->user()->id)
+            ->first();
+
+        $saleItems = [];
+
+        foreach ($this->itemsStructure as $itemStructure) {
+            $itemInventory = StoreItemsInventories::find($itemStructure['id']);
+            $item = Items::where('itemID', $itemInventory->itemID)->first();
+            $presentation = $itemInventory->article_data['presentations'][$itemStructure['presentationKey']];
+
+            $unitQuantity = $itemStructure['quantity'] * $itemStructure['units'];
+            $quantity_countable = 0;
+            $quantity_uncountable = 0;
+
+            if ($itemInventory->quantity_countable >= $itemInventory->quantity_uncountable) {
+                if ($itemInventory->quantity_countable >= $unitQuantity) {
+                    $quantity_countable = $unitQuantity;
+                } else {
+                    $quantity_countable = $itemInventory->quantity_countable;
+                    $quantity_uncountable = $unitQuantity - $itemInventory->quantity_countable;
+                }
+            } else {
+                if ($itemInventory->quantity_uncountable >= $unitQuantity) {
+                    $quantity_uncountable = $unitQuantity;
+                } else {
+                    $quantity_uncountable = $itemInventory->quantity_uncountable;
+                    $quantity_countable = $unitQuantity - $itemInventory->quantity_uncountable;
+                }
+            }
+
+            $saleItems[] = [
+                'itemID' => $item->itemID,
+                'quantity' => $unitQuantity,
+                'quantity_countable' => $quantity_countable,
+                'quantity_uncountable' => $quantity_uncountable,
+                'discount' => 0,
+                'presentation' => $presentation,
+                'dataRegister' => [
+                    'price_sale' => $presentation['price'],
+                    'price_purchase' => $itemInventory->article_data['price_purchase']
+                ]
+            ];
+        }
+        dd($saleItems);
+
+        //     SalesRecord::insert([
+        //         'saleID' => '?',
+        //         'seller_id' => $seller->id,
+        //         'store_id' => $seller->store_id,
+        //         'has_invoice' => false,
+        //         'sale_details' => '',
+        //         'created_at' => now()
+        //     ]);
     }
 }

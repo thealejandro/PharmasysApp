@@ -49,7 +49,8 @@ class ItemsFinder extends Component
                 'id' => $id,
                 'quantity' => 1,
                 'subTotal' => $price,
-                'units' => $units
+                'units' => $units,
+                'presentationKey' => 0
             ]);
         }
     }

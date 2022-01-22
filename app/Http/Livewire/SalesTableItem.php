@@ -43,6 +43,7 @@ class SalesTableItem extends Component
         $this->quantity = intval($this->quantity);
         $this->presentationKey = intval($this->presentationKey);
         $this->price = $this->item->article_data['presentations'][$this->presentationKey]['price'];
+        $unitQuantity = $this->item->article_data['presentations'][$this->presentationKey]['quantity'];
 
         $stock = StoreItemsInventories::selectRaw('(quantity_countable + quantity_uncountable) as stock')
             ->where('id', $this->item->store_items_inventories_id)
@@ -50,7 +51,7 @@ class SalesTableItem extends Component
             ->stock ?? 0;
 
         $this->isBadQuantity = $this->quantity <= 0;
-        $this->isOutOfStock =  $stock <= 0 || $this->quantity > $stock;
+        $this->isOutOfStock =  $stock <= 0 || ($this->quantity * $unitQuantity) > $stock;
 
         $this->subTotal = $this->quantity *  $this->price;
 
@@ -63,7 +64,8 @@ class SalesTableItem extends Component
             'id' => $this->item->store_items_inventories_id,
             'quantity' => $this->quantity,
             'subTotal' => $this->subTotal,
-            'units' => 0
+            'units' => 0,
+            'presentationKey' => $this->presentationKey
         ]);
     }
 
@@ -75,7 +77,8 @@ class SalesTableItem extends Component
             'subTotal' => $this->subTotal,
             'units' =>  $this->isBadQuantity || $this->isOutOfStock ? //Has any error in quantity
                 -1 : // Set -1
-                $this->item->article_data['presentations'][$this->presentationKey]['quantity'] //Set quantity
+                $this->item->article_data['presentations'][$this->presentationKey]['quantity'], //Set quantity
+            'presentationKey' => $this->presentationKey
         ]);
     }
 }
