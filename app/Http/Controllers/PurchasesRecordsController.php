@@ -114,6 +114,7 @@ class PurchasesRecordsController extends Controller
                 $itemInInventory->save();
             }
 
+            $invoice->purchaseVerified = TRUE;
             DB::commit();
 
             return response()->json(['msg' => 'Purchase Verified Success']);
