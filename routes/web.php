@@ -29,6 +29,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:Super-Admin|Tes
 
 Route::middleware(['role:Super-Admin|Administrator', 'auth:sanctum', 'verified'])->group(function () {
     Route::get('/warehouse/purchases', [\App\Http\Controllers\PurchasesRecordsController::class, 'viewIndex'])->name('purchases.index');
+    Route::post('/warehouse/purchases/create', [\App\Http\Controllers\PurchasesRecordsController::class, 'createRegisterPurchase'])->name('purchases.create');
+    Route::put('/warehouse/purchases/verify/{idPurchase}', [\App\Http\Controllers\PurchasesRecordsController::class, 'verifyPurchase'])->name('purchases.verified');
+
     Route::view('/control/markets/inventories', 'modules.admin.inventories')->name('control.markets.inventories');
     Route::view('/control/markets/settlements', 'modules.admin.settlements')->name('control.markets.settlements');
 });
