@@ -15,7 +15,7 @@ class ItemsFinder extends Component
 
     public function render()
     {
-        $this->seller = Sellers::where('user_id', auth()->user()->id)
+        $this->seller = Sellers::where('user_id', \Auth::id())
             ->first();
 
         $this->items = StoreItemsInventories::select(
@@ -24,9 +24,14 @@ class ItemsFinder extends Component
             'items.name',
             'quantity_countable',
             'quantity_uncountable',
-            'article_data'
+            'article_data',
+            'items.generic',
+            'categories.name as category',
+            'laboratories.name as laboratory'
         )
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
+            ->join('categories', 'categories.categoryID', 'items.category_id')
+            ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->where('store_id', $this->seller->store_id)
             ->where('items.name', 'like', "%{$this->query}%")
             ->limit(10)

@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th>Código</th>
-                    <th>Producto</th>
+                    <th>Categoria - Producto - Laboratorio</th>
                     <th>Existencia</th>
                     <th>Precio</th>
                     <th>Ubicación</th>
@@ -30,11 +30,11 @@
                         onclick="document.getElementById('close-modal').click()"
                         wire:click="addItem({{ $item->store_items_inventories_id }}, {{ $zeroStock }}, {{ $presentation['price'] }}, {{ $presentation['quantity'] }})">
                         <td>{{ $item->itemID }}</td>
-                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->category }} - {{ $item->name }} - {{ $item->laboratory }}</td>
                         <td>{{ $stock }}</td>
                         <td>{{ Helper::GTMoney($presentation['price']) }}</td>
                         <td>{{ "{$location['estante']} - {$location['nivel']} - {$location['caja']}" }}</td>
-                        <td>---</td>
+                        <td>{{ $item->generic }}</td>
                     </tr>
                 @endforeach
             </tbody>
