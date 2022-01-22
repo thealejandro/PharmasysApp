@@ -12,7 +12,8 @@ class SalesTable extends Component
 
     protected  $listeners = [
         'item-added' => 'itemAdded',
-        'item-deleted' => 'itemDeleted'
+        'item-deleted' => 'itemDeleted',
+        'item-updated' => 'itemUpdated',
     ];
 
     public function render()
@@ -62,5 +63,27 @@ class SalesTable extends Component
         $this->itemsStructure = array_filter($this->itemsStructure, function ($i) use ($itemStructure) {
             return $i['id'] !== $itemStructure['id'];
         });
+    }
+
+    /**
+     * @param array $itemStrcutre the itemStructure follow the next pattern:
+     * [
+     *  'id' => int,
+     *  'quantity' => int,
+     *  'subTotal' => number,
+     * ]
+     */
+    public function itemUpdated($itemStructure)
+    {
+        $this->itemsStructure = array_map(function ($i) use ($itemStructure) {
+            if ($i['id'] === $itemStructure['id']) {
+                return [
+                    'id' => $itemStructure['id'],
+                    'quantity' => $itemStructure['quantity'],
+                    'subTotal' => $itemStructure['subTotal']
+                ];
+            }
+            return $i;
+        }, $this->itemsStructure);
     }
 }

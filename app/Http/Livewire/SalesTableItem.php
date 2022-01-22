@@ -31,7 +31,14 @@ class SalesTableItem extends Component
 
     public function render()
     {
+        return view('components.sales-table-item');
+    }
 
+    /**
+     * Runs after any update to the Livewire component's data (Using wire:model, not directly inside PHP)
+     */
+    public function updated()
+    {
         $this->quantity = intval($this->quantity);
         $this->price = floatval($this->price);
 
@@ -44,12 +51,22 @@ class SalesTableItem extends Component
         $this->isOutOfStock =  $stock <= 0 || $this->quantity > $stock;
 
         $this->subTotal = $this->quantity *  $this->price;
-        return view('components.sales-table-item');
+
+        $this->update();
     }
 
     public function delete()
     {
         $this->emitUp('item-deleted', [
+            'id' => $this->item->store_items_inventories_id,
+            'quantity' => $this->quantity,
+            'subTotal' => $this->subTotal
+        ]);
+    }
+
+    public function update()
+    {
+        $this->emitUp('item-updated', [
             'id' => $this->item->store_items_inventories_id,
             'quantity' => $this->quantity,
             'subTotal' => $this->subTotal
