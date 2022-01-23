@@ -2358,6 +2358,13 @@ html {
   --tw-text-opacity: 1;
   color: hsla(var(--p) / var(--tw-text-opacity, 1));
 }
+.btn-outline.btn-accent .badge-outline {
+  background-color: transparent;
+  --tw-border-opacity: 1;
+  border-color: hsla(var(--a) / var(--tw-border-opacity, 1));
+  --tw-text-opacity: 1;
+  color: hsla(var(--a) / var(--tw-text-opacity, 1));
+}
 .btn-outline:hover .badge {
   --tw-bg-opacity: 1;
   background-color: hsla(var(--b2) / var(--tw-bg-opacity, 1));
@@ -2451,6 +2458,23 @@ html {
 .btn-primary:focus-visible {
   box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--p));
 }
+.btn-accent {
+  --tw-bg-opacity: 1;
+  background-color: hsla(var(--a) / var(--tw-bg-opacity, 1));
+  --tw-border-opacity: 1;
+  border-color: hsla(var(--a) / var(--tw-border-opacity, 1));
+  --tw-text-opacity: 1;
+  color: hsla(var(--ac) / var(--tw-text-opacity, 1));
+}
+.btn-accent.btn-active,.btn-accent:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsla(var(--af) / var(--tw-bg-opacity, 1));
+  --tw-border-opacity: 1;
+  border-color: hsla(var(--af) / var(--tw-border-opacity, 1));
+}
+.btn-accent:focus-visible {
+  box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--a));
+}
 .btn.glass.btn-active,.btn.glass:hover {
   --glass-opacity: 25%;
   --glass-border-opacity: 15%;
@@ -2469,6 +2493,18 @@ html {
   border-color: hsla(var(--pf) / var(--tw-border-opacity, 1));
   --tw-text-opacity: 1;
   color: hsla(var(--pc) / var(--tw-text-opacity, 1));
+}
+.btn-outline.btn-accent {
+  --tw-text-opacity: 1;
+  color: hsla(var(--a) / var(--tw-text-opacity, 1));
+}
+.btn-outline.btn-accent:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsla(var(--af) / var(--tw-bg-opacity, 1));
+  --tw-border-opacity: 1;
+  border-color: hsla(var(--af) / var(--tw-border-opacity, 1));
+  --tw-text-opacity: 1;
+  color: hsla(var(--ac) / var(--tw-text-opacity, 1));
 }
 .btn.loading.btn-circle:before,.btn.loading.btn-square:before {
   margin-right: 0;
@@ -2612,6 +2648,9 @@ html {
 }
 .drawer-toggle:focus-visible~.drawer-content .drawer-button.btn-primary {
   box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--p));
+}
+.drawer-toggle:focus-visible~.drawer-content .drawer-button.btn-accent {
+  box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--a));
 }
 .dropdown.dropdown-hover:hover .dropdown-content,.dropdown.dropdown-open .dropdown-content,.dropdown:focus-within .dropdown-content,.dropdown:focus .dropdown-content {
   --tw-scale-x: 1;
@@ -3247,6 +3286,9 @@ html {
 }
 .w-1\/2 {
   width: 50%;
+}
+.w-1\/5 {
+  width: 20%;
 }
 .min-w-0 {
   min-width: 0px;

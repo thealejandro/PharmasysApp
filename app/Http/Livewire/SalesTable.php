@@ -136,7 +136,15 @@ class SalesTable extends Component
                 ]
             ];
         }
-        dd($saleItems);
+
+        dd([
+            'saleID' => '?',
+            'seller_id' => $seller->id,
+            'store_id' => $seller->store_id,
+            'has_invoice' => false,
+            'sale_details' => $saleItems,
+            'created_at' => now()
+        ]);
 
         //     SalesRecord::insert([
         //         'saleID' => '?',
@@ -146,5 +154,13 @@ class SalesTable extends Component
         //         'sale_details' => '',
         //         'created_at' => now()
         //     ]);
+    }
+
+    /**
+     * Cancel the actual sale
+     */
+    public function cancel()
+    {
+        $this->itemsStructure = [];
     }
 }
