@@ -18,6 +18,12 @@ class ItemsFinder extends Component
         $this->seller = Sellers::where('user_id', auth()->user()->id)
             ->first();
 
+        $this->query = trim($this->query);
+
+        if (empty($this->query)) {
+            return view('components.items-finder', ['items' => []]);
+        }
+
         $this->items = StoreItemsInventories::selectRaw(
             'store_items_inventories.id as store_items_inventories_id,
             items.itemID,
@@ -31,7 +37,6 @@ class ItemsFinder extends Component
             ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->where('store_id', $this->seller->store_id)
             ->having('name', 'like', "%{$this->query}%")
-            ->limit(10)
             ->get();
 
         return view('components.items-finder', [

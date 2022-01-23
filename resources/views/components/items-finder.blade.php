@@ -1,6 +1,6 @@
 <div class="m-1">
     <div class="form-control">
-        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model.debounce.500ms='query'>
+        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model.lazy='query'>
     </div>
     <div wire:loading wire:target='query' class="w-full h-auto">
         <x-line-loader></x-line-loader>
