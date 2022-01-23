@@ -36,7 +36,10 @@ class ItemsFinder extends Component
             ->join('categories', 'categories.categoryID', 'items.category_id')
             ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->where('store_id', $this->seller->store_id)
-            ->having('name', 'like', "%{$this->query}%")
+            ->where('items.name', 'like', "%{$this->query}%")
+            ->orWhere('categories.name', 'like', "%{$this->query}%")
+            ->orWhere('laboratories.name', 'like', "%{$this->query}%")
+            ->orWhere('items.itemID', 'like', "%{$this->query}")
             ->get();
 
         return view('components.items-finder', [
