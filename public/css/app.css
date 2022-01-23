@@ -3131,11 +3131,11 @@ html {
 .-mt-px {
   margin-top: -1px;
 }
-.mb-8 {
-  margin-bottom: 2rem;
-}
 .mr-1 {
   margin-right: 0.25rem;
+}
+.mb-8 {
+  margin-bottom: 2rem;
 }
 .block {
   display: block;
@@ -3416,9 +3416,6 @@ html {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
-}
-.self-end {
-  align-self: flex-end;
 }
 .overflow-hidden {
   overflow: hidden;

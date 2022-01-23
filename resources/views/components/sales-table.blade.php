@@ -2,12 +2,9 @@
     @php
         $total = array_reduce($itemsStructure, fn($c, $i) => ($c += $i['subTotal']));
     @endphp
-    <div class="flex justify-between items-center my-2 gap-2">
+    <div class="flex justify-center items-center my-2 gap-2">
         <div class="badge badge-success badge-lg text-lg">
             Total: {{ Helper::GTMoney($total) }}
-        </div>
-        <div class="badge badge-warning badge-lg text-lg">
-            <input type="checkbox" class="checkbox checkbox-accent checkbox-sm mr-1"> Aplicar descuento
         </div>
     </div>
     <div class="w-full h-auto" wire:loading>
