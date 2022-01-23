@@ -27,7 +27,9 @@
                         <td>{{ $item->quantity_countable }}</td>
                         <td>{{ $item->quantity_uncountable }}</td>
                         <td>{{ Helper::GTMoney($item->article_data['presentations'][0]['price']) }}</td>
-                        <td>{{ empty($item->article_data['expiry_date']) ?? 'Sin caducidad' }}</td>
+                        <td>
+                            {{ empty($item->article_data['expiry_date']) ? 'Sin caducidad' : $item->article_data['expiry_date'] }}
+                        </td>
                         <td>{{ Helper::GTMoney($item->article_data['price_purchase']) }}</td>
                         <td>
                             {{ $item->article_data['location']['estante'] }} -
