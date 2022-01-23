@@ -125,7 +125,7 @@ class SalesTable extends Component
 
             $saleItems[] = [
                 'itemID' => $item->itemID,
-                'quantity' => $unitQuantity,
+                'quantity' => $itemStructure['quantity'],
                 'quantity_countable' => $quantity_countable,
                 'quantity_uncountable' => $quantity_uncountable,
                 'discount' => 0,
