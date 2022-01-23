@@ -196,6 +196,59 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
+            @hasrole('Verified')
+                @hasanyrole('Grocer|Administrator|Super-Admin')
+                <x-jet-responsive-nav-link href="{{ route('purchases.index') }}" :active="request()->routeIs('purchases.index')">
+                    {{ __('Purchases') }}
+                </x-jet-responsive-nav-link>
+                    @hasanyrole('Administrator|Super-Admin')
+                    <x-jet-responsive-nav-link href="{{ route('control.markets.inventories') }}" :active="request()->routeIs('control.markets.inventories')">
+                        {{ __('Inventories') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link href="{{ route('control.markets.settlements') }}" :active="request()->routeIs('control.markets.settlements')">
+                        {{ __('Settlements') }}
+                    </x-jet-responsive-nav-link>
+                    @endhasanyrole
+                <x-jet-responsive-nav-link href="{{ route('warehouse.shipments') }}" :active="request()->routeIs('warehouse.shipments')">
+                    {{ __('Shipments') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('monitor.sales') }}" :active="request()->routeIs('monitor.sales')">
+                    {{ __('Sales') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('monitor.inventories') }}" :active="request()->routeIs('monitor.inventories')">
+                    {{ __('Inventories') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('monitor.orders') }}" :active="request()->routeIs('monitor.orders')">
+                    {{ __('Orders') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('monitor.expired') }}" :active="request()->routeIs('monitor.expired')">
+                    {{ __('Expired') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('warehouse.requirements') }}" :active="request()->routeIs('warehouse.requirements')">
+                    {{ __('Requirements') }}
+                </x-jet-responsive-nav-link>
+                @endhasanyrole
+                @hasanyrole('Seller|Manager')
+                <x-jet-responsive-nav-link href="{{ route('market.index') }}" :active="request()->routeIs('market.index')">
+                    {{ __('Market') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('market.sales') }}" :active="request()->routeIs('market.sales')">
+                    {{ __('Sales') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('market.inventory') }}" :active="request()->routeIs('market.inventory')">
+                    {{ __('Inventory') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('market.orders') }}" :active="request()->routeIs('market.orders')">
+                    {{ __('Orders') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('market.expired') }}" :active="request()->routeIs('market.expired')">
+                    {{ __('Expired') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('market.requests') }}" :active="request()->routeIs('market.requests')">
+                    {{ __('Requests') }}
+                </x-jet-responsive-nav-link>
+                @endhasanyrole
+            @endhasrole
         </div>
 
         <!-- Responsive Settings Options -->
