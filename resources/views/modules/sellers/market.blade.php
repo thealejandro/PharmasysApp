@@ -1,15 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Market') }}
-        </h2>
+        <x-module-title title="Sales"></x-module-title>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-
-            </div>
+    <x-module>
+        <x-modal :id="'choose-items-modal'">
+            <x-slot name="button">
+                <a href="#choose-items-modal">
+                    <div class="form-control">
+                        <input type="text" class="input input-bordered" placeholder="Buscar productos" autofocus>
+                    </div>
+                </a>
+            </x-slot>
+            <x-slot name="content">
+                <livewire:items-finder :query="''">
+            </x-slot>
+        </x-modal>
+        <div class="my-2">
+            <livewire:sales-table />
         </div>
-    </div>
+    </x-module>
 </x-app-layout>
