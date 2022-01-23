@@ -6,7 +6,7 @@
         <x-line-loader></x-line-loader>
     </div>
     <div class="overflow-x-auto max-h-[30rem] overflow-y-auto">
-        <table class="table w-full">
+        <table class="table table-compact w-full">
             <thead>
                 <tr>
                     <th>Código</th>
@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 @foreach ($items as $item)
-                    <tr class="odd:text-sm even:text-sm">
+                    <tr>
                         <td>{{ $item->itemID }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->quantity_countable }}</td>

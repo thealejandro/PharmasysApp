@@ -11,7 +11,7 @@
         <x-line-loader></x-line-loader>
     </div>
     <div class="overflow-x-auto">
-        <table class="table w-full">
+        <table class="table table-compact w-full">
             <thead>
                 <tr>
                     <th>Código</th>
