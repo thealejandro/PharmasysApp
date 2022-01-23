@@ -20,6 +20,7 @@ class CreateStoresTable extends Migration
             $table->foreignId('manager_id')->constrained('managers')->cascadeOnUpdate();
             $table->integer('phone')->nullable();
             $table->string('address')->nullable();
+            $table->json('dataFEL')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
