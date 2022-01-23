@@ -1,6 +1,6 @@
 <div class="m-1">
     <div class="form-control">
-        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model.lazy='query'>
+        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model.lazy='query'/>
     </div>
     <div wire:loading wire:target='query' class="w-full h-auto">
         <x-line-loader></x-line-loader>
@@ -21,6 +21,7 @@
                 @foreach ($items as $item)
                     @php
                         $location = $item->article_data['location'];
+                        $generic = $item->generic == TRUE ? "Si" : "No";
                         //Retrives the first presentation
                         $presentation = $item->article_data['presentations'][0];
                         $stock = $item->quantity_countable + $item->quantity_uncountable;
@@ -30,15 +31,14 @@
                         onclick="document.getElementById('close-modal').click()"
                         wire:click="addItem({{ $item->store_items_inventories_id }}, {{ $zeroStock }}, {{ $presentation['price'] }}, {{ $presentation['quantity'] }})">
                         <td>{{ $item->itemID }}</td>
-                        <td>{{ $item->category }} - {{ $item->name }} - {{ $item->laboratory }}</td>
+                        <td>{{ $item->name }}</td>
                         <td>{{ $stock }}</td>
                         <td>{{ Helper::GTMoney($presentation['price']) }}</td>
-                        <td>{{ "{$location['estante']} - {$location['nivel']} - {$location['caja']}" }}</td>
-                        <td>{{ $item->generic }}</td>
+                        <td>{{ $location['estante'] - $location['nivel'] - $location['caja'] }}</td>
+                        <td>{{ $generic }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-
 </div>

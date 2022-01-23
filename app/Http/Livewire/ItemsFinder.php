@@ -30,7 +30,8 @@ class ItemsFinder extends Component
             CONCAT(categories.name," - ",items.name," - ",laboratories.name) as name,
             quantity_countable,
             quantity_uncountable,
-            article_data'
+            article_data,
+            items.generic'
         )
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
             ->join('categories', 'categories.categoryID', 'items.category_id')

@@ -13,7 +13,7 @@
                 </a>
             </x-slot>
             <x-slot name="content">
-                <livewire:items-finder :query="''">
+                <livewire:items-finder :query="''"/>
             </x-slot>
         </x-modal>
         <div class="my-2">
