@@ -1,13 +1,10 @@
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Inventory') }}
-    </h2>
-</x-slot>
-
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-
+<x-app-layout>
+    <x-slot name="header">
+        <x-module-title :title="'Inventory'"></x-module-title>
+    </x-slot>
+    <x-module>
+        <div class="my-2">
+            <livewire:inventory-table :query="''" />
         </div>
-    </div>
-</div>
+    </x-module>
+</x-app-layout>

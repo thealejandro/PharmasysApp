@@ -3019,6 +3019,11 @@ html {
   --tw-text-opacity: 1;
   color: hsla(var(--su) / var(--tw-text-opacity, 1));
 }
+.table-compact :where(th,td) {
+  font-size: .875rem;
+  line-height: 1.25rem;
+  padding: .5rem;
+}
 .fixed {
   position: fixed;
 }
@@ -3140,6 +3145,9 @@ html {
 }
 .mb-8 {
   margin-bottom: 2rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 .block {
   display: block;
@@ -3976,8 +3984,24 @@ html {
 .ease-linear {
   transition-timing-function: linear;
 }
+.odd\:text-xs:nth-child(odd) {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.odd\:text-sm:nth-child(odd) {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
 .odd\:opacity-60:nth-child(odd) {
   opacity: 0.6;
+}
+.even\:text-xs:nth-child(even) {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.even\:text-sm:nth-child(even) {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 .even\:opacity-60:nth-child(even) {
   opacity: 0.6;
