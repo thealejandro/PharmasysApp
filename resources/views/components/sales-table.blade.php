@@ -2,7 +2,7 @@
     @php
         $total = array_reduce($itemsStructure, fn($c, $i) => ($c += $i['subTotal']));
     @endphp
-    <div class="flex justify-center items-center my-2">
+    <div class="flex justify-center items-center my-2 gap-2">
         <div class="badge badge-success badge-lg text-lg">
             Total: {{ Helper::GTMoney($total) }}
         </div>
@@ -34,9 +34,12 @@
         $allUnits = array_map(fn($i) => $i['units'], $itemsStructure);
     @endphp
     @if (!in_array(-1, $allUnits) && count($itemsStructure) > 0)
-        <div class="flex justify-end" wire:loading.remove>
-            <button class="btn btn-primary w-1/4" wire:click.prevent='sell'>
+        <div class="flex justify-end gap-2" wire:loading.remove>
+            <button class="btn btn-primary" wire:click='sell'>
                 Vender
+            </button>
+            <button class="btn btn-accent" wire:click='cancel'>
+                Cancelar
             </button>
         </div>
     @endif

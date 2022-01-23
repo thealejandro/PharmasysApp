@@ -15,26 +15,28 @@ class ItemsFinder extends Component
 
     public function render()
     {
-        $this->seller = Sellers::where('user_id', \Auth::id())
+        $this->seller = Sellers::where('user_id', auth()->user()->id)
             ->first();
 
-        $this->items = StoreItemsInventories::select(
-            'store_items_inventories.id as store_items_inventories_id',
-            'items.itemID',
-            'items.name',
-            'quantity_countable',
-            'quantity_uncountable',
-            'article_data',
-            'items.generic',
-            'categories.name as category',
-            'laboratories.name as laboratory'
+        $this->query = trim($this->query);
+
+        if (empty($this->query)) {
+            return view('components.items-finder', ['items' => []]);
+        }
+
+        $this->items = StoreItemsInventories::selectRaw(
+            'store_items_inventories.id as store_items_inventories_id,
+            items.itemID,
+            CONCAT(categories.name," - ",items.name," - ",laboratories.name) as name,
+            quantity_countable,
+            quantity_uncountable,
+            article_data'
         )
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
             ->join('categories', 'categories.categoryID', 'items.category_id')
             ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->where('store_id', $this->seller->store_id)
-            ->where('items.name', 'like', "%{$this->query}%")
-            ->limit(10)
+            ->having('name', 'like', "%{$this->query}%")
             ->get();
 
         return view('components.items-finder', [

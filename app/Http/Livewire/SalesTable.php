@@ -21,15 +21,17 @@ class SalesTable extends Component
 
     public function render()
     {
-        $this->items =  StoreItemsInventories::select(
-            'store_items_inventories.id as store_items_inventories_id',
-            'items.itemID',
-            'items.name',
-            'quantity_countable',
-            'quantity_uncountable',
-            'article_data'
+        $this->items =  StoreItemsInventories::selectRaw(
+            'store_items_inventories.id as store_items_inventories_id,
+            items.itemID,
+            CONCAT(categories.name," - ",items.name," - ",laboratories.name) as name,
+            quantity_countable,
+            quantity_uncountable,
+            article_data'
         )
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
+            ->join('categories', 'categories.categoryID', 'items.category_id')
+            ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->whereIn('store_items_inventories.id', array_map(fn ($e) => $e['id'], $this->itemsStructure))
             ->get();
 
@@ -85,16 +87,7 @@ class SalesTable extends Component
     public function itemUpdated($itemStructure)
     {
         $this->itemsStructure = array_map(function ($i) use ($itemStructure) {
-            if ($i['id'] === $itemStructure['id']) {
-                return [
-                    'id' => $itemStructure['id'],
-                    'quantity' => $itemStructure['quantity'],
-                    'subTotal' => $itemStructure['subTotal'],
-                    'units' => $itemStructure['units'],
-                    'presentationKey' => $itemStructure['presentationKey']
-                ];
-            }
-            return $i;
+            return $i['id'] === $itemStructure['id'] ? $itemStructure : $i;
         }, $this->itemsStructure);
     }
 
@@ -132,7 +125,7 @@ class SalesTable extends Component
 
             $saleItems[] = [
                 'itemID' => $item->itemID,
-                'quantity' => $unitQuantity,
+                'quantity' => $itemStructure['quantity'],
                 'quantity_countable' => $quantity_countable,
                 'quantity_uncountable' => $quantity_uncountable,
                 'discount' => 0,
@@ -143,7 +136,15 @@ class SalesTable extends Component
                 ]
             ];
         }
-        dd($saleItems);
+
+        dd([
+            'saleID' => '?',
+            'seller_id' => $seller->id,
+            'store_id' => $seller->store_id,
+            'has_invoice' => false,
+            'sale_details' => $saleItems,
+            'created_at' => now()
+        ]);
 
         //     SalesRecord::insert([
         //         'saleID' => '?',
@@ -153,5 +154,13 @@ class SalesTable extends Component
         //         'sale_details' => '',
         //         'created_at' => now()
         //     ]);
+    }
+
+    /**
+     * Cancel the actual sale
+     */
+    public function cancel()
+    {
+        $this->itemsStructure = [];
     }
 }
