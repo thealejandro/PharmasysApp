@@ -87,16 +87,7 @@ class SalesTable extends Component
     public function itemUpdated($itemStructure)
     {
         $this->itemsStructure = array_map(function ($i) use ($itemStructure) {
-            if ($i['id'] === $itemStructure['id']) {
-                return [
-                    'id' => $itemStructure['id'],
-                    'quantity' => $itemStructure['quantity'],
-                    'subTotal' => $itemStructure['subTotal'],
-                    'units' => $itemStructure['units'],
-                    'presentationKey' => $itemStructure['presentationKey']
-                ];
-            }
-            return $i;
+            return $i['id'] === $itemStructure['id'] ? $itemStructure : $i;
         }, $this->itemsStructure);
     }
 
