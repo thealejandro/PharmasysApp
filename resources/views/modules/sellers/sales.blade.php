@@ -7,9 +7,9 @@
         <x-modal :id="'choose-items-modal'">
             <x-slot name="button">
                 <a href="#choose-items-modal">
-                    <div class="form-control">
-                        <input type="text" class="input input-bordered" placeholder="Buscar productos" autofocus>
-                    </div>
+                    <button class="btn btn-secondary">
+                        Buscar productos
+                    </button>
                 </a>
             </x-slot>
             <x-slot name="content">
