@@ -5,7 +5,7 @@
     <div class="w-full h-auto" wire:loading>
         <x-line-loader></x-line-loader>
     </div>
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto max-h-[30rem] overflow-y-auto">
         <table class="table w-full">
             <thead>
                 <tr>
