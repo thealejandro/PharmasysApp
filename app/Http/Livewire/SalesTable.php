@@ -21,15 +21,17 @@ class SalesTable extends Component
 
     public function render()
     {
-        $this->items =  StoreItemsInventories::select(
-            'store_items_inventories.id as store_items_inventories_id',
-            'items.itemID',
-            'items.name',
-            'quantity_countable',
-            'quantity_uncountable',
-            'article_data'
+        $this->items =  StoreItemsInventories::selectRaw(
+            'store_items_inventories.id as store_items_inventories_id,
+            items.itemID,
+            CONCAT(categories.name," - ",items.name," - ",laboratories.name) as name,
+            quantity_countable,
+            quantity_uncountable,
+            article_data'
         )
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
+            ->join('categories', 'categories.categoryID', 'items.category_id')
+            ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->whereIn('store_items_inventories.id', array_map(fn ($e) => $e['id'], $this->itemsStructure))
             ->get();
 

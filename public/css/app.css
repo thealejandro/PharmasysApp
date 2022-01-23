@@ -2358,13 +2358,6 @@ html {
   --tw-text-opacity: 1;
   color: hsla(var(--p) / var(--tw-text-opacity, 1));
 }
-.btn-outline.btn-secondary .badge-outline {
-  background-color: transparent;
-  --tw-border-opacity: 1;
-  border-color: hsla(var(--s) / var(--tw-border-opacity, 1));
-  --tw-text-opacity: 1;
-  color: hsla(var(--s) / var(--tw-text-opacity, 1));
-}
 .btn-outline:hover .badge {
   --tw-bg-opacity: 1;
   background-color: hsla(var(--b2) / var(--tw-bg-opacity, 1));
@@ -2458,23 +2451,6 @@ html {
 .btn-primary:focus-visible {
   box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--p));
 }
-.btn-secondary {
-  --tw-bg-opacity: 1;
-  background-color: hsla(var(--s) / var(--tw-bg-opacity, 1));
-  --tw-border-opacity: 1;
-  border-color: hsla(var(--s) / var(--tw-border-opacity, 1));
-  --tw-text-opacity: 1;
-  color: hsla(var(--sc) / var(--tw-text-opacity, 1));
-}
-.btn-secondary.btn-active,.btn-secondary:hover {
-  --tw-bg-opacity: 1;
-  background-color: hsla(var(--sf) / var(--tw-bg-opacity, 1));
-  --tw-border-opacity: 1;
-  border-color: hsla(var(--sf) / var(--tw-border-opacity, 1));
-}
-.btn-secondary:focus-visible {
-  box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--s));
-}
 .btn.glass.btn-active,.btn.glass:hover {
   --glass-opacity: 25%;
   --glass-border-opacity: 15%;
@@ -2493,18 +2469,6 @@ html {
   border-color: hsla(var(--pf) / var(--tw-border-opacity, 1));
   --tw-text-opacity: 1;
   color: hsla(var(--pc) / var(--tw-text-opacity, 1));
-}
-.btn-outline.btn-secondary {
-  --tw-text-opacity: 1;
-  color: hsla(var(--s) / var(--tw-text-opacity, 1));
-}
-.btn-outline.btn-secondary:hover {
-  --tw-bg-opacity: 1;
-  background-color: hsla(var(--sf) / var(--tw-bg-opacity, 1));
-  --tw-border-opacity: 1;
-  border-color: hsla(var(--sf) / var(--tw-border-opacity, 1));
-  --tw-text-opacity: 1;
-  color: hsla(var(--sc) / var(--tw-text-opacity, 1));
 }
 .btn.loading.btn-circle:before,.btn.loading.btn-square:before {
   margin-right: 0;
@@ -2627,9 +2591,6 @@ html {
 }
 .drawer-toggle:focus-visible~.drawer-content .drawer-button.btn-primary {
   box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--p));
-}
-.drawer-toggle:focus-visible~.drawer-content .drawer-button.btn-secondary {
-  box-shadow: 0 0 0 2px hsl(var(--b1)), 0 0 0 4px hsl(var(--s));
 }
 .dropdown.dropdown-hover:hover .dropdown-content,.dropdown.dropdown-open .dropdown-content,.dropdown:focus-within .dropdown-content,.dropdown:focus .dropdown-content {
   --tw-scale-x: 1;
@@ -2983,22 +2944,10 @@ html {
   min-height: 2rem;
   font-size: .875rem;
 }
-.btn-lg {
-  height: 4rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  min-height: 4rem;
-  font-size: 1.125rem;
-}
 .btn-square:where(.btn-sm) {
   height: 2rem;
   padding: 0;
   width: 2rem;
-}
-.btn-square:where(.btn-lg) {
-  height: 4rem;
-  padding: 0;
-  width: 4rem;
 }
 .btn-circle:where(.btn-xs) {
   border-radius: 9999px;
@@ -3255,17 +3204,14 @@ html {
 .w-20 {
   width: 5rem;
 }
+.w-1\/4 {
+  width: 25%;
+}
 .w-\[90\%\] {
   width: 90%;
 }
 .w-1\/2 {
   width: 50%;
-}
-.w-1\/3 {
-  width: 33.333333%;
-}
-.w-1\/4 {
-  width: 25%;
 }
 .min-w-0 {
   min-width: 0px;
