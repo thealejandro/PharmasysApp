@@ -31,7 +31,19 @@
                         wire:click="addItem({{ $item->store_items_inventories_id }}, {{ $zeroStock }}, {{ $presentation['price'] }}, {{ $presentation['quantity'] }})">
                         <td>{{ $item->itemID }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $stock }}</td>
+                        <td onmouseenter="this.classList.add('collapse-open')"
+                            onmouseleave="this.classList.remove('collapse-open')">
+                            <div class="collapse collapse-arrow">
+                                <div class="collapse-title">
+                                    {{ $stock }}
+                                </div>
+                                <div class="collapse-content flex flex-col gap-1">
+                                    @foreach ($item->others as $other)
+                                        <div>{{ $other->store }} : {{ $other->stock }}</div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </td>
                         <td>{{ Helper::GTMoney($presentation['price']) }}</td>
                         <td>{{ "{$location['estante']} - {$location['nivel']} - {$location['caja']}" }}</td>
                         <td>---</td>
