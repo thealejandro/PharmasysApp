@@ -36,10 +36,12 @@ class InventoryTable extends Component
             ->join('categories', 'categories.categoryID', 'items.category_id')
             ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->where('store_id', $seller->store_id)
-            ->where('items.name', 'like', "%{$this->query}%")
-            ->orWhere('categories.name', 'like', "%{$this->query}%")
-            ->orWhere('laboratories.name', 'like', "%{$this->query}%")
-            ->orWhere('items.itemID', 'like', "%{$this->query}")
+            ->where(function ($query) {
+                $query->orWhere('items.name', 'like', "%{$this->query}%");
+                $query->orWhere('categories.name', 'like', "%{$this->query}%");
+                $query->orWhere('laboratories.name', 'like', "%{$this->query}%");
+                $query->orWhere('items.itemID', $this->query);
+            })
             ->get();
 
         return view('components.inventory-table', [
