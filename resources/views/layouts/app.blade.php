@@ -46,4 +46,12 @@
     @livewireScripts
 </body>
 
+<script>
+    document.addEventListener('keyup', (e) => {
+        if (e.key === "Escape") {
+            document.getElementById("close-modal").click();
+        }
+    });
+</script>
+
 </html>

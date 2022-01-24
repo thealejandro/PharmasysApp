@@ -37,8 +37,37 @@ class ItemsFinder extends Component
             ->join('categories', 'categories.categoryID', 'items.category_id')
             ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->where('store_id', $this->seller->store_id)
-            ->having('name', 'like', "%{$this->query}%")
+            ->where('items.name', 'like', "%{$this->query}%")
+            ->orWhere('categories.name', 'like', "%{$this->query}%")
+            ->orWhere('laboratories.name', 'like', "%{$this->query}%")
+            ->orWhere('items.itemID', 'like', "%{$this->query}")
             ->get();
+
+        $others = StoreItemsInventories::selectRaw(
+            'stores.name as store,
+            (quantity_countable + quantity_uncountable) as stock,
+            items.itemID'
+        )
+            ->join('items', 'items.itemID', 'store_items_inventories.itemID')
+            ->join('categories', 'categories.categoryID', 'items.category_id')
+            ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
+            ->join('stores', 'stores.storeID', 'store_items_inventories.store_id')
+            ->where('store_id', '<>', $this->seller->store_id)
+            ->where('items.name', 'like', "%{$this->query}%")
+            ->orWhere('categories.name', 'like', "%{$this->query}%")
+            ->orWhere('laboratories.name', 'like', "%{$this->query}%")
+            ->orWhere('items.itemID', 'like', "%{$this->query}")
+            ->get();
+
+        foreach ($this->items as $item) {
+            $stores = [];
+            foreach ($others as $other) {
+                if ($other->itemID === $item->itemID) {
+                    $stores[] = $other;
+                }
+            }
+            $item->others = $stores;
+        }
 
         return view('components.items-finder', [
             'items' => $this->items
