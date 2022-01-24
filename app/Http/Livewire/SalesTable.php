@@ -36,6 +36,8 @@ class SalesTable extends Component
 
     public function render()
     {
+        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
+
         return view('components.sales-table', [
             'items' => $this->items
         ]);
@@ -68,9 +70,7 @@ class SalesTable extends Component
 
         $newItem->identifier = $itemStructure['id'] * count($this->itemsStructure);
 
-        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
-
-        $this->items[] = $newItem;
+        $this->items[] = $newItem->toArray();
         $this->itemsStructure[] = array_merge($itemStructure, ['identifier' => $newItem->identifier]);
     }
 
@@ -86,14 +86,12 @@ class SalesTable extends Component
      */
     public function itemDeleted($itemStructure)
     {
-        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
-
         $this->itemsStructure = array_filter($this->itemsStructure, function ($i) use ($itemStructure) {
             return $i['identifier'] !== $itemStructure['identifier'];
         });
 
         $this->items = array_filter($this->items, function ($i) use ($itemStructure) {
-            return $i->identifier !== $itemStructure['identifier'];
+            return $i['identifier'] !== $itemStructure['identifier'];
         });
     }
 
@@ -109,13 +107,14 @@ class SalesTable extends Component
      */
     public function itemUpdated($itemStructure)
     {
-        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
-
         $this->itemsStructure = array_map(function ($i) use ($itemStructure) {
             return $i['identifier'] === $itemStructure['identifier'] ? $itemStructure : $i;
         }, $this->itemsStructure);
     }
 
+    /**
+     * Sell items
+     */
     public function sell()
     {
         $seller = Sellers::where('user_id', auth()->user()->id)
@@ -187,5 +186,6 @@ class SalesTable extends Component
     public function cancel()
     {
         $this->itemsStructure = [];
+        $this->items = [];
     }
 }
