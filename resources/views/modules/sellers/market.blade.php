@@ -6,14 +6,16 @@
     <x-module>
         <x-modal :id="'choose-items-modal'">
             <x-slot name="button">
-                <a href="#choose-items-modal">
-                    <div class="form-control">
-                        <input type="text" class="input input-bordered" placeholder="Buscar productos" autofocus>
-                    </div>
-                </a>
+                <div class="text-center pt-2">
+                    <a href="#choose-items-modal">
+                        <button class="btn btn-secondary">
+                            Buscar productos
+                        </button>
+                    </a>
+                </div>
             </x-slot>
             <x-slot name="content">
-                <livewire:items-finder :query="''">
+                <livewire:items-finder :query="''"/>
             </x-slot>
         </x-modal>
         <div class="my-2">

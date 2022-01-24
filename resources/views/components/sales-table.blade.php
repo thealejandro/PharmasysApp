@@ -15,7 +15,7 @@
         $allUnits = array_map(fn($i) => $i['units'], $itemsStructure);
     @endphp
     @if (!in_array(-1, $allUnits) && count($itemsStructure) > 0)
-        <div class="flex justify-end gap-2" wire:loading.remove>
+        <div class="flex justify-center gap-4" wire:loading.remove>
             <button class="btn btn-primary" wire:click='sell'>
                 Vender
             </button>

@@ -1,11 +1,11 @@
 {{ $button }}
 
 <div id="{{ $id }}" class="modal w-full items-start pt-10">
-    <div class="modal-box lg:w-1/2 md:w-2/3 w-[90%] max-w-full">
+    <div class="modal-box md:w-2/3 w-[90%] h-[90%] max-w-full">
         {{ $content ?? '' }}
-        <div class="modal-action">
-            {{ $actions ?? '' }}
-            <a href="#" class="btn">Cerrar</a>
-        </div>
+    </div>
+    <div class="modal-action">
+        {{ $actions ?? '' }}
+        <a href="#" class="btn btn-circle bg-red-700">X</a>
     </div>
 </div>

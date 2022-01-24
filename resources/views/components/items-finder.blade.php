@@ -1,11 +1,12 @@
-<div class="m-1">
+<div class="m-1 overflow-y-hidden">
     <div class="form-control">
-        <input type="text" class="input input-bordered" placeholder="Buscar productos" wire:model.lazy='query'/>
+        <input type="text" class="input input-bordered" placeholder="Buscar productos" autofocus wire:model.lazy='query'/>
     </div>
-    <div wire:loading wire:target='query' class="w-full h-auto">
+    <div wire:loading wire:target='query' class="w-full h-full text-center">
+        Buscando...
         <x-line-loader></x-line-loader>
     </div>
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto overflow-y-auto">
         <table class="table table-compact w-full">
             <thead>
                 <tr>
