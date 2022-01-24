@@ -1,5 +1,6 @@
 <?php
 
+    use App\Models\Stores;
     use Illuminate\Support\Facades\Route;
 
 /*
@@ -77,3 +78,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:Grocer|Super-Ad
 
 Route::get('/sat/invoice/fel/nit/{nitReceptor}', [\App\Http\Controllers\SoapFELController::class, 'verifynit']);
 Route::get('/sat/invoice/fel/dte', [\App\Http\Controllers\SoapFELController::class, 'getDTE']);
+
+Route::get('/test', function () {
+    $store = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
+    $dataFEL = json_decode($store->dataFEL);
+
+    return $dataFEL->locationStore;
+});
