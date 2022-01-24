@@ -12,4 +12,14 @@ class StoreItemsInventories extends Model
     protected $casts = [
         'article_data' => 'array'
     ];
+
+    protected $fillable = [
+        'store_items_inventories_id',
+        'itemID',
+        'name',
+        'quantity_countable',
+        'quantity_uncountable',
+        'article_data',
+        'identifier',
+    ];
 }

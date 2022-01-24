@@ -7,7 +7,6 @@ use App\Models\SalesRecord;
 use App\Models\Sellers;
 use App\Models\StoreItemsInventories;
 use Livewire\Component;
-use stdClass;
 
 class SalesTable extends Component
 {
@@ -22,7 +21,7 @@ class SalesTable extends Component
 
     public function mount()
     {
-        $this->items = collect([]);
+        $this->items = [];
     }
 
     protected $rules = [
@@ -53,21 +52,6 @@ class SalesTable extends Component
      */
     public function itemAdded($itemStructure)
     {
-
-        $items =  StoreItemsInventories::selectRaw(
-            'store_items_inventories.id as store_items_inventories_id,
-            items.itemID,
-            CONCAT(categories.name," - ",items.name," - ",laboratories.name) as name,
-            quantity_countable,
-            quantity_uncountable,
-            article_data'
-        )
-            ->join('items', 'items.itemID', 'store_items_inventories.itemID')
-            ->join('categories', 'categories.categoryID', 'items.category_id')
-            ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
-            ->whereIn('store_items_inventories.id', array_map(fn ($e) => $e['id'], $this->itemsStructure))
-            ->get();
-
         $newItem = StoreItemsInventories::selectRaw(
             'store_items_inventories.id as store_items_inventories_id,
                 items.itemID,
@@ -84,8 +68,9 @@ class SalesTable extends Component
 
         $newItem->identifier = $itemStructure['id'] * count($this->itemsStructure);
 
-        $items[] = $newItem;
-        $this->items = $items;
+        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
+
+        $this->items[] = $newItem;
         $this->itemsStructure[] = array_merge($itemStructure, ['identifier' => $newItem->identifier]);
     }
 
@@ -101,18 +86,15 @@ class SalesTable extends Component
      */
     public function itemDeleted($itemStructure)
     {
+        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
+
         $this->itemsStructure = array_filter($this->itemsStructure, function ($i) use ($itemStructure) {
             return $i['identifier'] !== $itemStructure['identifier'];
         });
 
-        $k = -1;
-        foreach ($this->items as $key => $item) {
-            if ($item->identifier === $itemStructure['identifier']) {
-                $k = $key;
-                break;
-            }
-        }
-        $this->items = $this->items->except($k);
+        $this->items = array_filter($this->items, function ($i) use ($itemStructure) {
+            return $i->identifier !== $itemStructure['identifier'];
+        });
     }
 
     /**
@@ -127,6 +109,8 @@ class SalesTable extends Component
      */
     public function itemUpdated($itemStructure)
     {
+        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
+
         $this->itemsStructure = array_map(function ($i) use ($itemStructure) {
             return $i['identifier'] === $itemStructure['identifier'] ? $itemStructure : $i;
         }, $this->itemsStructure);
