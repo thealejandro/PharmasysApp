@@ -35,11 +35,11 @@ class ItemsFinder extends Component
             ->join('items', 'items.itemID', 'store_items_inventories.itemID')
             ->join('categories', 'categories.categoryID', 'items.category_id')
             ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
-            ->orWhere('items.name', 'like', "%{$this->query}%")
+            ->where('store_id', $this->seller->store_id)
+            ->where('items.name', 'like', "%{$this->query}%")
             ->orWhere('categories.name', 'like', "%{$this->query}%")
             ->orWhere('laboratories.name', 'like', "%{$this->query}%")
             ->orWhere('items.itemID', 'like', "%{$this->query}")
-            ->where('store_id', $this->seller->store_id)
             ->get();
 
         $others = StoreItemsInventories::selectRaw(
@@ -51,11 +51,11 @@ class ItemsFinder extends Component
             ->join('categories', 'categories.categoryID', 'items.category_id')
             ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
             ->join('stores', 'stores.storeID', 'store_items_inventories.store_id')
-            ->orWhere('items.name', 'like', "%{$this->query}%")
+            ->where('store_id', '<>', $this->seller->store_id)
+            ->where('items.name', 'like', "%{$this->query}%")
             ->orWhere('categories.name', 'like', "%{$this->query}%")
             ->orWhere('laboratories.name', 'like', "%{$this->query}%")
             ->orWhere('items.itemID', 'like', "%{$this->query}")
-            ->where('store_id', '<>', $this->seller->store_id)
             ->get();
 
         foreach ($this->items as $item) {
