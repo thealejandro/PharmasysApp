@@ -24,8 +24,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($items as $item)
-                    <livewire:sales-table-item :item="$item" wire:key="item-to-sale-{{ $item->itemID }}" />
+                @foreach ($items as $key => $item)
+                    <livewire:sales-table-item :item="$item" wire:key="item-to-sale-{{ $item->itemID * $key }}"
+                        :identifier="$item->identifier" />
                 @endforeach
             </tbody>
         </table>

@@ -3,7 +3,7 @@
         $presentation = $item->article_data['presentations'][0];
     @endphp
     <td>{{ $item->itemID }}</td>
-    <td>{{ $item->name }}</td>
+    <td>{{ $item->name }}, {{ $identifier }}</td>
     <td
         class="{{ $isBadQuantity || $isOutOfStock ? 'bg-red-300 border-red-500 border transition-colors animate-pulse' : '' }}">
         <div class="form-control">
