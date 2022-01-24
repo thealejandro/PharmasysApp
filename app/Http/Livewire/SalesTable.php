@@ -11,7 +11,7 @@ use Livewire\Component;
 class SalesTable extends Component
 {
     public $itemsStructure = [];
-    protected $items = [];
+    public $items;
 
     protected  $listeners = [
         'item-added' => 'itemAdded',
@@ -19,22 +19,23 @@ class SalesTable extends Component
         'item-updated' => 'itemUpdated',
     ];
 
+    public function mount()
+    {
+        $this->items = [];
+    }
+
+    protected $rules = [
+        'items.*.store_items_inventories_id' => 'required',
+        'items.*.itemID' => 'required',
+        'items.*.name' => 'required',
+        'items.*.quantity_countable' => 'required',
+        'items.*.quantity_uncountable' => 'required',
+        'items.*.article_data' => 'required',
+        'items.*.identifier' => 'required',
+    ];
+
     public function render()
     {
-        $this->items =  StoreItemsInventories::selectRaw(
-            'store_items_inventories.id as store_items_inventories_id,
-            items.itemID,
-            CONCAT(categories.name," - ",items.name," - ",laboratories.name) as name,
-            quantity_countable,
-            quantity_uncountable,
-            article_data'
-        )
-            ->join('items', 'items.itemID', 'store_items_inventories.itemID')
-            ->join('categories', 'categories.categoryID', 'items.category_id')
-            ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
-            ->whereIn('store_items_inventories.id', array_map(fn ($e) => $e['id'], $this->itemsStructure))
-            ->get();
-
         return view('components.sales-table', [
             'items' => $this->items
         ]);
@@ -51,10 +52,26 @@ class SalesTable extends Component
      */
     public function itemAdded($itemStructure)
     {
-        $ids = array_map(fn ($i) => $i['id'], $this->itemsStructure);
-        if (!in_array($itemStructure['id'], $ids)) {
-            $this->itemsStructure[] = $itemStructure;
-        }
+        $newItem = StoreItemsInventories::selectRaw(
+            'store_items_inventories.id as store_items_inventories_id,
+                items.itemID,
+                CONCAT(categories.name," - ",items.name," - ",laboratories.name) as name,
+                quantity_countable,
+                quantity_uncountable,
+                article_data'
+        )
+            ->join('items', 'items.itemID', 'store_items_inventories.itemID')
+            ->join('categories', 'categories.categoryID', 'items.category_id')
+            ->join('laboratories', 'laboratories.laboratoryID', 'items.laboratory_id')
+            ->where('store_items_inventories.id', $itemStructure['id'])
+            ->first();
+
+        $newItem->identifier = $itemStructure['id'] * count($this->itemsStructure);
+
+        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
+
+        $this->items[] = $newItem;
+        $this->itemsStructure[] = array_merge($itemStructure, ['identifier' => $newItem->identifier]);
     }
 
     /**
@@ -69,8 +86,14 @@ class SalesTable extends Component
      */
     public function itemDeleted($itemStructure)
     {
+        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
+
         $this->itemsStructure = array_filter($this->itemsStructure, function ($i) use ($itemStructure) {
-            return $i['id'] !== $itemStructure['id'];
+            return $i['identifier'] !== $itemStructure['identifier'];
+        });
+
+        $this->items = array_filter($this->items, function ($i) use ($itemStructure) {
+            return $i->identifier !== $itemStructure['identifier'];
         });
     }
 
@@ -86,8 +109,10 @@ class SalesTable extends Component
      */
     public function itemUpdated($itemStructure)
     {
+        $this->items = array_map(fn ($i) => new StoreItemsInventories($i), $this->items);
+
         $this->itemsStructure = array_map(function ($i) use ($itemStructure) {
-            return $i['id'] === $itemStructure['id'] ? $itemStructure : $i;
+            return $i['identifier'] === $itemStructure['identifier'] ? $itemStructure : $i;
         }, $this->itemsStructure);
     }
 

@@ -14,6 +14,7 @@ class SalesTableItem extends Component
     public $isBadQuantity = false;
     public $isOutOfStock = false;
     public $presentationKey = 0;
+    public $identifier = 0;
 
     protected $rules = [
         'item.store_items_inventories_id' => 'required',
@@ -65,7 +66,8 @@ class SalesTableItem extends Component
             'quantity' => $this->quantity,
             'subTotal' => $this->subTotal,
             'units' => 0,
-            'presentationKey' => $this->presentationKey
+            'presentationKey' => $this->presentationKey,
+            'identifier' => $this->identifier,
         ]);
     }
 
@@ -78,7 +80,8 @@ class SalesTableItem extends Component
             'units' =>  $this->isBadQuantity || $this->isOutOfStock ? //Has any error in quantity
                 -1 : // Set -1
                 $this->item->article_data['presentations'][$this->presentationKey]['quantity'], //Set quantity
-            'presentationKey' => $this->presentationKey
+            'presentationKey' => $this->presentationKey,
+            'identifier' => $this->identifier,
         ]);
     }
 }
