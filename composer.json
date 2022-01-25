@@ -5,7 +5,14 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "8.1",
+        "php": "^8.0",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-simplexml": "*",
+        "ext-soap": "*",
+        "ext-imagick": "*",
+        "ext-gd": "*",
         "fruitcake/laravel-cors": "2.0",
         "guzzlehttp/guzzle": "7.4.1",
         "laravel/framework": "8.65",
@@ -13,12 +20,12 @@
         "laravel/sanctum": "2.14",
         "laravel/tinker": "2.7",
         "livewire/livewire": "2.9",
-        "spatie/laravel-permission": "5.5",
-        "ext-soap": "*",
-        "ext-json": "*",
-        "ext-simplexml": "*",
-	  "ext-libxml": "*",
-        "ext-intl": "*"
+        "mike42/escpos-php": "^3.0",
+        "spatie/laravel-permission": "5.5"
+    },
+    "suggest" : {
+        "ext-imagick" : "Will be used for image printing if present. Required for PDF printing or use of custom fonts.",
+        "ext-gd" : "Used for image printing if present."
     },
     "require-dev": {
         "facade/ignition": "^2.5",
