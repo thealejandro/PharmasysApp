@@ -68,6 +68,7 @@ class SalesTableItem extends Component
             'units' => 0,
             'presentationKey' => $this->presentationKey,
             'identifier' => $this->identifier,
+            'name' => $this->item->name
         ]);
     }
 
@@ -82,6 +83,7 @@ class SalesTableItem extends Component
                 $this->item->article_data['presentations'][$this->presentationKey]['quantity'], //Set quantity
             'presentationKey' => $this->presentationKey,
             'identifier' => $this->identifier,
+            'name' => $this->item->name
         ]);
     }
 }
