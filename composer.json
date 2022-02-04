@@ -11,7 +11,6 @@
         "ext-libxml": "*",
         "ext-simplexml": "*",
         "ext-soap": "*",
-        "ext-imagick": "*",
         "ext-gd": "*",
         "fruitcake/laravel-cors": "2.0",
         "guzzlehttp/guzzle": "7.4.1",
@@ -24,7 +23,6 @@
         "spatie/laravel-permission": "5.5"
     },
     "suggest" : {
-        "ext-imagick" : "Will be used for image printing if present. Required for PDF printing or use of custom fonts.",
         "ext-gd" : "Used for image printing if present."
     },
     "require-dev": {
