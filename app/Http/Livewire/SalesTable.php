@@ -2,16 +2,22 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Controllers\SoapFELController;
 use App\Models\Items;
 use App\Models\SalesRecord;
 use App\Models\Sellers;
 use App\Models\StoreItemsInventories;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class SalesTable extends Component
 {
     public $itemsStructure = [];
     public $items;
+    public $invoiceGenerate = false;
+    public $invoiceNIT = 'CF';
+    public $invoiceName = 'Consumidor Final';
+    public $invoiceAddress = 'Ciudad';
 
     protected  $listeners = [
         'item-added' => 'itemAdded',
@@ -149,10 +155,13 @@ class SalesTable extends Component
 
             $saleItems[] = [
                 'itemID' => $item->itemID,
+//                'name' => $itemStructure['name'],
                 'quantity' => $itemStructure['quantity'],
                 'quantity_countable' => $quantity_countable,
                 'quantity_uncountable' => $quantity_uncountable,
+                'unit_quantity' => $unitQuantity,
                 'discount' => 0,
+                'total' => $itemStructure['subTotal'],
                 'presentation' => $presentation,
                 'dataRegister' => [
                     'price_sale' => $presentation['price'],
@@ -161,14 +170,28 @@ class SalesTable extends Component
             ];
         }
 
-        dd([
-            'saleID' => '?',
-            'seller_id' => $seller->id,
-            'store_id' => $seller->store_id,
-            'has_invoice' => false,
-            'sale_details' => $saleItems,
-            'created_at' => now()
-        ]);
+        $soapFELController = new SoapFELController();
+        $request = new Request(['invoiceData' => (object) [
+                                    'nit' => $this->invoiceNIT,
+                                    'name' => $this->invoiceName,
+                                    'address' => $this->invoiceAddress
+                                ],
+                                'saleID' => '1',
+                                'seller_id' => $seller->id,
+                                'store_id' => $seller->store_id,
+                                'has_invoice' => $this->invoiceGenerate,
+                                'sale_details' => $saleItems]);
+
+        dd($soapFELController->certificateDTE($request));
+
+//        dd([
+//            'saleID' => '?',
+//            'seller_id' => $seller->id,
+//            'store_id' => $seller->store_id,
+//            'has_invoice' => false,
+//            'sale_details' => $saleItems,
+//            'created_at' => now()
+//        ]);
 
         //     SalesRecord::insert([
         //         'saleID' => '?',

@@ -7,6 +7,8 @@ use App\Http\Controllers\Soap\SoapController;
 use App\Models\Stores;
 use Illuminate\Http\Request;
 use League\CommonMark\Node\Block\Document;
+use phpDocumentor\Reflection\Types\Object_;
+use Psy\Util\Json;
 use SoapFault;
 
 class SoapFELController extends SoapController
@@ -78,52 +80,70 @@ class SoapFELController extends SoapController
         }
     }
 
-    public function certificateDTE()
+    /**
+     * @throws \Exception
+     */
+    public function certificateDTE(Request $dataRequest)
     {
         try {
-            self::setWSDL('https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl');
-            $service = InstanceSoapClient::init();
 
-            $query = $service->RequestTransaction([
-                'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
-                'Transaction' => 'SYSTEM_REQUEST',
-                'Country' => 'GT',
-                'Entity' => '800000001026',
-                'User' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
-                'UserName' => 'ADMINISTRADOR',
-                'Data1' => 'POST_DOCUMENT_SAT',
-                'Data2' => '',
-                'Data3' => 'XML']);
+            if ($dataRequest->invoiceData->nit !== "CF") {
+                $resultNIT = $this->verifynit($dataRequest->invoiceData->nit);
 
+                if ($resultNIT->nit->Result == true) {
+                    $dataRequest->invoiceData->name = $resultNIT->nit->nombre;
+                } else {
+                    throw new \Exception($resultNIT->nit->error);
+                }
+            }
+
+        return $dataRequest;
+//            self::setWSDL('https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl');
+//            $service = InstanceSoapClient::init();
+//
+//            $this->generateXML($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale);
+//
+//            $query = $service->RequestTransaction([
+//                'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
+//                'Transaction' => 'SYSTEM_REQUEST',
+//                'Country' => 'GT',
+//                'Entity' => '800000001026',
+//                'User' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
+//                'UserName' => 'ADMINISTRADOR',
+//                'Data1' => 'POST_DOCUMENT_SAT',
+//                'Data2' => '',
+//                'Data3' => '']);
+//
         } catch (\SoapFault $e) {
             return $e->getMessage();
         }
     }
 
-    public function generateXML($sellerID, $nitClient, $nitEmisor)
+    public function generateXML($nitClient, $items, $totalSale): string
     {
-        $date = new DateTime('now');
-        $date = $date->format('Y-m-d\TH:i:s');
-
         //Search in DB dataFEL, with storeID from User Seller
         $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
         $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
+        $nitClient->address = ($nitClient->address == NULL || $nitClient->address == "") ?? "Ciudad";
 
-        $nitClient = $this->verifynit($nitClient);
-
-        return $xml = '<?xml version="1.0" encoding="utf-8"?>
+        $xmlHead = '<?xml version="1.0" encoding="utf-8"?>
         <dte:GTDocumento xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
         xmlns:cfc="http://www.sat.gob.gt/dte/fel/CompCambiaria/0.1.0"
         xmlns:cno="http://www.sat.gob.gt/face2/ComplementoReferenciaNota/0.1.0"
         xmlns:cex="http://www.sat.gob.gt/face2/ComplementoExportaciones/0.1.0"
         xmlns:cfe="http://www.sat.gob.gt/face2/ComplementoFacturaEspecial/0.1.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="0.1"
-        xmlns:dte="http://www.sat.gob.gt/dte/fel/0.2.0">
-        <dte:SAT ClaseDocumento="dte">
-            <dte:DTE ID="DatosCertificados">
-                <dte:DatosEmision ID="DatosEmision">
-                    <dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.$date.'" CodigoMoneda="GTQ"/>
-                    <dte:Emisor NITEmisor="800000001026" NombreEmisor="TALLER DE ZAPATERIA ALLAN ROSS"
+        xmlns:dte="http://www.sat.gob.gt/dte/fel/0.2.0">';
+
+        $xmlBody = '<dte:SAT ClaseDocumento="dte">';
+
+        $xmlDTE = '<dte:DTE ID="DatosCertificados">';
+
+        $xmlEmissionData = '<dte:DatosEmision ID="DatosEmision">';
+
+        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
+
+        $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv('FEL_NIT').'" NombreEmisor="'.getenv('FEL_NAME_ISSUER').'"
                         CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$storeFEL->nameStore.'" AfiliacionIVA="GEN">
                         <dte:DireccionEmisor>
                             <dte:Direccion>'.$storeFEL->locationStore->direccion.'</dte:Direccion>
@@ -132,40 +152,77 @@ class SoapFELController extends SoapController
                             <dte:Departamento>'.$storeFEL->locationStore->departamento.'</dte:Departamento>
                             <dte:Pais>GT</dte:Pais>
                         </dte:DireccionEmisor>
-                    </dte:Emisor>
-                    <dte:Receptor IDReceptor="'.$nitClient.'" NombreReceptor="'.$nitClient.'"/>
-                    <dte:Frases>
-                        <dte:Frase TipoFrase="1" CodigoEscenario="1"/>
-                        <dte:Frase TipoFrase="1" CodigoEscenario="4"/>
-                    </dte:Frases>
-                    <dte:Items>
-                        <dte:Item NumeroLinea="1" BienOServicio="B">
-                            <dte:Cantidad>1.00000000</dte:Cantidad>
-                            <dte:UnidadMedida>UNO</dte:UnidadMedida>
-                            <dte:Descripcion>PRODUCTO DE PRUEBAS</dte:Descripcion>
-                            <dte:PrecioUnitario>300.30</dte:PrecioUnitario>
-                            <dte:Precio>300.30</dte:Precio>
-                            <dte:Descuento>128.70</dte:Descuento>
+                    </dte:Emisor>';
+
+        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor="'.$nitClient->name.'"/>';
+
+        $xmlReceptorAddress = '<dte:DireccionReceptor>
+                                <dte:Direccion>'.$nitClient->address.'</dte:Direccion>
+                                <dte:CodigoPostal>.</dte:CodigoPostal>
+                                <dte:Municipio>.</dte:Municipio>
+                                <dte:Departamento>.</dte:Departamento>
+                                <dte:Pais>GT</dte:Pais>
+                            </dte:DireccionReceptor>';
+
+        $xmlPhrase = '<dte:Frases>
+                        <dte:Frase TipoFrase="1" CodigoEscenario="2"/>
+                        <dte:Frase TipoFrase="4" CodigoEscenario="9"/>
+                    </dte:Frases>';
+
+        $xmlItemsData = '<dte:Items>';
+
+        $xmlItem = '';
+        $totalIVA = 0;
+        foreach ($items as $key => $item) {
+            $IVA = 0; // TOTAL IVA SI ES GENERICO
+            $code_FEL_IVA = 2; // CODIGO DE IVA SEGUN FEL SAT
+            $montoGravable = $item->total;
+
+            if ($item->iva == TRUE) {
+                $montoGravable = $montoGravable/1.12; // CALCULO DEL TOTAL SIN IVA DEL ITEM
+                $IVA = $montoGravable * (12/100); // CALCULO DEL IVA DEL ITEM -> IVA GENERAL 12%
+                $code_FEL_IVA = 1;
+            }
+
+            $xmlItem .= '<dte:Item NumeroLinea="'. $key+1 .'" BienOServicio="'.$item->assetOrService.'">
+                            <dte:Cantidad>'.$item->quantity.'</dte:Cantidad>
+                            <dte:UnidadMedida>'.$item->presentation.'</dte:UnidadMedida>
+                            <dte:Descripcion>'.$item->name.'</dte:Descripcion>
+                            <dte:PrecioUnitario>'.$item->price.'</dte:PrecioUnitario>
+                            <dte:Precio>'.$item->total.'</dte:Precio>
+                            <dte:Descuento>0</dte:Descuento>
                             <dte:Impuestos>
                                 <dte:Impuesto>
                                     <dte:NombreCorto>IVA</dte:NombreCorto>
-                                    <dte:CodigoUnidadGravable>1</dte:CodigoUnidadGravable>
-                                    <dte:MontoGravable>1339.28571</dte:MontoGravable>
-                                    <dte:MontoImpuesto>160.71429</dte:MontoImpuesto>
+                                    <dte:CodigoUnidadGravable>'.$code_FEL_IVA.'</dte:CodigoUnidadGravable>
+                                    <dte:MontoGravable>'.$montoGravable.'</dte:MontoGravable>
+                                    <dte:MontoImpuesto>'.$IVA.'</dte:MontoImpuesto>
                                 </dte:Impuesto>
                             </dte:Impuestos>
-                            <dte:Total>1500.00</dte:Total>
-                        </dte:Item>
-                    </dte:Items>
-                    <dte:Totales>
+                            <dte:Total>'.$item->total.'</dte:Total>
+                        </dte:Item>';
+
+            $totalIVA += $IVA;
+        }
+
+
+        $xmlItemsDataCLS = '</dte:Items>';
+
+        $xmlTotals = '<dte:Totales>
                         <dte:TotalImpuestos>
-                            <dte:TotalImpuesto NombreCorto="IVA" TotalMontoImpuesto="160.714290"/>
+                            <dte:TotalImpuesto NombreCorto="IVA" TotalMontoImpuesto="'.$totalIVA.'"/>
                         </dte:TotalImpuestos>
-                        <dte:GranTotal>1500.00</dte:GranTotal>
-                    </dte:Totales>
-                </dte:DatosEmision>
-            </dte:DTE>
-        </dte:SAT>
-        </dte:GTDocumento>';
+                        <dte:GranTotal>'.$totalSale.'</dte:GranTotal>
+                    </dte:Totales>';
+
+        $xmlEmissionDataCLS = '</dte:DatosEmision>';
+
+        $xmlDTECLS = '</dte:DTE>';
+
+        $xmlBodyCLS = '</dte:SAT>';
+
+        $xmlHeadCLS = '</dte:GTDocumento>';
+
+        return $xml = '';
     }
 }
