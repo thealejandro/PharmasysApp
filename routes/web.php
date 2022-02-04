@@ -55,28 +55,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:Grocer|Super-Ad
     Route::view('/warehouse/requirements', 'modules.grocer.warehouseRequirements')->name('warehouse.requirements');
 });
 
-//Route::get('/sat/invoice/fel', function () {
-//    try{
-//        $params = array ('Content-Type' => 'application/soap+xml;', 'charset' => 'utf-8', 'soap_version' => SOAP_1_2, 'verifypeer' => false, 'verifyhost' => true, 'trace' => 1, 'exceptions' => 1, 'cache_wsdl' => WSDL_CACHE_NONE, 'stream_context' => stream_context_create(
-//            ['ssl' => [
-//                'verify_peer'       => false,
-//                'verify_peer_name'  => false,
-//                'allow_self_signed' => true,
-//            ]]
-//        ));
-//        $url = "https://app.corposistemasgt.com/getnitPruebas/ConsultaNIT.asmx?wsdl";
-//
-//        $client = new SoapClient($url, $params);
-//        $paramsGetNit = array('vNIT' => '42348587', 'Entity' => '800000001026', 'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF');
-//        $data = $client->getNIT($paramsGetNit);
-//        return $data;
-//    }
-//    catch(SoapFault $fault) {
-//        echo '<br>'.$fault;
-//    }
-//});
-
 Route::get('/sat/invoice/fel/nit/{nitReceptor}', [\App\Http\Controllers\SoapFELController::class, 'verifynit']);
+Route::post('/sat/invoice/fel/dte/certificate', [\App\Http\Controllers\SoapFELController::class, 'certificateDTE'])->name('invoice.fel.dte.certificate');
 Route::get('/sat/invoice/fel/dte', [\App\Http\Controllers\SoapFELController::class, 'getDTE']);
 
 Route::get('/test', function () {
@@ -85,3 +65,5 @@ Route::get('/test', function () {
 
     return $dataFEL->locationStore;
 });
+
+Route::view('/test/view', 'sat.fel.invoice')->name('test.view');
