@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+require PrintPOS::class;
 
-use App\Http\Controllers\PrintPOS;
-use App\Http\Controllers\SoapFELController;
+
+//use App\Http\Controllers\PrintPOS;
+use App\Http\Controllers\PrintPOS;use App\Http\Controllers\SoapFELController;
 use App\Models\Items;
 use App\Models\SalesRecord;
 use App\Models\Sellers;
