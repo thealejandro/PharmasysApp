@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:Grocer|Super-Ad
 
 Route::get('/sat/invoice/fel/nit/{nitReceptor}', [\App\Http\Controllers\SoapFELController::class, 'verifynit']);
 Route::post('/sat/invoice/fel/dte/certificate', [\App\Http\Controllers\SoapFELController::class, 'certificateDTE'])->name('invoice.fel.dte.certificate');
+Route::delete('/sat/invoice/fel/dte/void', [\App\Http\Controllers\SoapFELController::class, 'voidDTE'])->name('invoice.fel.dte.void');
 Route::get('/sat/invoice/fel/dte', [\App\Http\Controllers\SoapFELController::class, 'getDTE']);
 
 Route::get('/test', function () {
