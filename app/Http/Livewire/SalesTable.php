@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 //require PrintPOS::class;
 
-
 use App\Http\Controllers\PrintPOS;
 use App\Http\Controllers\SoapFELController;
 use App\Models\Items;
@@ -13,6 +12,7 @@ use App\Models\Sellers;
 use App\Models\StoreItemsInventories;
 use Illuminate\Http\Request;
 use Livewire\Component;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
 class SalesTable extends Component
 {
@@ -196,8 +196,9 @@ class SalesTable extends Component
 
 //        $dteCertificate = $soapFELController->certificateDTE($request);
 
+        $connector = new WindowsPrintConnector("LR2000");
         $print = new PrintPOS();
-        dd($print->printPOS($request));
+        dd($print->printPOS($request, $connector));
 
         //     SalesRecord::insert([
         //         'saleID' => '?',

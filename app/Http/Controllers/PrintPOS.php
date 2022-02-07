@@ -24,7 +24,7 @@ class PrintPOS extends Controller
     private string $numberDTE;
     private string $autorizationDTE;
 
-    public function printPOS(Request $data)
+    public function printPOS(Request $data, WindowsPrintConnector $connectPrint)
     {
         $this->nitClient = $data->invoiceData->nit;
         $this->nameClient = $data->invoiceData->name;
@@ -56,7 +56,7 @@ class PrintPOS extends Controller
          */
         // Enter the share name for your USB printer here
         //        $connector = null;
-        $connector = new WindowsPrintConnector("LR2000");
+        $connector = $connectPrint;
 
         /* Print a "Hello world" receipt" */
         $printer = new Printer($connector);
