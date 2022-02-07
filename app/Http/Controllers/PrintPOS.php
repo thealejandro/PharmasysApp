@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+require __DIR__.'/../../../vendor/autoload.php';
+
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PrintPOS\generateItems;
