@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+
+use App\Http\Controllers\PrintPOS;
 use App\Http\Controllers\SoapFELController;
 use App\Models\Items;
 use App\Models\SalesRecord;
@@ -127,6 +129,7 @@ class SalesTable extends Component
             ->first();
 
         $saleItems = [];
+        $totalSale = 0;
 
         foreach ($this->itemsStructure as $itemStructure) {
             $itemInventory = StoreItemsInventories::find($itemStructure['id']);
@@ -162,36 +165,37 @@ class SalesTable extends Component
                 'unit_quantity' => $unitQuantity,
                 'discount' => 0,
                 'total' => $itemStructure['subTotal'],
+                'iva' => !(($item->generic === TRUE)),
                 'presentation' => $presentation,
                 'dataRegister' => [
                     'price_sale' => $presentation['price'],
                     'price_purchase' => $itemInventory->article_data['price_purchase']
                 ]
             ];
+
+            $totalSale += $itemStructure['subTotal'];
         }
 
-        $soapFELController = new SoapFELController();
+        $lastSaleID = SalesRecord::withTrashed()->orderBy('saleID', 'desc')->first();
+        $saleID = (isset($lastSaleID->saleID)) ? $lastSaleID->saleID + 1 : 1;
+
+//        $soapFELController = new SoapFELController();
         $request = new Request(['invoiceData' => (object) [
                                     'nit' => $this->invoiceNIT,
                                     'name' => $this->invoiceName,
                                     'address' => $this->invoiceAddress
                                 ],
-                                'saleID' => '1',
+                                'totalSale' => $totalSale,
+                                'saleID' => $saleID,
                                 'seller_id' => $seller->id,
                                 'store_id' => $seller->store_id,
                                 'has_invoice' => $this->invoiceGenerate,
                                 'sale_details' => $saleItems]);
 
-        dd($soapFELController->certificateDTE($request));
+//        $dteCertificate = $soapFELController->certificateDTE($request);
 
-//        dd([
-//            'saleID' => '?',
-//            'seller_id' => $seller->id,
-//            'store_id' => $seller->store_id,
-//            'has_invoice' => false,
-//            'sale_details' => $saleItems,
-//            'created_at' => now()
-//        ]);
+        $print = new PrintPOS();
+        dd($print->printPOS($request));
 
         //     SalesRecord::insert([
         //         'saleID' => '?',
