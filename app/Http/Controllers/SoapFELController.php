@@ -14,21 +14,21 @@ use SoapFault;
 class SoapFELController extends SoapController
 {
 
-    public function verifynit(int $nitReceptor)
+    public function verifynit($nitReceptor)
     {
-        if ($nitReceptor > 0) {
-            try {
+        try {
+            if ($nitReceptor !== "CF") {
                 self::setWSDL('https://app.corposistemasgt.com/getnitPruebas/ConsultaNIT.asmx?wsdl');
                 $service = InstanceSoapClient::init();
 
                 $query = $service->getNIT(['vNIT' => $nitReceptor, 'Entity' => '800000001026', 'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF']);
                 $resp = get_object_vars($query->getNITResult);
-                $nit = json_encode($resp['Response']);
+                $nit = $resp['Response'];
 
                 return response()->json(["nit"=>$nit]);
-            } catch (SoapFault $e) {
-                return $e->getMessage();
             }
+        } catch (SoapFault $e) {
+            return $e->getMessage();
         }
     }
 
@@ -75,7 +75,7 @@ class SoapFELController extends SoapController
 
             return $documentdecodify;
 
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             return $e->getMessage();
         }
     }
@@ -88,43 +88,52 @@ class SoapFELController extends SoapController
         try {
 
             if ($dataRequest->invoiceData->nit !== "CF") {
-                $resultNIT = $this->verifynit($dataRequest->invoiceData->nit);
+                $queryNIT = $this->verifynit($dataRequest->invoiceData->nit);
+                $resultNIT = json_decode($queryNIT->content());
 
-                if ($resultNIT->nit->Result == true) {
+                if ($resultNIT->nit->Result === true) {
                     $dataRequest->invoiceData->name = $resultNIT->nit->nombre;
                 } else {
-                    throw new \Exception($resultNIT->nit->error);
+                    if (isset($resultNIT->nit)) {
+                        throw new \Exception($resultNIT->nit->error);
+                    }
+                    throw new \Exception("Error en el NIT, porfavor verifique.");
                 }
             }
 
-        return $dataRequest;
-//            self::setWSDL('https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl');
-//            $service = InstanceSoapClient::init();
-//
-//            $this->generateXML($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale);
-//
-//            $query = $service->RequestTransaction([
-//                'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
-//                'Transaction' => 'SYSTEM_REQUEST',
-//                'Country' => 'GT',
-//                'Entity' => '800000001026',
-//                'User' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
-//                'UserName' => 'ADMINISTRADOR',
-//                'Data1' => 'POST_DOCUMENT_SAT',
-//                'Data2' => '',
-//                'Data3' => '']);
-//
-        } catch (\SoapFault $e) {
+            self::setWSDL('https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl');
+            $service = InstanceSoapClient::init();
+
+//            return $dataRequest->sale_details[0]["presentation"];
+            $xmlGenerate = $this->generateXMLtoCertificate($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale);
+            $xmlPOST = base64_encode($xmlGenerate);
+
+            $query = $service->RequestTransaction([
+                'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
+                'Transaction' => 'SYSTEM_REQUEST',
+                'Country' => 'GT',
+                'Entity' => '800000001026',
+                'User' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
+                'UserName' => 'ADMINISTRADOR',
+                'Data1' => 'POST_DOCUMENT_SAT',
+                'Data2' => $xmlPOST,
+                'Data3' => '']);
+
+            $query = get_object_vars($query->RequestTransactionResult);
+
+            return $query["Response"]->Identifier->Batch;
+
+        } catch (SoapFault $e) {
             return $e->getMessage();
         }
     }
 
-    public function generateXML($nitClient, $items, $totalSale): string
+    public function generateXMLtoCertificate($nitClient, $items, $totalSale): string
     {
         //Search in DB dataFEL, with storeID from User Seller
         $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
-        $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
-        $nitClient->address = ($nitClient->address == NULL || $nitClient->address == "") ?? "Ciudad";
+        $storeFEL = $queryStoreDataFEL->dataFEL;
+        $nitClient->address = ($nitClient->address === NULL || $nitClient->address === "") ? "Ciudad" : $nitClient->address;
 
         $xmlHead = '<?xml version="1.0" encoding="utf-8"?>
         <dte:GTDocumento xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
@@ -143,53 +152,56 @@ class SoapFELController extends SoapController
 
         $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
 
-        $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv('FEL_NIT').'" NombreEmisor="'.getenv('FEL_NAME_ISSUER').'"
-                        CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$storeFEL->nameStore.'" AfiliacionIVA="GEN">
+        $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.getenv("FEL_NAME_ISSUER").'"
+                        CodigoEstablecimiento="'.getenv("FEL_STORE").'" NombreComercial="'.getenv("FEL_STORE_NAME").'" AfiliacionIVA="GEN">
                         <dte:DireccionEmisor>
-                            <dte:Direccion>'.$storeFEL->locationStore->direccion.'</dte:Direccion>
-                            <dte:CodigoPostal>16001</dte:CodigoPostal>
-                            <dte:Municipio>'.$storeFEL->locationStore->municipio.'</dte:Municipio>
-                            <dte:Departamento>'.$storeFEL->locationStore->departamento.'</dte:Departamento>
+                            <dte:Direccion>'.getenv("FEL_STORE_ADDRESS").'</dte:Direccion>
+                            <dte:CodigoPostal>01000</dte:CodigoPostal>
+                            <dte:Municipio>GUATEMALA</dte:Municipio>
+                            <dte:Departamento>GUATEMALA</dte:Departamento>
                             <dte:Pais>GT</dte:Pais>
                         </dte:DireccionEmisor>
                     </dte:Emisor>';
 
-        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor="'.$nitClient->name.'"/>';
+        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor="'.$nitClient->name.'">';
 
         $xmlReceptorAddress = '<dte:DireccionReceptor>
                                 <dte:Direccion>'.$nitClient->address.'</dte:Direccion>
-                                <dte:CodigoPostal>.</dte:CodigoPostal>
+                                <dte:CodigoPostal>0</dte:CodigoPostal>
                                 <dte:Municipio>.</dte:Municipio>
                                 <dte:Departamento>.</dte:Departamento>
                                 <dte:Pais>GT</dte:Pais>
                             </dte:DireccionReceptor>';
 
+        $xmlReceptorCLS = '</dte:Receptor>';
+
         $xmlPhrase = '<dte:Frases>
-                        <dte:Frase TipoFrase="1" CodigoEscenario="2"/>
-                        <dte:Frase TipoFrase="4" CodigoEscenario="9"/>
+                        <dte:Frase TipoFrase="1" CodigoEscenario="1"/>
                     </dte:Frases>';
 
         $xmlItemsData = '<dte:Items>';
 
         $xmlItem = '';
         $totalIVA = 0;
+
         foreach ($items as $key => $item) {
             $IVA = 0; // TOTAL IVA SI ES GENERICO
             $code_FEL_IVA = 2; // CODIGO DE IVA SEGUN FEL SAT
-            $montoGravable = $item->total;
+            $montoGravable = $item['total'];
 
-            if ($item->iva == TRUE) {
-                $montoGravable = $montoGravable/1.12; // CALCULO DEL TOTAL SIN IVA DEL ITEM
-                $IVA = $montoGravable * (12/100); // CALCULO DEL IVA DEL ITEM -> IVA GENERAL 12%
+            if ($item["iva"] == TRUE) {
+                $montoGravable = round($montoGravable/1.12, 2); // CALCULO DEL TOTAL SIN IVA DEL ITEM redondeado a 2 decimales
+                $IVA = round($montoGravable * (12/100), 2); // CALCULO DEL IVA DEL ITEM -> IVA GENERAL 12% redondeado a 2 decimales
                 $code_FEL_IVA = 1;
             }
 
-            $xmlItem .= '<dte:Item NumeroLinea="'. $key+1 .'" BienOServicio="'.$item->assetOrService.'">
-                            <dte:Cantidad>'.$item->quantity.'</dte:Cantidad>
-                            <dte:UnidadMedida>'.$item->presentation.'</dte:UnidadMedida>
-                            <dte:Descripcion>'.$item->name.'</dte:Descripcion>
-                            <dte:PrecioUnitario>'.$item->price.'</dte:PrecioUnitario>
-                            <dte:Precio>'.$item->total.'</dte:Precio>
+//            $item["assetOrService"] Agregar columna para identificar
+            $xmlItem .= '<dte:Item NumeroLinea="'. $key+1 .'" BienOServicio="B">
+                            <dte:Cantidad>'.$item["unit_quantity"].'</dte:Cantidad>
+                            <dte:UnidadMedida>UNI</dte:UnidadMedida>
+                            <dte:Descripcion>'.$item["name"].'</dte:Descripcion>
+                            <dte:PrecioUnitario>'.$item["presentation"]["price"].'</dte:PrecioUnitario>
+                            <dte:Precio>'.$item["total"].'</dte:Precio>
                             <dte:Descuento>0</dte:Descuento>
                             <dte:Impuestos>
                                 <dte:Impuesto>
@@ -199,7 +211,7 @@ class SoapFELController extends SoapController
                                     <dte:MontoImpuesto>'.$IVA.'</dte:MontoImpuesto>
                                 </dte:Impuesto>
                             </dte:Impuestos>
-                            <dte:Total>'.$item->total.'</dte:Total>
+                            <dte:Total>'.$item["total"].'</dte:Total>
                         </dte:Item>';
 
             $totalIVA += $IVA;
@@ -210,7 +222,7 @@ class SoapFELController extends SoapController
 
         $xmlTotals = '<dte:Totales>
                         <dte:TotalImpuestos>
-                            <dte:TotalImpuesto NombreCorto="IVA" TotalMontoImpuesto="'.$totalIVA.'"/>
+                            <dte:TotalImpuesto NombreCorto="IVA" TotalMontoImpuesto="'.round($totalIVA, 2).'"/>
                         </dte:TotalImpuestos>
                         <dte:GranTotal>'.$totalSale.'</dte:GranTotal>
                     </dte:Totales>';
@@ -223,6 +235,57 @@ class SoapFELController extends SoapController
 
         $xmlHeadCLS = '</dte:GTDocumento>';
 
-        return $xml = '';
+        return $xml = $xmlHead.$xmlBody.$xmlDTE.$xmlEmissionData.$xmlGeneralData.$xmlIssuer.$xmlReceptor.$xmlReceptorAddress.$xmlReceptorCLS.$xmlPhrase.$xmlItemsData.$xmlItem.$xmlItemsDataCLS.$xmlTotals.$xmlEmissionDataCLS.$xmlDTECLS.$xmlBodyCLS.$xmlHeadCLS;
+    }
+
+    public function voidDTE()
+    {
+        try {
+            self::setWSDL("https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl");
+            $service = InstanceSoapClient::init();
+
+            $xmlGenerate = $this->generateXMLtoVoid('2022-02-04T21:22:43', '42412692', 'Prueba Anulacion', 'E6ED3AFB-E5F6-4FA6-B3A1-1C9C57CE1AF7');
+            $xmlVOID = base64_encode($xmlGenerate);
+
+            $query = $service->RequestTransaction([
+                'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
+                'Transaction' => 'SYSTEM_REQUEST',
+                'Country' => 'GT',
+                'Entity' => '800000001026',
+                'User' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
+                'UserName' => 'ADMINISTRADOR',
+                'Data1' => 'VOID_DOCUMENT',
+                'Data2' => $xmlVOID,
+                'Data3' => '']);
+
+
+
+            return $query;
+
+        } catch (SoapFault $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function generateXMLtoVoid($dateDocument, $nitClient, $note, $documentID)
+    {
+        $xml = '<dte:GTAnulacionDocumento
+                    xmlns:dte="http://www.sat.gob.gt/dte/fel/0.1.0"
+                    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    Version="0.1"
+                    xsi:schemaLocation="http://www.sat.gob.gt/dte/fel/0.1.0 GT_AnulacionDocumento-0.1.0.xsd">
+                <dte:SAT>
+                    <dte:AnulacionDTE ID="DatosCertificados">
+                        <dte:DatosGenerales FechaEmisionDocumentoAnular="'.$dateDocument.'"
+                                            FechaHoraAnulacion="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'"
+                                            ID="DatosAnulacion" IDReceptor="'.$nitClient.'"
+                                            MotivoAnulacion="'.$note.'"
+                                            NITEmisor="'.getenv("FEL_NIT").'" NumeroDocumentoAAnular="'.$documentID.'"/>
+                    </dte:AnulacionDTE>
+                </dte:SAT>
+                </dte:GTAnulacionDocumento>';
+
+        return $xml;
     }
 }
