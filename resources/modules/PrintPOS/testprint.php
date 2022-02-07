@@ -1,13 +1,40 @@
 <?php
+
     require __DIR__ . '/../../../vendor/autoload.php';
     require __DIR__.'/Items_For_Print_POS.php';
 
+    use App\Models\Stores;
     use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
     use Mike42\Escpos\Printer;
+    use Illuminate\Http\Request;
+
 
     class PrintPOS
     {
-        function printPOS(Request $data)
+        private $nitClient;
+        private $nameClient;
+        private $addressClient;
+        private mixed $totalSale;
+        private $storeName;
+        private mixed $items;
+        private mixed $saleID;
+
+        public function __construct(Request $data)
+        {
+            $this->nitClient = $data->invoiceData->nit;
+            $this->nameClient = $data->invoiceData->name;
+            $this->addressClient = $data->invoiceData->address;
+            $this->totalSale = $data->totalSale;
+            $this->saleID = $data->saleID;
+
+            $store = Stores::where("store_id", $data->store_id)->first();
+            $storeData = json_decode(json_encode($store->dataFEL));
+
+            $this->storeName = $storeData->nameStore;
+            $this->items = $data->sale_details;
+        }
+
+        public function printPOS(): string
         {
                 /**
                  * Install the printer using USB printing support, and the "Generic / Text Only" driver,
@@ -33,7 +60,8 @@
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
 
                 $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH | Printer::MODE_EMPHASIZED | Printer::MODE_DOUBLE_HEIGHT);
-                $printer->text("PROBGAM\n");
+//                $printer->text("PROBGAM\n");
+                $printer->text($this->storeName."\n");
                 $printer->selectPrintMode();
 
                 $printer->selectPrintMode(Printer::FONT_B);
@@ -64,19 +92,19 @@
                 $printer->text("Numero de autorizacion: \n");
                 $printer->text("22404C45-86F3-4DE4-9B25-0719C812F8EB \n");
 
-                $printer->text("Fecha: ".today()->format("d-m-Y"));
+                $printer->text("Fecha: ".today("America/Guatemala")->format("d-m-Y"));
                 $printer->text("      ");
-                $printer->text("Hora: ".today()->format("H:m\n"));
+                $printer->text("Hora: ".today("America/Guatemala")->format("h:i a \n"));
 
-                $printer->text("Referencia interna: FC1290 \n");
+                $printer->text("Referencia interna: $this->saleID \n");
 
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
 
                 $printer->text(str_pad("", 56, "-", STR_PAD_RIGHT));
 
-                $nameClient = "CAAL,,CHOC,JOSE,ALEJANDRO";
-                $nitClient = "103237119";
-                $addressClient = "CIUDAD";
+//                $nameClient = $data->invoiceData->name;
+//                $nitClient = $data->invoiceData->nit;
+//                $addressClient = $data->invoiceData->address;
 
                     function generateString($strL, $strR = ""): string
                     {
@@ -88,9 +116,9 @@
                         return "$left$right\n";
                     }
 
-                $printer->text(generateString("Nombre:", $nameClient));
-                $printer->text(generateString("Direccion:", $addressClient));
-                $printer->text(generateString("NIT:", $nitClient));
+                $printer->text(generateString("Nombre:", $this->nameClient));
+                $printer->text(generateString("Direccion:", $this->addressClient));
+                $printer->text(generateString("NIT:", $this->nitClient));
 
                 $printer->text(str_pad("", 56, "-", STR_PAD_RIGHT));
                 $printer->feed();
@@ -102,24 +130,32 @@
             //            new Items_For_Print_POS("A final item", "43.45", true),
             //        );
 
-                $subtotal = new Items_For_Print_POS("Subtotal", "10.00", true);
+                $total = new Items_For_Print_POS("Total", $this->totalSale, true);
                 $taxes = new Items_For_Print_POS("IVA", "1.07", true);
-                $total = new Items_For_Print_POS("Total", "10.00", true);
 
             //        foreach ($items as $item) {
             //            $printer->text($item->getAsString(56));
             //        }
 
-                $printer->text("1 ");
-                $printer->text("Gotas Pediatricas - Acetaminofen 100mg 30 ml - Selectpharma \n");
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
-                $printer->text(generateString("Precio: Q10.00", "Subtotal: Q10.00"));
-                $printer->text(str_pad("", 56, "-", STR_PAD_RIGHT));
+                foreach ($this->items as $item) {
+                    $printer->text($item->unit_quantity." ");
+                    $printer->text($item->name."\n");
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
+                    $printer->text(generateString("Precio: Q".$item->dataRegister->price_sale, "Subtotal: Q".$item->total));
+                    $printer->text(str_pad("", 56, "-", STR_PAD_RIGHT));
+                }
 
-            //        $printer->feed();
+//                $printer->text("1 ");
+//                $printer->text("Gotas Pediatricas - Acetaminofen 100mg 30 ml - Selectpharma \n");
+//                $printer->setJustification(Printer::JUSTIFY_CENTER);
+//                $printer->text(generateString("Precio: Q10.00", "Subtotal: Q10.00"));
+//                $printer->text(str_pad("", 56, "-", STR_PAD_RIGHT));
+
+
+                //        $printer->feed();
                 $printer->setJustification();
 
-                $printer->text($subtotal->getAsString(56));
+//                $printer->text($subtotal->getAsString(56));
                 $printer->text($taxes->getAsString(56));
 
                 $printer->setEmphasis(TRUE);
@@ -135,7 +171,7 @@
                 $printer->text("Diez con 00/100 \n");
                 $printer->text("Sujeto a pagos trimestrales ISR \n");
                 $printer->text("Fecha y hora de certificacion: ");
-                $printer->text(today("America/Guatemala")->format("d-m-Y H:mm \n"));
+                $printer->text(today("America/Guatemala")->format("d-m-Y h:i a \n"));
 
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->qrCode("HOLA", Printer::QR_ECLEVEL_H, 4);
