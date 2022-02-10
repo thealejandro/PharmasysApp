@@ -20,7 +20,8 @@
         "laravel/tinker": "2.7",
         "livewire/livewire": "2.9",
         "mike42/escpos-php": "^3.0",
-        "spatie/laravel-permission": "5.5"
+        "spatie/laravel-permission": "5.5",
+        "ext-curl": "*"
     },
     "suggest" : {
         "ext-gd" : "Used for image printing if present."
