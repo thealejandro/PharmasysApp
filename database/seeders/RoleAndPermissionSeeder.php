@@ -102,10 +102,10 @@ class RoleAndPermissionSeeder extends Seeder
         $managerProbgam2 = Managers::create(['user_id' => $celia->id, 'user_approve_id' => $daniel->id]);
 
         // Create store's
-        $probgam    = Stores::create(['storeID' => 2, 'name' => 'Probgam', 'manager_id' => $managerProbgam->id]);
-        $comunal    = Stores::create(['storeID' => 3, 'name' => 'Comunal', 'manager_id' => $managerComunal->id]);
-        $farco      = Stores::create(['storeID' => 4, 'name' => 'Farco', 'manager_id' => $managerFarco->id]);
-        $probgam2   = Stores::create(['storeID' => 5, 'name' => 'Probgam 2', 'manager_id' => $managerProbgam2->id]);
+        $probgam    = Stores::create(['storeID' => 2, 'name' => 'Probgam', 'manager_id' => $managerProbgam->id, 'dataFEL' => '{"storeCode": 1,"nameStore": "PROBGAM","locationStore": {"direccion": "6 AVENIDA 6-088 Zona 11","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
+        $comunal    = Stores::create(['storeID' => 3, 'name' => 'Comunal', 'manager_id' => $managerComunal->id, 'dataFEL' => '{"storeCode": 2,"nameStore": "FARMACIA COMUNAL","locationStore": {"direccion": "2 AVENIDA 6-092 Zona 1","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
+        $farco      = Stores::create(['storeID' => 4, 'name' => 'Farco', 'manager_id' => $managerFarco->id, 'dataFEL' => '{"storeCode": 3,"nameStore": "FARCO","locationStore": {"direccion": "1 AVENIDA 03-38 Zona 1","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
+        $probgam2   = Stores::create(['storeID' => 5, 'name' => 'Probgam 2', 'manager_id' => $managerProbgam2->id, 'dataFEL' => '{"storeCode": 5,"nameStore": "FARMACIA PROBGAM II","locationStore": {"direccion": "1 AVENIDA 3-46 Zona 1","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
 
         // Create seller's
         Sellers::create(['user_id' => $odilia->id, 'store_id' => $probgam->storeID]);
