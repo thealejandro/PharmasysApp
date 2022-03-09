@@ -13,6 +13,8 @@ use App\Models\StoreItemsInventories;
 use App\Models\Stores;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
@@ -127,99 +129,100 @@ class SalesTable extends Component
     /**
      * Sell items
      * @throws Exception
+     * @throws \Throwable
      */
     public function sell()
     {
-        $seller = Sellers::where('user_id', auth()->user()->id)
-            ->first();
+            $seller = Sellers::where('user_id', Auth::id())->first();
 
-        $saleItems = [];
-        $totalSale = 0;
+            $saleItems = [];
+            $totalSale = 0;
 
-        foreach ($this->itemsStructure as $itemStructure) {
-            $itemInventory = StoreItemsInventories::find($itemStructure['id']);
-            $item = Items::where('itemID', $itemInventory->itemID)->first();
-            $presentation = $itemInventory->article_data['presentations'][$itemStructure['presentationKey']];
+            foreach ($this->itemsStructure as $itemStructure) {
+                $itemInventory = StoreItemsInventories::find($itemStructure['id']);
+                $item = Items::where('itemID', $itemInventory->itemID)->first();
+                $presentation = $itemInventory->article_data['presentations'][$itemStructure['presentationKey']];
 
-            $unitQuantity = $itemStructure['quantity'] * $itemStructure['units'];
-            $quantity_countable = 0;
-            $quantity_uncountable = 0;
+                $unitQuantity = $itemStructure['quantity'] * $itemStructure['units'];
+                $quantity_countable = 0;
+                $quantity_uncountable = 0;
 
-            if ($itemInventory->quantity_countable >= $itemInventory->quantity_uncountable) {
-                if ($itemInventory->quantity_countable >= $unitQuantity) {
-                    $quantity_countable = $unitQuantity;
+                if ($itemInventory->quantity_countable >= $itemInventory->quantity_uncountable) {
+                    if ($itemInventory->quantity_countable >= $unitQuantity) {
+                        $quantity_countable = $unitQuantity;
+                    } else {
+                        $quantity_countable = $itemInventory->quantity_countable;
+                        $quantity_uncountable = $unitQuantity - $itemInventory->quantity_countable;
+                    }
                 } else {
-                    $quantity_countable = $itemInventory->quantity_countable;
-                    $quantity_uncountable = $unitQuantity - $itemInventory->quantity_countable;
+                    if ($itemInventory->quantity_uncountable >= $unitQuantity) {
+                        $quantity_uncountable = $unitQuantity;
+                    } else {
+                        $quantity_uncountable = $itemInventory->quantity_uncountable;
+                        $quantity_countable = $unitQuantity - $itemInventory->quantity_uncountable;
+                    }
                 }
-            } else {
-                if ($itemInventory->quantity_uncountable >= $unitQuantity) {
-                    $quantity_uncountable = $unitQuantity;
-                } else {
-                    $quantity_uncountable = $itemInventory->quantity_uncountable;
-                    $quantity_countable = $unitQuantity - $itemInventory->quantity_uncountable;
-                }
+
+                $saleItems[] = [
+                    'itemID'               => $item->itemID,
+                    'name'                 => $itemStructure['name'],
+                    'quantity'             => $itemStructure['quantity'],
+                    'quantity_countable'   => $quantity_countable,
+                    'quantity_uncountable' => $quantity_uncountable,
+                    'unit_quantity'        => $unitQuantity,
+                    'discount'             => 0,
+                    'total'                => $itemStructure['subTotal'],
+                    'iva'                  => !(($item->generic === TRUE)),
+                    'expiry_date'          => $itemInventory->article_data['expiry_date'],
+                    'presentation'         => $presentation,
+                    'dataRegister'         => [
+                        'price_sale'     => $presentation['price'],
+                        'price_purchase' => $itemInventory->article_data['price_purchase']
+                    ]
+                ];
+
+                $totalSale += $itemStructure['subTotal'];
             }
 
-            $saleItems[] = [
-                'itemID' => $item->itemID,
-                'name' => $itemStructure['name'],
-                'quantity' => $itemStructure['quantity'],
-                'quantity_countable' => $quantity_countable,
-                'quantity_uncountable' => $quantity_uncountable,
-                'unit_quantity' => $unitQuantity,
-                'discount' => 0,
-                'total' => $itemStructure['subTotal'],
-                'iva' => !(($item->generic === TRUE)),
-                'expiry_date' => $itemInventory->article_data['expiry_date'],
-                'presentation' => $presentation,
-                'dataRegister' => [
-                    'price_sale' => $presentation['price'],
-                    'price_purchase' => $itemInventory->article_data['price_purchase']
-                ]
-            ];
+            $lastSaleID = SalesRecord::withTrashed()->orderBy('saleID', 'desc')->first();
+            $saleID = (isset($lastSaleID->saleID)) ? $lastSaleID->saleID + 1 : 1;
 
-            $totalSale += $itemStructure['subTotal'];
-        }
+            if ($this->invoiceGenerate === TRUE) {
+                $soapFELController = new SoapFELController();
 
-        $lastSaleID = SalesRecord::withTrashed()->orderBy('saleID', 'desc')->first();
-        $saleID = (isset($lastSaleID->saleID)) ? $lastSaleID->saleID + 1 : 1;
+                $storeData = Stores::where('storeID', $seller->store_id)->first();
 
-        if ($this->invoiceGenerate === true)
-        {
-            $soapFELController = new SoapFELController();
+                $request = new Request(['invoiceData'   => (object)[
+                    'nit'     => $this->invoiceNIT,
+                    'name'    => $this->invoiceName,
+                    'address' => $this->invoiceAddress
+                ],
+                                        'totalSale'     => $totalSale,
+                                        'saleID'        => $saleID,
+                                        'seller_id'     => $seller->id,
+                                        'storeData'     => json_decode($storeData->dataFEL),
+                                        'has_invoice'   => $this->invoiceGenerate,
+                                        'sale_details'  => $saleItems,
+                                        'certifierName' => getenv("FEL_CERTIFICADOR"),
+                                        'certifierNIT'  => getenv("FEL_CERTIFICADOR_NIT"),
+                                        'emisorNIT'     => getenv("FEL_NIT"),
+                                        'emisorName'    => getenv("FEL_NAME_ISSUER")]);
 
-            $storeData = Stores::where('storeID', $seller->store_id)->first();
+                $dteCertificate = $soapFELController->certificateDTE($request);
+            }
 
-            $request =  new Request(['invoiceData' => (object) [
-                'nit' => $this->invoiceNIT,
-                'name' => $this->invoiceName,
-                'address' => $this->invoiceAddress
-            ],
-                                     'totalSale' => $totalSale,
-                                     'saleID' => $saleID,
-                                     'seller_id' => $seller->id,
-                                     'storeData' => json_decode($storeData->dataFEL),
-                                     'has_invoice' => $this->invoiceGenerate,
-                                     'sale_details' => $saleItems,
-                                     'certifierName' => getenv("FEL_CERTIFICADOR"),
-                                     'certifierNIT' => getenv("FEL_CERTIFICADOR_NIT"),
-                                     'emisorNIT' => getenv("FEL_NIT"),
-                                     'emisorName' => getenv("FEL_NAME_ISSUER")]);
+            //        $this->dispatchBrowserEvent("requestPrintPOS", ["dataPrintPOS" => ["data" => $request]]);
 
-            $dteCertificate = $soapFELController->certificateDTE($request);
-        }
+            SalesRecord::create([
+                                    'saleID'                                               => $saleID,
+                                    'seller_id'                                            => $seller->id,
+                                    'store_id'                                             => $seller->store_id,
+                                    'has_invoice'                                          => $this->invoiceGenerate === TRUE,
+                                    'sale_details'                                         => json_encode([["items" => $saleItems]]),
+                                    'invoice_details' => (isset($dteCertificate)) ? json_encode($dteCertificate) : NULL,
+                                ]);
 
-//        $this->dispatchBrowserEvent("requestPrintPOS", ["dataPrintPOS" => ["data" => $request]]);
-
-        SalesRecord::create([
-            'saleID' => $saleID,
-            'seller_id' => $seller->id,
-            'store_id' => $seller->store_id,
-            'has_invoice' => $this->invoiceGenerate === true,
-            'sale_details' => json_encode(array(["items" => $saleItems])),
-            'invoice_details' => (isset($dteCertificate)) ? json_encode($dteCertificate) : null,
-                            ]);
+            $this->cancel();
     }
 
     /**
