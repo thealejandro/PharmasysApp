@@ -16,9 +16,9 @@ class CreateSalesRecordsTable extends Migration
         Schema::create('sales_records', function (Blueprint $table) {
             $table->id();
             $table->string('saleID')->unique();
-            $table->foreignId('seller_id')->constrained('sellers')->cascadeOnUpdate();
-            $table->foreignId('settlement_record_id')->nullable()->constrained('settlement_records', 'id')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('store_id')->constrained('stores')->cascadeOnUpdate();
+            $table->foreignId('seller_id')->constrained('sellers');
+            $table->foreignId('settlement_record_id')->nullable()->constrained('settlement_records', 'id')->cascadeOnUpdate();
+            $table->foreignId('store_id')->constrained('stores')->cascadeOnUpdate()->cascadeOnDelete();
             $table->boolean('has_invoice')->default(FALSE);
             $table->json('invoice_details')->nullable();
             $table->json('sale_details');
