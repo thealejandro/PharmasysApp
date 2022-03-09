@@ -10,4 +10,7 @@ class SalesRecord extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $guarded = [];
+//    protected $fillable = ["saleID"];
 }
