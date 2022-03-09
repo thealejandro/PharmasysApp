@@ -18,8 +18,6 @@ class RecordSalesOfSeller extends DataTableComponent
         return [
             Column::make("ID", "saleID")
                   ->sortable(),
-            Column::make("Vendedor", "seller_id")
-                  ->sortable(),
             Column::make("Facturado", "has_invoice")
                   ->sortable(),
             Column::make("Fecha y Hora", "created_at")
