@@ -64,7 +64,7 @@ Route::get('/test', function () {
     $store = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
     $dataFEL = json_decode($store->dataFEL);
 
-    return $dataFEL->locationStore;
+    return $dataFEL->storeCode;
 });
 
 Route::view('/test/view', 'sat.fel.invoice')->name('test.view');
