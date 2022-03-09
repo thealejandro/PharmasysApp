@@ -18,10 +18,11 @@ class SoapFELController extends SoapController
     {
         try {
             if ($nitReceptor !== "CF") {
-                self::setWSDL('https://app.corposistemasgt.com/getnitPruebas/ConsultaNIT.asmx?wsdl');
+//                self::setWSDL('https://app.corposistemasgt.com/getnitPruebas/ConsultaNIT.asmx?wsdl');  //Servicio de Pruebas
+                self::setWSDL('https://app.corposistemasgt.com/getnit/ConsultaNIT.asmx?wsdl');
                 $service = InstanceSoapClient::init();
 
-                $query = $service->getNIT(['vNIT' => $nitReceptor, 'Entity' => '800000001026', 'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF']);
+                $query = $service->getNIT(['vNIT' => $nitReceptor, 'Entity' => getenv("FEL_NIT"), 'Requestor' => getenv("FEL_REQUESTOR")]);
                 $resp = get_object_vars($query->getNITResult);
                 $nit = $resp['Response'];
 
@@ -101,7 +102,8 @@ class SoapFELController extends SoapController
                 }
             }
 
-            self::setWSDL('https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl');
+//            self::setWSDL('https://app.corposistemasgt.com/webservicefronttest/factwsfront.asmx?wsdl'); //Servicio de Pruebas
+            self::setWSDL('https://app.corposistemasgt.com/webservicefront/factwsfront.asmx?wsdl');
             $service = InstanceSoapClient::init();
 
 //            return $dataRequest->sale_details[0]["presentation"];
@@ -109,18 +111,19 @@ class SoapFELController extends SoapController
             $xmlPOST = base64_encode($xmlGenerate);
 
             $query = $service->RequestTransaction([
-                'Requestor' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
+                'Requestor' => getenv("FEL_REQUESTOR"),
                 'Transaction' => 'SYSTEM_REQUEST',
                 'Country' => 'GT',
-                'Entity' => '800000001026',
-                'User' => '8A454E3F-CEA1-41D8-A13A-A748A4891BBF',
-                'UserName' => 'ADMINISTRADOR',
+                'Entity' => getenv("FEL_NIT"),
+                'User' => getenv("FEL_REQUESTOR"),
+                'UserName' => getenv("FEL_USER"),
                 'Data1' => 'POST_DOCUMENT_SAT',
                 'Data2' => $xmlPOST,
                 'Data3' => '']);
 
             $query = get_object_vars($query->RequestTransactionResult);
 
+//            return $query;
             return array(["serialDTE" => $query["Response"]->Identifier->Serial, "numberDTE" => $query["Response"]->Identifier->Batch, "certificationDTE" => $query["Response"]->Identifier->DocumentGUID, "datetimeCertificationDTE" => $query["Response"]->TimeStamp]);
         } catch (SoapFault $e) {
             return $e->getMessage();
@@ -131,7 +134,7 @@ class SoapFELController extends SoapController
     {
         //Search in DB dataFEL, with storeID from User Seller
         $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
-        $storeFEL = $queryStoreDataFEL->dataFEL;
+        $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
         $nitClient->address = ($nitClient->address === NULL || $nitClient->address === "") ? "Ciudad" : $nitClient->address;
 
         $xmlHead = '<?xml version="1.0" encoding="utf-8"?>
@@ -152,12 +155,12 @@ class SoapFELController extends SoapController
         $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
 
         $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.getenv("FEL_NAME_ISSUER").'"
-                        CodigoEstablecimiento="'.getenv("FEL_STORE").'" NombreComercial="'.getenv("FEL_STORE_NAME").'" AfiliacionIVA="GEN">
+                        CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$storeFEL->nameStore.'" AfiliacionIVA="GEN">
                         <dte:DireccionEmisor>
-                            <dte:Direccion>'.getenv("FEL_STORE_ADDRESS").'</dte:Direccion>
-                            <dte:CodigoPostal>01000</dte:CodigoPostal>
-                            <dte:Municipio>GUATEMALA</dte:Municipio>
-                            <dte:Departamento>GUATEMALA</dte:Departamento>
+                            <dte:Direccion>'.$storeFEL->locationStore->direccion.'</dte:Direccion>
+                            <dte:CodigoPostal>16001</dte:CodigoPostal>
+                            <dte:Municipio>'.$storeFEL->locationStore->municipio.'</dte:Municipio>
+                            <dte:Departamento>'.$storeFEL->locationStore->departamento.'</dte:Departamento>
                             <dte:Pais>GT</dte:Pais>
                         </dte:DireccionEmisor>
                     </dte:Emisor>';
@@ -175,7 +178,7 @@ class SoapFELController extends SoapController
         $xmlReceptorCLS = '</dte:Receptor>';
 
         $xmlPhrase = '<dte:Frases>
-                        <dte:Frase TipoFrase="1" CodigoEscenario="1"/>
+                        <dte:Frase TipoFrase="1" CodigoEscenario="2"/>
                         <dte:Frase TipoFrase="4" CodigoEscenario="9"/>
                     </dte:Frases>';
 
