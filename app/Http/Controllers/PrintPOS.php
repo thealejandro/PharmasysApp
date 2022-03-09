@@ -164,7 +164,7 @@ class PrintPOS extends Controller
         } catch (Exception $e) {
             echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
         } finally {
-            $printer -> close();
+            $printer->close();
             return "Success";
         }
     }
