@@ -65,3 +65,22 @@
         </table>
     </div>
 </div>
+
+<script>
+    // window.addEventListener('requestPrintPOS', event => {
+    //     fetch("http://localhost:8080", {
+    //         method: "POST",
+    //         body: JSON.stringify(event.detail.dataPrintPOS),
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         // referrer: "about:client",
+    //         // referrerPolicy: "no-referrer-when-downgrade",
+    //         mode: "no-cors"
+    //     })
+    //     .then(res => console.log(res.json()))
+    //     // .then(res => res.json())
+    //     // .catch(err => console.error("Error: ", err))
+    //     // .then(response => console.log("Success: ", response));
+    // })
+</script>
