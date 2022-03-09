@@ -10,6 +10,8 @@ use App\Models\Items;
 use App\Models\SalesRecord;
 use App\Models\Sellers;
 use App\Models\StoreItemsInventories;
+use App\Models\Stores;
+use Exception;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
@@ -124,6 +126,7 @@ class SalesTable extends Component
 
     /**
      * Sell items
+     * @throws Exception
      */
     public function sell()
     {
@@ -168,6 +171,7 @@ class SalesTable extends Component
                 'discount' => 0,
                 'total' => $itemStructure['subTotal'],
                 'iva' => !(($item->generic === TRUE)),
+                'expiry_date' => $itemInventory->article_data['expiry_date'],
                 'presentation' => $presentation,
                 'dataRegister' => [
                     'price_sale' => $presentation['price'],
@@ -181,33 +185,41 @@ class SalesTable extends Component
         $lastSaleID = SalesRecord::withTrashed()->orderBy('saleID', 'desc')->first();
         $saleID = (isset($lastSaleID->saleID)) ? $lastSaleID->saleID + 1 : 1;
 
-//        $soapFELController = new SoapFELController();
-        $request = new Request(['invoiceData' => (object) [
-                                    'nit' => $this->invoiceNIT,
-                                    'name' => $this->invoiceName,
-                                    'address' => $this->invoiceAddress
-                                ],
-                                'totalSale' => $totalSale,
-                                'saleID' => $saleID,
-                                'seller_id' => $seller->id,
-                                'store_id' => $seller->store_id,
-                                'has_invoice' => $this->invoiceGenerate,
-                                'sale_details' => $saleItems]);
+        if ($this->invoiceGenerate === true)
+        {
+            $soapFELController = new SoapFELController();
 
-//        $dteCertificate = $soapFELController->certificateDTE($request);
+            $storeData = Stores::where('storeID', $seller->store_id)->first();
 
-        $connector = new WindowsPrintConnector("LR2000");
-        $print = new PrintPOS();
-        dd($print->printPOS($request, $connector));
+            $request =  new Request(['invoiceData' => (object) [
+                'nit' => $this->invoiceNIT,
+                'name' => $this->invoiceName,
+                'address' => $this->invoiceAddress
+            ],
+                                     'totalSale' => $totalSale,
+                                     'saleID' => $saleID,
+                                     'seller_id' => $seller->id,
+                                     'storeData' => json_decode($storeData->dataFEL),
+                                     'has_invoice' => $this->invoiceGenerate,
+                                     'sale_details' => $saleItems,
+                                     'certifierName' => getenv("FEL_CERTIFICADOR"),
+                                     'certifierNIT' => getenv("FEL_CERTIFICADOR_NIT"),
+                                     'emisorNIT' => getenv("FEL_NIT"),
+                                     'emisorName' => getenv("FEL_NAME_ISSUER")]);
 
-        //     SalesRecord::insert([
-        //         'saleID' => '?',
-        //         'seller_id' => $seller->id,
-        //         'store_id' => $seller->store_id,
-        //         'has_invoice' => false,
-        //         'sale_details' => '',
-        //         'created_at' => now()
-        //     ]);
+            $dteCertificate = $soapFELController->certificateDTE($request);
+        }
+
+//        $this->dispatchBrowserEvent("requestPrintPOS", ["dataPrintPOS" => ["data" => $request]]);
+
+        SalesRecord::create([
+            'saleID' => $saleID,
+            'seller_id' => $seller->id,
+            'store_id' => $seller->store_id,
+            'has_invoice' => $this->invoiceGenerate === true,
+            'sale_details' => json_encode(array(["items" => $saleItems])),
+            'invoice_details' => (isset($dteCertificate)) ? json_encode($dteCertificate) : null,
+                            ]);
     }
 
     /**
