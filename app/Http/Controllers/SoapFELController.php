@@ -121,8 +121,7 @@ class SoapFELController extends SoapController
 
             $query = get_object_vars($query->RequestTransactionResult);
 
-            return $query["Response"]->Identifier->Batch;
-
+            return array(["serialDTE" => $query["Response"]->Identifier->Serial, "numberDTE" => $query["Response"]->Identifier->Batch, "certificationDTE" => $query["Response"]->Identifier->DocumentGUID, "datetimeCertificationDTE" => $query["Response"]->TimeStamp]);
         } catch (SoapFault $e) {
             return $e->getMessage();
         }
@@ -177,6 +176,7 @@ class SoapFELController extends SoapController
 
         $xmlPhrase = '<dte:Frases>
                         <dte:Frase TipoFrase="1" CodigoEscenario="1"/>
+                        <dte:Frase TipoFrase="4" CodigoEscenario="9"/>
                     </dte:Frases>';
 
         $xmlItemsData = '<dte:Items>';
