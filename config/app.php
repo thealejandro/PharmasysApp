@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
+        Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider::class,
 
         /*
          * Application Service Providers...
