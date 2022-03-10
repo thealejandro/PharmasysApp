@@ -172,7 +172,7 @@ class SalesTable extends Component
                     'unit_quantity'        => $unitQuantity,
                     'discount'             => 0,
                     'total'                => $itemStructure['subTotal'],
-                    'iva'                  => $item->generic === 0,
+                    'iva'                  => $item->generic === 1,
                     'expiry_date'          => $itemInventory->article_data['expiry_date'],
                     'presentation'         => $presentation,
                     'dataRegister'         => [
