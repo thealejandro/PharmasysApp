@@ -83,4 +83,8 @@
     //     // .catch(err => console.error("Error: ", err))
     //     // .then(response => console.log("Success: ", response));
     // })
+
+    // window.addEventListener("SKL", event => {
+    //     console.log("ksl");
+    // })
 </script>

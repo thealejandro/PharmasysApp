@@ -172,7 +172,7 @@ class SalesTable extends Component
                     'unit_quantity'        => $unitQuantity,
                     'discount'             => 0,
                     'total'                => $itemStructure['subTotal'],
-                    'iva'                  => $item->generic === 1,
+                    'iva'                  => ($item->generic === 1) ? true : false,
                     'expiry_date'          => $itemInventory->article_data['expiry_date'],
                     'presentation'         => $presentation,
                     'dataRegister'         => [
@@ -209,6 +209,8 @@ class SalesTable extends Component
                                         'emisorName'    => getenv("FEL_NAME_ISSUER")]);
 
                 $dteCertificate = $soapFELController->certificateDTE($request);
+
+//                $this->dispatchBrowserEvent("SKL", ["ksl" => $dteCertificate]);
             }
 
             //        $this->dispatchBrowserEvent("requestPrintPOS", ["dataPrintPOS" => ["data" => $request]]);

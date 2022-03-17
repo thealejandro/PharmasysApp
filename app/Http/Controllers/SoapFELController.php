@@ -136,6 +136,7 @@ class SoapFELController extends SoapController
         $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
         $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
         $nitClient->address = ($nitClient->address === NULL || $nitClient->address === "") ? "Ciudad" : $nitClient->address;
+        $bigTotal = 0;
 
         $xmlHead = '<?xml version="1.0" encoding="utf-8"?>
         <dte:GTDocumento xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
@@ -153,6 +154,7 @@ class SoapFELController extends SoapController
         $xmlEmissionData = '<dte:DatosEmision ID="DatosEmision">';
 
         $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
+//        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="2022-03-09T23:50:15" CodigoMoneda="GTQ"/>';
 
         $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.getenv("FEL_NAME_ISSUER").'"
                         CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$storeFEL->nameStore.'" AfiliacionIVA="GEN">
@@ -188,13 +190,16 @@ class SoapFELController extends SoapController
         $totalIVA = 0;
 
         foreach ($items as $key => $item) {
+            $priceUnity = round($item["presentation"]["price"]/$item["presentation"]["quantity"], 6);
+            $itemTotal = round($item["unit_quantity"] * $priceUnity, 6);
+
             $IVA = 0; // TOTAL IVA SI ES GENERICO
             $code_FEL_IVA = 2; // CODIGO DE IVA SEGUN FEL SAT
-            $montoGravable = $item['total'];
+            $montoGravable = $itemTotal;
 
             if ($item["iva"] == TRUE) {
-                $montoGravable = round($montoGravable/1.12, 2); // CALCULO DEL TOTAL SIN IVA DEL ITEM redondeado a 2 decimales
-                $IVA = round($montoGravable * (12/100), 2); // CALCULO DEL IVA DEL ITEM -> IVA GENERAL 12% redondeado a 2 decimales
+                $montoGravable = round($montoGravable/1.12, 6); // CALCULO DEL TOTAL SIN IVA DEL ITEM redondeado a 6 decimales
+                $IVA = round($montoGravable * (12/100), 6); // CALCULO DEL IVA DEL ITEM -> IVA GENERAL 12% redondeado a 6 decimales
                 $code_FEL_IVA = 1;
             }
 
@@ -203,8 +208,8 @@ class SoapFELController extends SoapController
                             <dte:Cantidad>'.$item["unit_quantity"].'</dte:Cantidad>
                             <dte:UnidadMedida>UNI</dte:UnidadMedida>
                             <dte:Descripcion>'.$item["name"].'</dte:Descripcion>
-                            <dte:PrecioUnitario>'.$item["presentation"]["price"].'</dte:PrecioUnitario>
-                            <dte:Precio>'.$item["total"].'</dte:Precio>
+                            <dte:PrecioUnitario>'.$priceUnity.'</dte:PrecioUnitario>
+                            <dte:Precio>'.$itemTotal.'</dte:Precio>
                             <dte:Descuento>0</dte:Descuento>
                             <dte:Impuestos>
                                 <dte:Impuesto>
@@ -214,10 +219,11 @@ class SoapFELController extends SoapController
                                     <dte:MontoImpuesto>'.$IVA.'</dte:MontoImpuesto>
                                 </dte:Impuesto>
                             </dte:Impuestos>
-                            <dte:Total>'.$item["total"].'</dte:Total>
+                            <dte:Total>'.$itemTotal.'</dte:Total>
                         </dte:Item>';
 
             $totalIVA += $IVA;
+            $bigTotal += $itemTotal;
         }
 
 
@@ -225,9 +231,9 @@ class SoapFELController extends SoapController
 
         $xmlTotals = '<dte:Totales>
                         <dte:TotalImpuestos>
-                            <dte:TotalImpuesto NombreCorto="IVA" TotalMontoImpuesto="'.round($totalIVA, 2).'"/>
+                            <dte:TotalImpuesto NombreCorto="IVA" TotalMontoImpuesto="'.round($totalIVA, 6).'"/>
                         </dte:TotalImpuestos>
-                        <dte:GranTotal>'.$totalSale.'</dte:GranTotal>
+                        <dte:GranTotal>'.$bigTotal.'</dte:GranTotal>
                     </dte:Totales>';
 
         $xmlEmissionDataCLS = '</dte:DatosEmision>';
