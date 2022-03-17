@@ -153,8 +153,8 @@ class SoapFELController extends SoapController
 
         $xmlEmissionData = '<dte:DatosEmision ID="DatosEmision">';
 
-        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
-//        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="2022-03-09T23:50:15" CodigoMoneda="GTQ"/>';
+//        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
+        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="2022-03-11T23:50:15" CodigoMoneda="GTQ"/>';
 
         $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.getenv("FEL_NAME_ISSUER").'"
                         CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$storeFEL->nameStore.'" AfiliacionIVA="GEN">
