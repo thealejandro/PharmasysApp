@@ -11,11 +11,9 @@
                 <tr>
                     <th>Código</th>
                     <th>Producto</th>
-                    <th>C. Contable</th>
-                    <th>C. No Contable</th>
-                    <th>P. de venta</th>
+                    <th>Existencias</th>
+                    <th>Venta</th>
                     <th>Vencimiento</th>
-                    <th>P. de compra</th>
                     <th>Ubicación</th>
                 </tr>
             </thead>
@@ -24,13 +22,11 @@
                     <tr>
                         <td>{{ $item->itemID }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->quantity_countable }}</td>
-                        <td>{{ $item->quantity_uncountable }}</td>
+                        <td>{{ $item->quantity_countable + $item->quantity_uncountable }}</td>
                         <td>{{ Helper::GTMoney($item->article_data['presentations'][0]['price']) }}</td>
                         <td>
                             {{ empty($item->article_data['expiry_date']) ? 'Sin caducidad' : $item->article_data['expiry_date'] }}
                         </td>
-                        <td>{{ Helper::GTMoney($item->article_data['price_purchase']) }}</td>
                         <td>
                             {{ $item->article_data['location']['estante'] }} -
                             {{ $item->article_data['location']['nivel'] }} -
@@ -40,5 +36,7 @@
                 @endforeach
             </tbody>
         </table>
+
+        <livewire:inventory-table-of-stores/>
     </div>
 </div>

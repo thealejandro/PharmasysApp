@@ -55,11 +55,11 @@ class RoleAndPermissionSeeder extends Seeder
         $blanca = User::create(['userID' => 3, 'username' => 'blanca', 'first_name' => 'Blanca', 'last_name' => 'Johnston', 'email' => 'blanca@pharmasys.com', 'password' => Hash::make('abraham')]);
         $rigo   = User::create(['userID' => 4, 'username' => 'rigo', 'first_name' => 'Rigo', 'last_name' => NULL, 'email' => 'rigo@pharmasys.com', 'password' => Hash::make('sipriano')]);
         $karin  = User::create(['userID' => 5, 'username' => 'karin', 'first_name' => 'Karin', 'last_name' => NULL, 'email' => 'karin@pharmasys', 'password' => Hash::make('938475984375')]);
-        $eulalia = User::create(['userID' => 6,'username' => 'eulalia', 'first_name' => 'Eulalia', 'last_name' => NULL, 'email' => 'eulalia@pharmasys.com', 'password' => Hash::make('4905')]);
+        $eulalia = User::create(['userID' => 6,'username' => 'vicente', 'first_name' => 'Eulalia', 'last_name' => NULL, 'email' => 'eulalia@pharmasys.com', 'password' => Hash::make('4905')]);
         $odilia = User::create(['userID' => 7,'username' => 'odilia', 'first_name' => 'Odilia', 'last_name' => 'Ventura', 'email' => 'odilia@pharmasys.com', 'password' => Hash::make('5158')]);
         $raul   = User::create(['userID' => 8,'username' => 'raul', 'first_name' => 'Raul', 'last_name' => NULL, 'email' => 'raul@pharmasys.com', 'password' => Hash::make('2sd4fds')]);
         $rosmey = User::create(['userID' => 9,'username' => 'rosmey', 'first_name' => 'Rosmey', 'last_name' => NULL, 'email' => 'rosmey@pharmasys.com', 'password' => Hash::make('65654')]);
-        $celia  = User::create(['userID' => 10,'username' => 'celia', 'first_name' => 'Celia', 'last_name' => NULL, 'email' => 'celia@pharmasys.com', 'password' => Hash::make('1234')]);
+        $celia  = User::create(['userID' => 10,'username' => 'victoria', 'first_name' => 'Celia', 'last_name' => NULL, 'email' => 'celia@pharmasys.com', 'password' => Hash::make('1234')]);
 
         $baldo->assignRole($baned);
         $baldo->delete();

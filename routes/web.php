@@ -67,4 +67,6 @@ Route::get('/test', function () {
     return $dataFEL->storeCode;
 });
 
+Route::view('/test/viewRows', 'livewire-tables.rows.inventory_table_of_stores')->name("test.viewRows");
+
 Route::view('/test/view', 'sat.fel.invoice')->name('test.view');

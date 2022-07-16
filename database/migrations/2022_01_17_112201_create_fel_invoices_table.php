@@ -15,11 +15,17 @@ class CreateFelInvoicesTable extends Migration
     {
         Schema::create('fel_invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('number_certification')->unique();
-            $table->string('number_serial');
-            $table->string('number_dte');
-            $table->json('detailsInvoice');
+            $table->foreignId('storeId')->constrained('stores', 'id');
+            $table->foreignId('sellerId')->constrained('sellers', 'id');
+            $table->json('invoiceCertificated');
+            $table->json('invoiceDataClient');
+            $table->json('invoiceDataItems');
+            // $table->string('number_certification')->unique();
+            // $table->string('number_serial');
+            // $table->string('number_dte');
+            // $table->json('detailsInvoice');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +36,10 @@ class CreateFelInvoicesTable extends Migration
      */
     public function down()
     {
+        Schema::table('fel_invoices', function (Blueprint $table) {
+            $table->dropForeign(['storeID']);
+            $table->dropForeign(['sellerID']);
+        });
         Schema::dropIfExists('fel_invoices');
     }
 }
