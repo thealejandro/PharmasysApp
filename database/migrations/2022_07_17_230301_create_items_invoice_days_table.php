@@ -20,6 +20,7 @@ class CreateItemsInvoiceDaysTable extends Migration
             $table->string('name');
             $table->integer('quantitySale')->default(1);
             $table->double('priceSale')->default(1);
+            $table->boolean('generic')->default(0);
             $table->timestamps();
         });
     }
