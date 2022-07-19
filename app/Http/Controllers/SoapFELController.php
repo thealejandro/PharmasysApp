@@ -107,7 +107,7 @@ class SoapFELController extends SoapController
             $service = InstanceSoapClient::init();
 
 //            return $dataRequest->sale_details[0]["presentation"];
-            $xmlGenerate = $this->generateXMLtoCertificate($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale);
+            $xmlGenerate = $this->generateXMLtoCertificate($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale, $dataRequest->storeData);
             $xmlPOST = base64_encode($xmlGenerate);
 
             $query = $service->RequestTransaction([
@@ -123,18 +123,23 @@ class SoapFELController extends SoapController
 
             $query = get_object_vars($query->RequestTransactionResult);
 
-//            return $query;
-            return array(["serialDTE" => $query["Response"]->Identifier->Serial, "numberDTE" => $query["Response"]->Identifier->Batch, "certificationDTE" => $query["Response"]->Identifier->DocumentGUID, "datetimeCertificationDTE" => $query["Response"]->TimeStamp]);
+           return $query;
+            // return array(["serialDTE" => $query["Response"]->Identifier->Serial, "numberDTE" => $query["Response"]->Identifier->Batch, "certificationDTE" => $query["Response"]->Identifier->DocumentGUID, "datetimeCertificationDTE" => $query["Response"]->TimeStamp]);
         } catch (SoapFault $e) {
             return $e->getMessage();
         }
     }
 
-    public function generateXMLtoCertificate($nitClient, $items, $totalSale): string
+    public function generateXMLtoCertificate($nitClient, $items, $totalSale, $storeData): string
     {
-        //Search in DB dataFEL, with storeID from User Seller
-        $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
-        $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
+            //Search in DB dataFEL, with storeID from User Seller
+        if (isset($storeData) && $storeData !== null && $storeData !== '' && $storeData !== []) {
+            $queryStoreDataFEL = $storeData;
+            $storeFEL = json_decode($queryStoreDataFEL);
+        } else {
+            $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
+            $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
+        }
         $nitClient->address = ($nitClient->address === NULL || $nitClient->address === "") ? "Ciudad" : $nitClient->address;
         $bigTotal = 0;
 
