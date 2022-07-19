@@ -2,8 +2,13 @@
     @php
         $total = array_reduce($itemsStructure, fn($c, $i) => ($c += $i['subTotal']));
     @endphp
-    <div class="flex justify-center items-center my-2 gap-2">
-        <div class="badge badge-success badge-lg text-lg">
+    <div class="flex items-end justify-center py-3">
+        <button class="btn btn-secondary" wire:click='generateInvoices'>
+            Facturar Clientes Varios
+        </button>
+    </div>
+    <div class="flex items-center justify-center gap-2 my-2">
+        <div class="text-lg badge badge-success badge-lg">
             Total: {{ Helper::GTMoney($total) }}
         </div>
     </div>
@@ -15,7 +20,7 @@
         $allUnits = array_map(fn($i) => $i['units'], $itemsStructure);
     @endphp
     @if (!in_array(-1, $allUnits) && count($itemsStructure) > 0)
-        <div class="flex justify-evenly items-center py-2" wire:loading.remove>
+        <div class="flex items-center py-2 justify-evenly" wire:loading.remove>
             <button class="btn btn-primary" wire:click='sell'>
                 Vender
             </button>
@@ -28,15 +33,15 @@
             </button>
         </div>
         <div class="flex items-center justify-evenly">
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
                 <x-jet-label for="invoiceNIT" value="NIT" />
                 <x-jet-input id="invoiceNIT" type="text" wire:model="invoiceNIT" />
             </div>
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
                 <x-jet-label for="invoiceName" value="Nombre" />
                 <x-jet-input id="invoiceName" type="text" wire:model="invoiceName"/>
             </div>
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
                 <x-jet-label for="invoiceAddress" value="Direccion" />
                 <x-jet-input id="invoiceAddress" type="text" wire:model="invoiceAddress"/>
             </div>
@@ -44,7 +49,7 @@
     @endif
 
     <div class="overflow-x-auto">
-        <table class="table table-compact w-full">
+        <table class="table w-full table-compact">
             <thead>
                 <tr>
                     <th>Código</th>

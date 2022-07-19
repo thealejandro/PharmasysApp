@@ -4,9 +4,12 @@ namespace App\Http\Livewire;
 
 //require PrintPOS::class;
 
+use App\Http\Controllers\ItemsInvoiceDayController;
 use App\Http\Controllers\PrintPOS;
 use App\Http\Controllers\SoapFELController;
+use App\Models\FelInvoices;
 use App\Models\Items;
+use App\Models\ItemsInvoiceDay;
 use App\Models\SalesRecord;
 use App\Models\Sellers;
 use App\Models\StoreItemsInventories;
@@ -224,6 +227,11 @@ class SalesTable extends Component
                                     'invoice_details' => (isset($dteCertificate)) ? json_encode($dteCertificate) : NULL,
                                 ]);
 
+            // $store = Stores::select('id')->where('storeID', $seller->store_id)->latest()->first();
+            // FelInvoices::create([
+            //     'storeId'=> $store,
+            // ]);
+
             $this->cancel();
     }
 
@@ -234,5 +242,62 @@ class SalesTable extends Component
     {
         $this->itemsStructure = [];
         $this->items = [];
+    }
+
+    public function generateInvoices()
+    {
+        $stores = Stores::all();
+        foreach ($stores as $key => $store) {
+            $currentStore = $store->storeID;
+
+            $itemsCurrentStore = ItemsInvoiceDay::where('storeID', $currentStore)->get();
+            $totalSale = 0;
+
+            $saleItems = [];
+
+            foreach ($itemsCurrentStore as $key => $item) {
+                $saleItems[] = [
+                    'itemID'               => $item->itemID,
+                    'name'                 => $item->name,
+                    'quantity'             => $item->quantitySale,
+                    // 'quantity_countable'   => $quantity_countable,
+                    // 'quantity_uncountable' => $quantity_uncountable,
+                    'unit_quantity'        => $item->quantitySale,
+                    'discount'             => 0,
+                    // 'total'                => $itemStructure['subTotal'],
+                    'iva'                  => ($item->generic === 1) ? true : false,
+                    // 'expiry_date'          => $itemInventory->article_data['expiry_date'],
+                    // 'presentation'         => $presentation,
+                    'priceSale'            => $item->priceSale,
+                    'dataRegister'         => [
+                        'price_sale'     => $item->priceSale,
+                        // 'price_purchase' => $itemInventory->article_data['price_purchase']
+                    ]
+                ];
+            }
+
+
+            $soapFELController = new SoapFELController();
+
+                $storeData = $store;
+
+                $request = new Request(['invoiceData'   => (object)[
+                    'nit'     => "CF",
+                    'name'    => "CLIENTES VARIOS",
+                    'address' => "CIUDAD"
+                ],
+                    'totalSale'     => $totalSale,
+                    // 'saleID'        => $saleID,
+                    // 'seller_id'     => $seller->id,
+                    'storeData'     => json_decode($storeData->dataFEL),
+                    'has_invoice'   => $this->invoiceGenerate,
+                    'sale_details'  => $saleItems,
+                    'certifierName' => getenv("FEL_CERTIFICADOR"),
+                    'certifierNIT'  => getenv("FEL_CERTIFICADOR_NIT"),
+                    'emisorNIT'     => getenv("FEL_NIT"),
+                    'emisorName'    => getenv("FEL_NAME_ISSUER")]);
+
+                $dteCertificate = $soapFELController->certificateDTE($request);
+        }
     }
 }

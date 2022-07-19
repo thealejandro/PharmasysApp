@@ -153,7 +153,7 @@ class SoapFELController extends SoapController
 
         $xmlEmissionData = '<dte:DatosEmision ID="DatosEmision">';
 
-//        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
+//      FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'"';
         $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.getenv("FEL_DATE").'" CodigoMoneda="GTQ"/>';
 
         $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.getenv("FEL_NAME_ISSUER").'"
@@ -190,7 +190,11 @@ class SoapFELController extends SoapController
         $totalIVA = 0;
 
         foreach ($items as $key => $item) {
-            $priceUnity = round($item["presentation"]["price"]/$item["presentation"]["quantity"], 6);
+            if (isset($item["presentation"]["price"])) {
+                $priceUnity = round($item["presentation"]["price"]/$item["presentation"]["quantity"], 6);
+            } else {
+                $priceUnity = round($item['priceSale'], 6);
+            }
             $itemTotal = round($item["unit_quantity"] * $priceUnity, 6);
 
             $IVA = 0; // TOTAL IVA SI ES GENERICO
