@@ -135,7 +135,8 @@ class SoapFELController extends SoapController
             //Search in DB dataFEL, with storeID from User Seller
         if (isset($storeData) && $storeData !== null && $storeData !== '' && $storeData !== []) {
             $queryStoreDataFEL = $storeData;
-            $storeFEL = json_decode($queryStoreDataFEL);
+            $storeFEL = $queryStoreDataFEL;
+            // $storeFEL = json_decode($queryStoreDataFEL);
         } else {
             $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
             $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
