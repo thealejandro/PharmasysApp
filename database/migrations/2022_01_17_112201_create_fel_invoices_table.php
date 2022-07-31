@@ -16,7 +16,7 @@ class CreateFelInvoicesTable extends Migration
         Schema::create('fel_invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('storeId')->constrained('stores', 'id');
-            $table->foreignId('sellerId')->constrained('sellers', 'id');
+            $table->foreignId('sellerId')->constrained('sellers', 'id')->nullable();
             $table->json('invoiceCertificated');
             $table->json('invoiceDataClient');
             $table->json('invoiceDataItems');

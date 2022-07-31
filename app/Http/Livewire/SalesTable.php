@@ -204,6 +204,8 @@ class SalesTable extends Component
                                         'saleID'        => $saleID,
                                         'seller_id'     => $seller->id,
                                         'storeData'     => json_decode($storeData->dataFEL),
+                                        'storeId'       => $storeData->id,
+                                        'sellerId'      => $seller->id,
                                         'has_invoice'   => $this->invoiceGenerate,
                                         'sale_details'  => $saleItems,
                                         'certifierName' => getenv("FEL_CERTIFICADOR"),
@@ -213,19 +215,20 @@ class SalesTable extends Component
 
                 $dteCertificate = $soapFELController->certificateDTE($request);
 
+                // dd($dteCertificate);
 //                $this->dispatchBrowserEvent("SKL", ["ksl" => $dteCertificate]);
             }
 
             //        $this->dispatchBrowserEvent("requestPrintPOS", ["dataPrintPOS" => ["data" => $request]]);
 
-            SalesRecord::create([
-                                    'saleID'                                               => $saleID,
-                                    'seller_id'                                            => $seller->id,
-                                    'store_id'                                             => $seller->store_id,
-                                    'has_invoice'                                          => $this->invoiceGenerate === TRUE,
-                                    'sale_details'                                         => json_encode([["items" => $saleItems]]),
-                                    'invoice_details' => (isset($dteCertificate)) ? json_encode($dteCertificate) : NULL,
-                                ]);
+            // SalesRecord::create([
+            //                         'saleID'                                               => $saleID,
+            //                         'seller_id'                                            => $seller->id,
+            //                         'store_id'                                             => $seller->store_id,
+            //                         'has_invoice'                                          => $this->invoiceGenerate === TRUE,
+            //                         'sale_details'                                         => json_encode([["items" => $saleItems]]),
+            //                         'invoice_details' => (isset($dteCertificate)) ? json_encode($dteCertificate) : NULL,
+            //                     ]);
 
             // $store = Stores::select('id')->where('storeID', $seller->store_id)->latest()->first();
             // FelInvoices::create([
@@ -292,6 +295,8 @@ class SalesTable extends Component
                         // 'saleID'        => $saleID,
                         // 'seller_id'     => $seller->id,
                         'storeData'     => json_decode($storeData->dataFEL),
+                        'storeId'       => $store->id,
+                        'sellerId'      => null,
                         'has_invoice'   => $this->invoiceGenerate,
                         'sale_details'  => $saleItems,
                         'certifierName' => getenv("FEL_CERTIFICADOR"),

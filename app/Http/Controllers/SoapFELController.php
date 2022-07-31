@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Soap\InstanceSoapClient;
 use App\Http\Controllers\Soap\SoapController;
+use App\Models\FelInvoices;
 use App\Models\Stores;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use League\CommonMark\Node\Block\Document;
 use phpDocumentor\Reflection\Types\Object_;
@@ -107,7 +110,9 @@ class SoapFELController extends SoapController
             $service = InstanceSoapClient::init();
 
 //            return $dataRequest->sale_details[0]["presentation"];
-            $xmlGenerate = $this->generateXMLtoCertificate($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale, $dataRequest->storeData);
+            $responseXMLGenerate = $this->generateXMLtoCertificate($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale, $dataRequest->storeData, $dataRequest->storeId, $dataRequest->sellerId);
+            $xmlGenerate = $responseXMLGenerate->xmlDocument;
+
             $xmlPOST = base64_encode($xmlGenerate);
 
             $query = $service->RequestTransaction([
@@ -123,14 +128,33 @@ class SoapFELController extends SoapController
 
             $query = get_object_vars($query->RequestTransactionResult);
 
-           return $query;
-            // return array(["serialDTE" => $query["Response"]->Identifier->Serial, "numberDTE" => $query["Response"]->Identifier->Batch, "certificationDTE" => $query["Response"]->Identifier->DocumentGUID, "datetimeCertificationDTE" => $query["Response"]->TimeStamp]);
+            // Save data to DB
+            $dataSaveInvoiceGenerated = (object) ['invoiceCertificated' => (object)["serie" => $query["Response"]->Identifier->Serial, "number" => $query["Response"]->Identifier->Batch, "certification" => $query["Response"]->Identifier->DocumentGUID, "date" => now(config('app.timezone'))->format('Y-m-d'),"dateCertification" => $query["Response"]->TimeStamp], 'dataGeneratedInvoice' => $responseXMLGenerate->dataRegisterInvoice];
+            $this->saveInvoiceGenerated($dataSaveInvoiceGenerated);
+
+        //    return $query["Response"]->Identifier;
+            return array(["serialDTE" => $query["Response"]->Identifier->Serial, "numberDTE" => $query["Response"]->Identifier->Batch, "certificationDTE" => $query["Response"]->Identifier->DocumentGUID, "datetimeCertificationDTE" => $query["Response"]->TimeStamp]);
         } catch (SoapFault $e) {
             return $e->getMessage();
         }
     }
 
-    public function generateXMLtoCertificate($nitClient, $items, $totalSale, $storeData): string
+    private function saveInvoiceGenerated(object $data)
+    {
+        try {
+            FelInvoices::create([
+                'storeId' => $data->dataGeneratedInvoice->storeId,
+                'sellerId' => $data->dataGeneratedInvoice->sellerId,
+                'invoiceCertificated' => json_encode($data->invoiceCertificated),
+                'invoiceDataClient' => json_encode($data->dataGeneratedInvoice->ClientData),
+                'invoiceDataItems' => json_encode($data->dataGeneratedInvoice->DataItems),
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function generateXMLtoCertificate($nitClient, $items, $totalSale, $storeData, $storeId = null, $sellerId = null): object
     {
             //Search in DB dataFEL, with storeID from User Seller
         if (isset($storeData) && $storeData !== null && $storeData !== '' && $storeData !== []) {
@@ -138,7 +162,8 @@ class SoapFELController extends SoapController
             $storeFEL = $queryStoreDataFEL;
             // $storeFEL = json_decode($queryStoreDataFEL);
         } else {
-            $queryStoreDataFEL = Stores::select('stores.dataFEL')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
+            $queryStoreDataFEL = Stores::select('stores.dataFEL', 'stores.id')->join('sellers', 'stores.storeID', 'sellers.store_id')->where('sellers.user_id', \Auth::id())->first();
+            $storeId = $queryStoreDataFEL->id;
             $storeFEL = json_decode($queryStoreDataFEL->dataFEL);
         }
         $nitClient->address = ($nitClient->address === NULL || $nitClient->address === "") ? "Ciudad" : $nitClient->address;
@@ -159,8 +184,8 @@ class SoapFELController extends SoapController
 
         $xmlEmissionData = '<dte:DatosEmision ID="DatosEmision">';
 
-//      FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'"';
-        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.getenv("FEL_DATE").'" CodigoMoneda="GTQ"/>';
+    //  FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'";
+        $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
 
         $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.getenv("FEL_NAME_ISSUER").'"
                         CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$storeFEL->nameStore.'" AfiliacionIVA="GEN">
@@ -194,6 +219,8 @@ class SoapFELController extends SoapController
 
         $xmlItem = '';
         $totalIVA = 0;
+
+        $itemsInvoicePrint = array();
 
         foreach ($items as $key => $item) {
             if (isset($item["presentation"]["price"])) {
@@ -234,6 +261,8 @@ class SoapFELController extends SoapController
 
             $totalIVA += $IVA;
             $bigTotal += $itemTotal;
+
+            $itemsInvoicePrint[] = ['itemID' => $item["itemID"], 'nameItem' => $item["name"], 'quantityItem' => $item["unit_quantity"], 'priceItemSale' => $priceUnity, 'priceItemPurchase' => 0, 'itemCountable' => $code_FEL_IVA, 'totalWithoutIVA' => $montoGravable, 'totalIVA' => $IVA, 'total' => $itemTotal];
         }
 
 
@@ -254,7 +283,11 @@ class SoapFELController extends SoapController
 
         $xmlHeadCLS = '</dte:GTDocumento>';
 
-        return $xml = $xmlHead.$xmlBody.$xmlDTE.$xmlEmissionData.$xmlGeneralData.$xmlIssuer.$xmlReceptor.$xmlReceptorAddress.$xmlReceptorCLS.$xmlPhrase.$xmlItemsData.$xmlItem.$xmlItemsDataCLS.$xmlTotals.$xmlEmissionDataCLS.$xmlDTECLS.$xmlBodyCLS.$xmlHeadCLS;
+        $xml = $xmlHead.$xmlBody.$xmlDTE.$xmlEmissionData.$xmlGeneralData.$xmlIssuer.$xmlReceptor.$xmlReceptorAddress.$xmlReceptorCLS.$xmlPhrase.$xmlItemsData.$xmlItem.$xmlItemsDataCLS.$xmlTotals.$xmlEmissionDataCLS.$xmlDTECLS.$xmlBodyCLS.$xmlHeadCLS;
+
+        $dataRegisterInvoice = (object)['storeId' => $storeId, 'sellerId' => $sellerId, 'BigTotal' => $bigTotal, 'TaxesTotal' => round($totalIVA, 2), 'ClientData' => $nitClient, 'DataItems' => $itemsInvoicePrint];
+
+        return $resp = (object) ['xmlDocument' => $xml, 'dataRegisterInvoice' => $dataRegisterInvoice];
     }
 
     public function voidDTE()
