@@ -148,6 +148,8 @@ class SoapFELController extends SoapController
                 'invoiceCertificated' => json_encode($data->invoiceCertificated),
                 'invoiceDataClient' => json_encode($data->dataGeneratedInvoice->ClientData),
                 'invoiceDataItems' => json_encode($data->dataGeneratedInvoice->DataItems),
+                'bigTotal' => round($data->dataRegisterInvoice->bigTotal, 2),
+                'taxesTotal' => $data->dataRegisterInvoice->taxesTotal,
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -285,7 +287,7 @@ class SoapFELController extends SoapController
 
         $xml = $xmlHead.$xmlBody.$xmlDTE.$xmlEmissionData.$xmlGeneralData.$xmlIssuer.$xmlReceptor.$xmlReceptorAddress.$xmlReceptorCLS.$xmlPhrase.$xmlItemsData.$xmlItem.$xmlItemsDataCLS.$xmlTotals.$xmlEmissionDataCLS.$xmlDTECLS.$xmlBodyCLS.$xmlHeadCLS;
 
-        $dataRegisterInvoice = (object)['storeId' => $storeId, 'sellerId' => $sellerId, 'BigTotal' => $bigTotal, 'TaxesTotal' => round($totalIVA, 2), 'ClientData' => $nitClient, 'DataItems' => $itemsInvoicePrint];
+        $dataRegisterInvoice = (object)['storeId' => $storeId, 'sellerId' => $sellerId, 'bigTotal' => $bigTotal, 'taxesTotal' => round($totalIVA, 2), 'ClientData' => $nitClient, 'DataItems' => $itemsInvoicePrint];
 
         return $resp = (object) ['xmlDocument' => $xml, 'dataRegisterInvoice' => $dataRegisterInvoice];
     }

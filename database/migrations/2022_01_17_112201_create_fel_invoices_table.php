@@ -24,6 +24,8 @@ class CreateFelInvoicesTable extends Migration
             // $table->string('number_serial');
             // $table->string('number_dte');
             // $table->json('detailsInvoice');
+            $table->float('bigTotal');
+            $table->float('taxesTotal')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
