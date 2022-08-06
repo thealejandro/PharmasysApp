@@ -188,7 +188,7 @@ class SoapFELController extends SoapController
 
         //  FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'";
         if (Auth::user()->hasAnyRole(['Grocer', 'Administrator', 'Super-Admin'])) {
-            $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="' . now(config('app.timezone'))->format('Y-m-d\TH:i:s') . '" CodigoMoneda="GTQ"/>';
+            $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.getenv("FEL_DATE").'" CodigoMoneda="GTQ"/>';
         } else {
             $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
         }
