@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified', 'role:Grocer|Super-Ad
     Route::view('/monitor/orders', 'modules.grocer.orders')->name('monitor.orders');
     Route::view('/monitor/expired', 'modules.grocer.expired')->name('monitor.expired');
     Route::view('/warehouse/requirements', 'modules.grocer.warehouseRequirements')->name('warehouse.requirements');
+    Route::view('/market/generate/invoices', 'modules.sellers.market')->name('market.generate.invoices');
 });
 
 Route::get('/sat/invoice/fel/nit/{nitReceptor}', [\App\Http\Controllers\SoapFELController::class, 'verifynit']);

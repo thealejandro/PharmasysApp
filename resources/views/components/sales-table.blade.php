@@ -2,11 +2,13 @@
     @php
         $total = array_reduce($itemsStructure, fn($c, $i) => ($c += $i['subTotal']));
     @endphp
+    @hasanyrole('Grocer|Administrator|Super-Admin')
     <div class="flex items-end justify-center py-3">
         <button class="btn btn-secondary" wire:click='generateInvoices'>
             Facturar Clientes Varios
         </button>
     </div>
+    @endhasanyrole
     <div class="flex items-center justify-center gap-2 my-2">
         <div class="text-lg badge badge-success badge-lg">
             Total: {{ Helper::GTMoney($total) }}
