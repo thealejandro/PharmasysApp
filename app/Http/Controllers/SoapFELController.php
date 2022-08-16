@@ -7,6 +7,7 @@ use App\Http\Controllers\Soap\SoapController;
 use App\Models\FelInvoices;
 use App\Models\Stores;
 use App\Models\User;
+use Carbon\Carbon;
 use Auth;
 use Illuminate\Http\Request;
 use League\CommonMark\Node\Block\Document;
@@ -128,8 +129,15 @@ class SoapFELController extends SoapController
 
             $query = get_object_vars($query->RequestTransactionResult);
 
+            //Create Date
+            $dateInvoice = now(config('app.timezone'))->format('Y-m-d');
+
+            if (Auth::user()->hasAnyRole(['Grocer', 'Administrator', 'Super-Admin'])) {
+                $dateInvoice = Carbon::create(getenv('FEL_DATE'), config('app.timezone'))->format('Y-m-d');
+            }
+
             // Save data to DB
-            $dataSaveInvoiceGenerated = (object) ['invoiceCertificated' => (object)["serie" => $query["Response"]->Identifier->Serial, "number" => $query["Response"]->Identifier->Batch, "certification" => $query["Response"]->Identifier->DocumentGUID, "date" => now(config('app.timezone'))->format('Y-m-d'),"dateCertification" => $query["Response"]->TimeStamp], 'dataGeneratedInvoice' => $responseXMLGenerate->dataRegisterInvoice];
+            $dataSaveInvoiceGenerated = (object) ['invoiceCertificated' => (object)["serie" => $query["Response"]->Identifier->Serial, "number" => $query["Response"]->Identifier->Batch, "certification" => $query["Response"]->Identifier->DocumentGUID, "date" => $dateInvoice,"dateCertification" => $query["Response"]->TimeStamp], 'dataGeneratedInvoice' => $responseXMLGenerate->dataRegisterInvoice];
             $this->saveInvoiceGenerated($dataSaveInvoiceGenerated);
 
         //    return $query["Response"]->Identifier;
