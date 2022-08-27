@@ -310,4 +310,25 @@ class SalesTable extends Component
             throw $th;
         }
     }
+
+    public function fullData()
+    {
+        $fels = FelInvoices::all();
+
+        foreach ($dte as $fels) {
+            $totalAffection = 0;
+            $totallyUnaffected = 0;
+
+            $items = $dte->invoiceDataItems;
+
+            foreach ($item as $items) {
+                if ($item->totalIVA > 0) {
+                    $totalAffection += $item->total;
+                } else {
+                    $totallyUnaffected += $item->total;
+                }
+            }
+            $dte->save();
+        }
+    }
 }

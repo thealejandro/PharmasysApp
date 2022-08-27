@@ -7,6 +7,9 @@
         <button class="btn btn-secondary" wire:click='generateInvoices'>
             Facturar Clientes Varios
         </button>
+        <button class="btn btn-accent" wire:click='fullData'>
+            FullData
+        </button>
     </div>
     @endhasanyrole
     <div class="flex items-center justify-center gap-2 my-2">
