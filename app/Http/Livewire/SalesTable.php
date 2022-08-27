@@ -315,13 +315,13 @@ class SalesTable extends Component
     {
         $fels = FelInvoices::all();
 
-        foreach ($dte as $fels) {
+        foreach ($fels as $dte) {
             $totalAffection = 0;
             $totallyUnaffected = 0;
 
             $items = $dte->invoiceDataItems;
 
-            foreach ($item as $items) {
+            foreach ($items as $item) {
                 if ($item->totalIVA > 0) {
                     $totalAffection += $item->total;
                 } else {
