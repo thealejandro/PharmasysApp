@@ -328,6 +328,9 @@ class SalesTable extends Component
                     $totallyUnaffected += $item->total;
                 }
             }
+
+            $dte->totalAffection = $totalAffection;
+            $dte->totallyUnaffected = $totallyUnaffected;
             $dte->save();
         }
     }
