@@ -319,7 +319,7 @@ class SalesTable extends Component
             $totalAffection = 0;
             $totallyUnaffected = 0;
 
-            $items = $dte->invoiceDataItems;
+            $items = json_decode($dte->invoiceDataItems);
 
             foreach ($items as $item) {
                 if ($item->totalIVA > 0) {
