@@ -158,8 +158,8 @@ class SoapFELController extends SoapController
                 'invoiceDataItems' => json_encode($data->dataGeneratedInvoice->DataItems),
                 'bigTotal' => $data->dataGeneratedInvoice->bigTotal,
                 'taxesTotal' => $data->dataGeneratedInvoice->taxesTotal,
-                'totalAffection' => $data->totalAffection,
-                'totallyUnaffected' => $data->totallyUnaffected,
+                'totalAffection' => $data->dataGeneratedInvoice->totalAffection,
+                'totallyUnaffected' => $data->dataGeneratedInvoice->totallyUnaffected,
             ]);
         } catch (\Throwable $th) {
             throw $th;
