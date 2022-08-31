@@ -156,8 +156,10 @@ class SoapFELController extends SoapController
                 'invoiceCertificated' => json_encode($data->invoiceCertificated),
                 'invoiceDataClient' => json_encode($data->dataGeneratedInvoice->ClientData),
                 'invoiceDataItems' => json_encode($data->dataGeneratedInvoice->DataItems),
-                'bigTotal' => round($data->dataGeneratedInvoice->bigTotal, 2),
+                'bigTotal' => $data->dataGeneratedInvoice->bigTotal,
                 'taxesTotal' => $data->dataGeneratedInvoice->taxesTotal,
+                'totalAffection' => $data->totalAffection,
+                'totallyUnaffected' => $data->totallyUnaffected,
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -235,6 +237,8 @@ class SoapFELController extends SoapController
         $totalIVA = 0;
 
         $itemsInvoicePrint = array();
+        $totalAffection = 0;
+        $totallyUnaffected = 0;
 
         foreach ($items as $key => $item) {
             if (isset($item["presentation"]["price"])) {
@@ -276,6 +280,12 @@ class SoapFELController extends SoapController
             $totalIVA += $IVA;
             $bigTotal += $itemTotal;
 
+            if ($code_FEL_IVA === 1) {
+                $totalAffection += $itemTotal;
+            } else {
+                $totallyUnaffected += $itemTotal;
+            }
+
             $itemsInvoicePrint[] = ['itemID' => $item["itemID"], 'nameItem' => $item["name"], 'quantityItem' => $item["unit_quantity"], 'priceItemSale' => $priceUnity, 'priceItemPurchase' => 0, 'itemCountable' => $code_FEL_IVA, 'totalWithoutIVA' => $montoGravable, 'totalIVA' => $IVA, 'total' => $itemTotal];
         }
 
@@ -299,7 +309,7 @@ class SoapFELController extends SoapController
 
         $xml = $xmlHead.$xmlBody.$xmlDTE.$xmlEmissionData.$xmlGeneralData.$xmlIssuer.$xmlReceptor.$xmlReceptorAddress.$xmlReceptorCLS.$xmlPhrase.$xmlItemsData.$xmlItem.$xmlItemsDataCLS.$xmlTotals.$xmlEmissionDataCLS.$xmlDTECLS.$xmlBodyCLS.$xmlHeadCLS;
 
-        $dataRegisterInvoice = (object)['storeId' => $storeId, 'sellerId' => $sellerId, 'bigTotal' => $bigTotal, 'taxesTotal' => round($totalIVA, 2), 'ClientData' => $nitClient, 'DataItems' => $itemsInvoicePrint];
+        $dataRegisterInvoice = (object)['storeId' => $storeId, 'sellerId' => $sellerId, 'bigTotal' => $bigTotal, 'taxesTotal' => round($totalIVA, 6), 'ClientData' => $nitClient, 'DataItems' => $itemsInvoicePrint, 'totalAffection' => $totalAffection, 'totallyUnaffected' => $totallyUnaffected];
 
         return $resp = (object) ['xmlDocument' => $xml, 'dataRegisterInvoice' => $dataRegisterInvoice];
     }
