@@ -102,7 +102,7 @@ class SoapFELController extends SoapController
                     if (isset($resultNIT->nit)) {
                         throw new \Exception($resultNIT->nit->error);
                     }
-                    throw new \Exception("Error en el NIT, porfavor verifique.");
+                    throw new \Exception("Error en el NIT, por favor verifique.");
                 }
             }
 
@@ -214,7 +214,7 @@ class SoapFELController extends SoapController
                         </dte:DireccionEmisor>
                     </dte:Emisor>';
 
-        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor='.$nitClient->name.'>';
+        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor="'.str_replace('"', '&quot;', $nitClient->name).'">';
 
         $xmlReceptorAddress = '<dte:DireccionReceptor>
                                 <dte:Direccion>'.$nitClient->address.'</dte:Direccion>
