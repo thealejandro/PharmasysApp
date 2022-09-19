@@ -21,7 +21,7 @@ class SoapFELController extends SoapController
     public function verifynit($nitReceptor)
     {
         try {
-            if ($nitReceptor !== "CF") {
+            if ($nitReceptor !== "CF" || intval($nitReceptor)) {
 //                self::setWSDL('https://app.corposistemasgt.com/getnitPruebas/ConsultaNIT.asmx?wsdl');  //Servicio de Pruebas
                 self::setWSDL('https://app.corposistemasgt.com/getnit/ConsultaNIT.asmx?wsdl');
                 $service = InstanceSoapClient::init();
@@ -214,7 +214,7 @@ class SoapFELController extends SoapController
                         </dte:DireccionEmisor>
                     </dte:Emisor>';
 
-        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor="'.$nitClient->name.'">';
+        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor='.$nitClient->name.'>';
 
         $xmlReceptorAddress = '<dte:DireccionReceptor>
                                 <dte:Direccion>'.$nitClient->address.'</dte:Direccion>

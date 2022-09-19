@@ -21,6 +21,12 @@
         <x-line-loader></x-line-loader>
     </div>
 
+    @if (!$nitStatus)
+    <div class="flex items-center justify-center gap-2 my-2">
+        <span class="text-red-600 text-lg">Error en NIT, por favor verifique.</span>
+    </div>
+    @endif
+
     @php
         $allUnits = array_map(fn($i) => $i['units'], $itemsStructure);
     @endphp
@@ -50,6 +56,9 @@
                 <x-jet-label for="invoiceAddress" value="Direccion" />
                 <x-jet-input id="invoiceAddress" type="text" wire:model="invoiceAddress"/>
             </div>
+            <button class="btn btn-warning" wire:click="searchNIT">
+                Buscar NIT
+            </button>
         </div>
     @endif
 

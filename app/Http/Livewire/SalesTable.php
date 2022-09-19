@@ -29,6 +29,7 @@ class SalesTable extends Component
     public $invoiceNIT = 'CF';
     public $invoiceName = 'Consumidor Final';
     public $invoiceAddress = 'Ciudad';
+    public $nitStatus = true;
 
     protected  $listeners = [
         'item-added' => 'itemAdded',
@@ -335,6 +336,33 @@ class SalesTable extends Component
             $dte->totalAffection = $totalAffection;
             $dte->totallyUnaffected = $totallyUnaffected;
             $dte->save();
+        }
+    }
+
+    public function searchNIT()
+    {
+        $soapFELController = new SoapFELController();
+
+        try {
+            if (intval($this->invoiceNIT) > 0) {
+                $verifyNIT = $soapFELController->verifyNIT($this->invoiceNIT);
+
+                if ($verifyNIT->original["nit"]->Result) {
+                    $this->invoiceName = $verifyNIT->original["nit"]->nombre;
+                    $this->nitStatus = true;
+                } else {
+                    $this->nitStatus = false;
+                    $this->invoiceNIT = "";
+                }
+            }
+            if ($this->invoiceNIT === "CF") {
+                $this->nitStatus = true;
+                $this->invoiceNIT = 'CF';
+                $this->invoiceName = 'Consumidor Final';
+                $this->invoiceAddress = 'Ciudad';
+            }
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 }
