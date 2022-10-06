@@ -89,3 +89,5 @@ Route::post('stores/create', [StoresController::class, 'store']);
 Route::get('stores/{storeId}/sw', [StoresController::class, 'show']);
 Route::put('stores/{storeId}/up', [StoresController::class, 'update']);
 Route::delete('stores/{storeId}', [StoresController::class, 'destroy']);
+
+Route::view('inventories', 'modules/inventories/admin/index');
