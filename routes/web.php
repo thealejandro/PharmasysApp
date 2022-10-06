@@ -90,8 +90,8 @@ Route::get('stores/{storeId}/sw', [StoresController::class, 'show']);
 Route::put('stores/{storeId}/up', [StoresController::class, 'update']);
 Route::delete('stores/{storeId}', [StoresController::class, 'destroy']);
 
-Route::view('inventories', 'modules/inventories/admin/index');
-Route::view('inventories/stores/individual', 'modules/inventories/admin/individual-inventory');
-Route::view('inventories/stores/overall', 'modules/inventories/admin/overall-inventory');
-Route::view('inventories/stores/integrity', 'modules/inventories/admin/integrity');
-Route::view('inventories/stores/see-all', 'modules/inventories/admin/see-all');
+Route::view('inventories', 'modules/inventories/admin/index')->name("module.inventories.index");
+Route::view('inventories/stores/individual', 'modules/inventories/admin/individual-inventory')->name("module.inventories.admin.stores.individual");
+Route::view('inventories/stores/overall', 'modules/inventories/admin/overall-inventory')->name("module.inventories.admin.stores.overall");
+Route::view('inventories/stores/integrity', 'modules/inventories/admin/integrity')->name("module.inventories.admin.stores.integrity");
+Route::view('inventories/stores/see-all', 'modules/inventories/admin/see-all')->name("module.inventories.admin.stores.seeall");
