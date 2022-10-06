@@ -91,3 +91,7 @@ Route::put('stores/{storeId}/up', [StoresController::class, 'update']);
 Route::delete('stores/{storeId}', [StoresController::class, 'destroy']);
 
 Route::view('inventories', 'modules/inventories/admin/index');
+Route::view('inventories/stores/individual', 'modules/inventories/admin/individual-inventory');
+Route::view('inventories/stores/overall', 'modules/inventories/admin/overall-inventory');
+Route::view('inventories/stores/integrity', 'modules/inventories/admin/integrity');
+Route::view('inventories/stores/see-all', 'modules/inventories/admin/see-all');
