@@ -7,10 +7,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col md:flex-row gap-4 items-center overflow-hidden">
-            <div class="bg-white w-full overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white w-full px-4 py-4 overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="flex w-full justify-between">
                     <select class="select select-ghost w-full max-w-xs">
-                        <option disabled selected>Pick the best JS framework</option>
+                        <option disabled selected>Sucursales</option>
                         <option>Svelte</option>
                         <option>Vue</option>
                         <option>React</option>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full">
+                <div class="w-full md:py-10 py-4">
                     <div class="overflow-x-auto">
                         <table class="table w-full">
                             <!-- head -->
