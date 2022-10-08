@@ -13,11 +13,11 @@
                         <h2 class="card-title">{{ __("Individual Inventory") }}</h2>
                         <p>{{ __("Individual store inventory module") }}</p>
                         <div class="card-actions">
-                        <button class="btn btn-primary">
-                            <a href="{{ route('module.inventories.admin.stores.individual') }}">
+                        <a href="{{ route('module.inventories.admin.stores.individual') }}">
+                            <button class="btn btn-primary">
                                 {{ __("Go") }}
-                            </a>
-                        </button>
+                            </button>
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -26,11 +26,11 @@
                         <h2 class="card-title">{{ __("Overall Inventory") }}</h2>
                         <p>{{ __("General store inventory module") }}</p>
                         <div class="card-actions">
-                        <button class="btn btn-primary">
-                            <a href="{{ route('module.inventories.admin.stores.overall') }}">
+                        <a href="{{ route('module.inventories.admin.stores.overall') }}">
+                            <button class="btn btn-primary">
                                 {{ __("Go") }}
-                            </a>
-                        </button>
+                            </button>
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -39,11 +39,11 @@
                         <h2 class="card-title">{{ __("Integrity") }}</h2>
                         <p>{{ __("Integrity module in store inventories") }}</p>
                         <div class="card-actions">
-                        <button class="btn btn-primary">
-                            <a href="{{ route('module.inventories.admin.stores.integrity') }}">
+                        <a href="{{ route('module.inventories.admin.stores.integrity') }}">
+                            <button class="btn btn-primary">
                                 {{ __("Go") }}
-                            </a>
-                        </button>
+                            </button>
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -52,11 +52,11 @@
                         <h2 class="card-title">{{ __("See all") }}</h2>
                         <p>{{ __("Unbalanced product verification module in store inventories") }}</p>
                         <div class="card-actions">
-                        <button class="btn btn-primary">
-                            <a href="{{ route('module.inventories.admin.stores.seeall') }}">
+                        <a href="{{ route('module.inventories.admin.stores.seeall') }}">
+                            <button class="btn btn-primary">
                                 {{ __("Go") }}
-                            </a>
-                        </button>
+                            </button>
+                        </a>
                         </div>
                     </div>
                 </div>
