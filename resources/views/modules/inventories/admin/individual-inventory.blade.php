@@ -7,8 +7,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col md:flex-row gap-4 items-center overflow-hidden">
-            <div class="bg-white w-full px-4 py-4 overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="flex w-full justify-between">
+            <div class="flex flex-col bg-white w-full px-4 py-4 overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="flex flex-col md:flex-row w-full justify-between">
                     <select class="select select-ghost w-full max-w-xs">
                         <option disabled selected>Sucursales</option>
                         <option>Svelte</option>
@@ -65,6 +65,61 @@
                         </table>
                     </div>
                 </div>
+            </div>
+
+            <div class="flex flex-col w-full px-4 py-4 overflow-hidden items-center">
+            <div class="flex flex-col gap-4">
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ __("Prices") }}</h2>
+                        <div class="form-control">
+                            <label class="input-group">
+                                <span>{{ __("Purchase") }}</span>
+                                <input type="text" placeholder="0.00" class="input input-bordered" />
+                            </label>
+                            <div class="divider"></div>
+                            <div class="form-control">
+                                <label class="input-group">
+                                    <span>{{ __("Sale") }}</span>
+                                    <input type="text" placeholder="0.00" class="input input-bordered" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card-actions w-full">
+                            <button class="btn btn-primary w-full">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ __("Presentations") }}</h2>
+                        <div class="card-actions flex flex-col w-full">
+                            <div class="flex flex-col gap-1 w-full">
+                                <label class="input-group w-full">
+                                    <span>{{ __("Name") }}</span>
+                                    <input type="text" placeholder="Blister" class="input input-bordered" />
+                                </label>
+                                <label class="input-group w-full">
+                                    <span>{{ __("Price") }}</span>
+                                    <input type="text" placeholder="0.00" class="input input-bordered" />
+                                </label>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="flex flex-col gap-1 w-full">
+                                <label class="input-group w-full">
+                                    <span>{{ __("Name") }}</span>
+                                    <input type="text" placeholder="Caja" class="input input-bordered" />
+                                </label>
+                                <label class="input-group w-full">
+                                    <span>{{ __("Price") }}</span>
+                                    <input type="text" placeholder="0.00" class="input input-bordered" />
+                                </label>
+                            </div>
+                            <button class="btn btn-success w-full">{{ __("Save") }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
