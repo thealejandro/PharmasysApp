@@ -67,7 +67,6 @@
                 </div>
             </div>
 
-            <div class="flex flex-col w-full px-4 py-4 overflow-hidden items-center">
             <div class="flex flex-col gap-4">
                 <div class="card bg-base-100 shadow-xl">
                     <div class="card-body">
@@ -90,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow-xl">
                     <div class="card-body">
                         <h2 class="card-title">{{ __("Presentations") }}</h2>
                         <div class="card-actions flex flex-col w-full">
@@ -119,7 +118,24 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ __("Others") }}</h2>
+                        <div class="card-actions flex flex-col w-full">
+                            <div class="flex flex-col gap-1 w-full">
+                                <label class="input-group w-full">
+                                    <span>{{ __("Expiry") }}</span>
+                                    <input type="text" placeholder="mm/aaaa" class="input input-bordered" />
+                                </label>
+                                <label class="input-group w-full">
+                                    <span>{{ __("Stock") }}</span>
+                                    <input type="text" placeholder="0" class="input input-bordered" />
+                                </label>
+                            </div>
+                            <button class="btn btn-success w-full">{{ __("Save") }}</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
