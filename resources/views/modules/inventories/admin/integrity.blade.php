@@ -162,7 +162,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-info w-full">Adjust</button>
+                        <button class="btn btn-error w-full">Return and delete</button>
+                        <button class="btn btn-ghost">Delete</button>
                     </div>
                 </div>
             </div>
@@ -207,28 +208,17 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="flex flex-col md:flex-row gap-3 w-full justify-between">
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">
-                                        Edit quantity registry for shipping
-                                    </span>
-                                </label>
-                                <label class="input-group input-group-md">
-                                    <span>{{ __("Number") }}</span>
-                                    <input type="text" placeholder="0" class="input input-bordered input-md" />
-                                </label>
-                            </div>
-
+                        <div class="flex flex-col md:flex-row md:gap-8 gap-3 w-full items-center justify-center">
                             <div class="stats stats-vertical lg:stats-horizontal shadow">
                                 <div class="stat">
-                                    <div class="stat-title">{{ __("Shipments") }}</div>
-                                    <div class="stat-value">31</div>
+                                    <div class="stat-title">{{ __("Sales") }}</div>
+                                    <div class="stat-value">50</div>
                                     {{-- <div class="stat-desc">Jan 1st - Feb 1st</div> --}}
                                 </div>
                             </div>
+                            <button class="btn btn-error">Return and delete</button>
+                            <button class="btn btn-ghost">Delete</button>
                         </div>
-                        <button class="btn btn-info w-full">Adjust</button>
                     </div>
                 </div>
             </div>
