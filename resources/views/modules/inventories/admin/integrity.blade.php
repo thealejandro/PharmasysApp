@@ -30,33 +30,62 @@
 
             <div class="bg-white w-full overflow-hidden md:px-6 md:py-6 shadow-xl sm:rounded-lg">
                 <div class="flex flex-col md:flex-row w-full">
-                    <div class="overflow-x-auto">
-                        <table class="table w-full">
-                            <!-- head -->
-                            <thead>
-                            <tr>
-                                <th>Codigo</th>
-                                <th>Producto</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- row 1 -->
-                            <tr>
-                                <th>1</th>
-                                <td>Cy Ganderton</td>
-                            </tr>
-                            <!-- row 2 -->
-                            <tr>
-                                <th>2</th>
-                                <td>Hart Hagerty</td>
-                            </tr>
-                            <!-- row 3 -->
-                            <tr>
-                                <th>3</th>
-                                <td>Brice Swyre</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="w-full flex flex-col md:flex-row md:justify-between gap-2">
+                        <div class="overflow-x-auto">
+                            <table class="table w-full">
+                                <!-- head -->
+                                <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Producto</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- row 1 -->
+                                <tr>
+                                    <th>1</th>
+                                    <td>Cy Ganderton</td>
+                                </tr>
+                                <!-- row 2 -->
+                                <tr>
+                                    <th>2</th>
+                                    <td>Hart Hagerty</td>
+                                </tr>
+                                <!-- row 3 -->
+                                <tr>
+                                    <th>3</th>
+                                    <td>Brice Swyre</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex flex-col gap-3 items-center">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">
+                                        Quantity initial after inventory
+                                    </span>
+                                </label>
+                                <label class="input-group input-group-md">
+                                    <span>{{ __("Number") }}</span>
+                                    <input type="text" placeholder="0" class="input input-bordered input-md" />
+                                </label>
+                            </div>
+
+                            <div class="stats stats-vertical lg:stats-horizontal shadow">
+                                <div class="stat">
+                                    <div class="stat-title">{{ __("Current Quantity") }}</div>
+                                    <div class="stat-value">31</div>
+                                    {{-- <div class="stat-desc">Jan 1st - Feb 1st</div> --}}
+                                </div>
+
+                                <div class="stat">
+                                    <div class="stat-title">{{ __("Integrity") }}</div>
+                                    <div class="stat-value">400</div>
+                                    {{-- <div class="stat-desc">↗︎ 400 (22%)</div> --}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
