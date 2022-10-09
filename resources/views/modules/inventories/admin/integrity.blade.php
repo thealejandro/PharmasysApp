@@ -85,6 +85,7 @@
                                     {{-- <div class="stat-desc">↗︎ 400 (22%)</div> --}}
                                 </div>
                             </div>
+                            <button class="btn btn-info w-full">Adjust</button>
                         </div>
                     </div>
                 </div>
