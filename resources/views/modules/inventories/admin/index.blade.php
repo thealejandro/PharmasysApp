@@ -13,7 +13,7 @@
                         <h2 class="card-title">{{ __("Inventories") }}</h2>
                         <p>{{ __("Individual store inventory module") }}</p>
                         <div class="card-actions">
-                        <a href="{{ route('module.inventories.admin.stores.individual') }}">
+                        <a href="{{ route('module.inventories.admin.stores.inventories') }}">
                             <button class="btn btn-primary">
                                 {{ __("Go") }}
                             </button>
