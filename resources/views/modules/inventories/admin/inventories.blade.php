@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col md:flex-row gap-4 justify-center overflow-hidden">
-            <div class="flex flex-col bg-white w-full px-4 py-4 overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="flex flex-col bg-white w-full px-4 py-4 overflow-hidden shadow-lg sm:rounded-lg">
                 <div class="flex flex-col md:flex-row w-full justify-between">
                     <select class="select select-ghost w-full max-w-xs">
                         <option disabled selected>Sucursales</option>
@@ -68,7 +68,16 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <div class="card bg-base-100 shadow-xl">
+                <div class="stats shadow-lg">
+                    <div class="stat place-items-center">
+                        <div class="stat-title">Items</div>
+                        <div class="stat-value">1,235</div>
+                        <div class="stat-actions">
+                            <button class="btn btn-sm btn-secondary">Export inventory</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
                         <h2 class="card-title">{{ __("Prices") }}</h2>
                         <div class="form-control">
@@ -85,11 +94,11 @@
                             </div>
                         </div>
                         <div class="card-actions w-full">
-                            <button class="btn btn-primary w-full">Buy Now</button>
+                            <button class="btn btn-primary w-full">Update</button>
                         </div>
                     </div>
                 </div>
-                <div class="card bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
                         <h2 class="card-title">{{ __("Presentations") }}</h2>
                         <div class="card-actions flex flex-col w-full">
@@ -118,7 +127,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card bg-base-100 shadow-xl">
+                <div class="card bg-base-100 shadow-lg">
                     <div class="card-body">
                         <h2 class="card-title">{{ __("Others") }}</h2>
                         <div class="card-actions flex flex-col w-full">
