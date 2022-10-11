@@ -97,6 +97,7 @@
 
             {{-- Envios --}}
             <div class="bg-white w-full overflow-hidden md:px-6 md:py-6 shadow-xl sm:rounded-lg">
+                <h1 class="font-bold text-center text-2xl">Shipping data</h1>
                 <div class="flex flex-col md:flex-row w-full">
                     <div class="w-full flex flex-col md:justify-between gap-2">
                         <div class="overflow-x-auto">
@@ -172,6 +173,7 @@
 
             {{-- Ventas --}}
             <div class="bg-white w-full overflow-hidden md:px-6 md:py-6 shadow-xl sm:rounded-lg">
+                <h1 class="font-bold text-center text-2xl">Sales data</h1>
                 <div class="flex flex-col md:flex-row w-full">
                     <div class="w-full flex flex-col md:justify-between gap-2">
                         <div class="overflow-x-auto">
