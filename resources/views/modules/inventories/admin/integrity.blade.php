@@ -88,6 +88,8 @@
                                 </div>
                             </div>
                             <button class="btn btn-info w-full">Adjust</button>
+                            <div class="divider"></div>
+                            <button class="btn btn-ghost btn-sm">Export record item</button>
                         </div>
                     </div>
                 </div>
