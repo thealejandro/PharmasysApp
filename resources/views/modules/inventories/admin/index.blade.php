@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col md:flex-row gap-4 items-center overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col md:flex-row gap-4 object-center overflow-hidden">
             {{-- <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"> --}}
                 <div class="flex-1 w-full card bg-base-100 md:shadow-xl shadow-md">
                     <div class="card-body items-center text-center">
