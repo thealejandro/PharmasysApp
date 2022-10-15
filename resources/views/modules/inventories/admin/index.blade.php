@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col md:flex-row gap-4 object-center overflow-hidden">
             {{-- <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"> --}}
-                <div class="flex-1 w-full card bg-base-100 md:shadow-xl shadow-md">
+                <div class="flex-1 w-full card bg-base-100 shadow-md h-56">
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">{{ __("Inventories") }}</h2>
                         <p>{{ __("Individual store inventory module") }}</p>
@@ -34,7 +34,7 @@
                         {{-- </div> --}}
                     {{-- </div> --}}
                 {{-- </div> --}}
-                <div class="flex-1 w-full card bg-base-100 md:shadow-xl shadow-md">
+                <div class="flex-1 w-full card bg-base-100 shadow-md h-56">
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">{{ __("Integrity") }}</h2>
                         <p>{{ __("Integrity module in store inventories") }}</p>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-1 w-full card bg-base-100 md:shadow-xl shadow-md">
+                <div class="flex-1 w-full card bg-base-100 shadow-md h-56">
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">{{ __("See all") }}</h2>
                         <p>{{ __("Unbalanced product verification module in store inventories") }}</p>
