@@ -185,6 +185,7 @@
                                     <th>Fecha Venta</th>
                                     <th>Cantidad</th>
                                     <th>Vendedor</th>
+                                    <th>Monto</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -194,6 +195,7 @@
                                     <td>Cy Ganderton</td>
                                     <td>Cy Ganderton</td>
                                     <td>Cy Ganderton</td>
+                                    <td>Q 100.00</td>
                                 </tr>
                                 <!-- row 2 -->
                                 <tr>
@@ -201,6 +203,7 @@
                                     <td>Hart Hagerty</td>
                                     <td>Cy Ganderton</td>
                                     <td>Cy Ganderton</td>
+                                    <td>Q 100.00</td>
                                 </tr>
                                 <!-- row 3 -->
                                 <tr>
@@ -208,6 +211,7 @@
                                     <td>Brice Swyre</td>
                                     <td>Cy Ganderton</td>
                                     <td>Cy Ganderton</td>
+                                    <td>Q 100.00</td>
                                 </tr>
                                 </tbody>
                             </table>
