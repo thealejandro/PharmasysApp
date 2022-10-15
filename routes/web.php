@@ -94,3 +94,5 @@ Route::view('inventories', 'modules/inventories/admin/index')->name("module.inve
 Route::view('inventories/stores', 'modules/inventories/admin/inventories')->name("module.inventories.admin.stores.inventories");
 Route::view('inventories/stores/integrity', 'modules/inventories/admin/integrity')->name("module.inventories.admin.stores.integrity");
 Route::view('inventories/stores/see-all', 'modules/inventories/admin/see-all')->name("module.inventories.admin.stores.seeall");
+
+Route::view('purchases', 'modules/purchases/admin/index')->name("module.purchases.index");
