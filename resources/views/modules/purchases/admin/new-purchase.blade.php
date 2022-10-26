@@ -86,18 +86,18 @@
                 <div class="flex-1 flex flex-col gap-4">
                     <div class="card bg-base-100 shadow-lg">
                         <div class="card-body">
-                            <h2 class="card-title">{{ __("Location") }}</h2>
+                            <h2 class="card-title">{{ __("Ingreso") }}</h2>
                             <div class="form-control gap-2">
                                 <label class="input-group">
-                                    <span>{{ __("Estante") }}</span>
+                                    <span>{{ __("Cantidad de compra") }}</span>
                                     <input type="text" placeholder="0" class="input input-bordered" />
                                 </label>
                                 <label class="input-group">
-                                    <span>{{ __("Nivel") }}</span>
+                                    <span>{{ __("Precio unidad de compra") }}</span>
                                     <input type="text" placeholder="0" class="input input-bordered" />
                                 </label>
                                 <label class="input-group">
-                                    <span>{{ __("Caja") }}</span>
+                                    <span>{{ __("Precio unidad de venta") }}</span>
                                     <input type="text" placeholder="0" class="input input-bordered" />
                                 </label>
                             </div>
@@ -109,22 +109,49 @@
 
                     <div class="card bg-base-100 shadow-lg">
                         <div class="card-body">
-                            <h2 class="card-title">{{ __("Prices") }}</h2>
-                            <div class="form-control">
-                                <label class="input-group">
-                                    <span>{{ __("Purchase") }}</span>
-                                    <input type="text" placeholder="0.00" class="input input-bordered" />
-                                </label>
-                                <div class="divider"></div>
-                                <div class="form-control">
-                                    <label class="input-group">
-                                        <span>{{ __("Sale") }}</span>
+                            <h2 class="card-title">{{ __("Presentations") }}</h2>
+                            <div class="card-actions flex flex-col w-full">
+                                <div class="flex flex-col gap-1 w-full">
+                                    <label class="input-group w-full">
+                                        <span>{{ __("Name") }}</span>
+                                        <input type="text" placeholder="Blister" class="input input-bordered" />
+                                    </label>
+                                    <label class="input-group w-full">
+                                        <span>{{ __("Price") }}</span>
                                         <input type="text" placeholder="0.00" class="input input-bordered" />
                                     </label>
                                 </div>
+                                <div class="divider"></div>
+                                <div class="flex flex-col gap-1 w-full">
+                                    <label class="input-group w-full">
+                                        <span>{{ __("Name") }}</span>
+                                        <input type="text" placeholder="Caja" class="input input-bordered" />
+                                    </label>
+                                    <label class="input-group w-full">
+                                        <span>{{ __("Price") }}</span>
+                                        <input type="text" placeholder="0.00" class="input input-bordered" />
+                                    </label>
+                                </div>
+                                <button class="btn btn-success w-full">{{ __("Save") }}</button>
                             </div>
-                            <div class="card-actions w-full">
-                                <button class="btn btn-primary w-full">Update</button>
+                        </div>
+                    </div>
+
+                    <div class="card bg-base-100 shadow-lg">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ __("Others") }}</h2>
+                            <div class="card-actions flex flex-col w-full">
+                                <div class="flex flex-col gap-1 w-full">
+                                    <label class="input-group w-full">
+                                        <span>{{ __("Expiry") }}</span>
+                                        <input type="text" placeholder="mm/aaaa" class="input input-bordered" />
+                                    </label>
+                                    <label class="input-group w-full">
+                                        <span>{{ __("Stock") }}</span>
+                                        <input type="text" placeholder="0" class="input input-bordered" />
+                                    </label>
+                                </div>
+                                <button class="btn btn-success w-full">{{ __("Save") }}</button>
                             </div>
                         </div>
                     </div>
