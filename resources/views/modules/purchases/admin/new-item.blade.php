@@ -61,9 +61,11 @@
                             </select>
                         </div>
 
-                        <div class="card-actions w-full">
+                        {{-- Desactivado visualmente temporalmente --}}
+                        
+                        {{-- <div class="card-actions w-full">
                             <button class="btn btn-primary w-full">Update</button>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
