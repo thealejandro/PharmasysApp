@@ -117,6 +117,10 @@
                                         <input type="text" placeholder="Blister" class="input input-bordered" />
                                     </label>
                                     <label class="input-group w-full">
+                                        <span>{{ __("Quantity") }}</span>
+                                        <input type="text" placeholder="0" class="input input-bordered" />
+                                    </label>
+                                    <label class="input-group w-full">
                                         <span>{{ __("Price") }}</span>
                                         <input type="text" placeholder="0.00" class="input input-bordered" />
                                     </label>
@@ -126,6 +130,10 @@
                                     <label class="input-group w-full">
                                         <span>{{ __("Name") }}</span>
                                         <input type="text" placeholder="Caja" class="input input-bordered" />
+                                    </label>
+                                    <label class="input-group w-full">
+                                        <span>{{ __("Quantity") }}</span>
+                                        <input type="text" placeholder="0" class="input input-bordered" />
                                     </label>
                                     <label class="input-group w-full">
                                         <span>{{ __("Price") }}</span>
