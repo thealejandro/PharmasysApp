@@ -101,9 +101,6 @@
                                     <input type="text" placeholder="0" class="input input-bordered" />
                                 </label>
                             </div>
-                            <div class="card-actions w-full">
-                                <button class="btn btn-primary w-full">Update</button>
-                            </div>
                         </div>
                     </div>
 
@@ -140,7 +137,6 @@
                                         <input type="text" placeholder="0.00" class="input input-bordered" />
                                     </label>
                                 </div>
-                                <button class="btn btn-success w-full">{{ __("Save") }}</button>
                             </div>
                         </div>
                     </div>
@@ -159,10 +155,11 @@
                                         <input type="text" placeholder="0" class="input input-bordered" />
                                     </label>
                                 </div>
-                                <button class="btn btn-success w-full">{{ __("Save") }}</button>
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-success w-full">{{ __("Save") }}</button>
                 </div>
             </div>
         </div>

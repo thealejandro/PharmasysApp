@@ -62,7 +62,7 @@
                         </div>
 
                         {{-- Desactivado visualmente temporalmente --}}
-                        
+
                         {{-- <div class="card-actions w-full">
                             <button class="btn btn-primary w-full">Update</button>
                         </div> --}}
@@ -85,10 +85,6 @@
                                 <span>{{ __("Precio unidad de venta") }}</span>
                                 <input type="text" placeholder="0" class="input input-bordered" />
                             </label>
-                        </div>
-
-                        <div class="card-actions w-full">
-                            <button class="btn btn-primary w-full">Update</button>
                         </div>
                     </div>
                 </div>
@@ -119,9 +115,6 @@
                                 <input type="text" placeholder="0.00" class="input input-bordered" />
                             </label>
                         </div>
-                        <div class="card-actions flex flex-col w-full">
-                            <button class="btn btn-success w-full">{{ __("Save") }}</button>
-                        </div>
                     </div>
                 </div>
 
@@ -138,12 +131,13 @@
                                 <input type="text" placeholder="0" class="input input-bordered" />
                             </label>
                         </div>
-                        <div class="card-actions flex flex-col w-full">
-                            <button class="btn btn-success w-full">{{ __("Save") }}</button>
-                        </div>
                     </div>
                 </div>
             </div>
+
+            {{-- <div class="card-actions flex flex-col w-full"> --}}
+                <button class="btn btn-success w-full">{{ __("Save") }}</button>
+            {{-- </div> --}}
         </div>
     </div>
 </x-app-layout>
