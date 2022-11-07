@@ -1,0 +1,15 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Credits Phone') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 object-center overflow-hidden">
+            <div class="flex flex-col w-full md:flex-row gap-4 overflow-hidden py-5 mx-auto">
+                
+            </div>
+        </div>
+    </div>
+</x-app-layout>
