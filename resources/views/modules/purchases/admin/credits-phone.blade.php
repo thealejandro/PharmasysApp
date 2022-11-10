@@ -100,7 +100,7 @@
                             <input type="text" placeholder="Escriba alguna descripcion..." class="input input-bordered w-full max-w-xs" />
                         </div>
                     </div>
-                    <button class="btn btn-info">
+                    <button class="btn btn-info w-full">
                         Save
                     </button>
 
@@ -108,7 +108,80 @@
                 {{-- </div> --}}
             </div>
 
-            <div class="flex-1 flex flex-col bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex-1 flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
+                <div class="flex flex-col gap-4 md:gap-6 w-full overflow-hidden items-center justify-center p-5">
+                        <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
+                            {{-- sucursal --}}
+                            <div class="flex-1 form-control justify-center">
+                                <label class="label">
+                                    <span class="label-text-alt">Sucursal</span>
+                                </label>
+                                <select class="select select-bordered">
+                                    <option disabled selected>Seleccione una sucursal</option>
+                                    <option>Star Wars</option>
+                                    <option>Harry Potter</option>
+                                    <option>Lord of the Rings</option>
+                                    <option>Planet of the Apes</option>
+                                    <option>Star Trek</option>
+                                </select>
+                            </div>
+
+                            {{-- telefonia --}}
+                            <div class="flex-1 form-control justify-center">
+                                <label class="label">
+                                    <span class="label-text-alt">Telefonia</span>
+                                </label>
+                                <select class="select select-bordered">
+                                    <option disabled selected>Seleccione una telefonia</option>
+                                    <option>Star Wars</option>
+                                    <option>Harry Potter</option>
+                                    <option>Lord of the Rings</option>
+                                    <option>Planet of the Apes</option>
+                                    <option>Star Trek</option>
+                                </select>
+                            </div>
+
+                            {{-- telefono --}}
+                            <div class="flex-1 form-control justify-center">
+                                <label class="label">
+                                    <span class="label-text-alt">Telefono</span>
+                                </label>
+                                <select class="select select-bordered">
+                                    <option disabled selected>Seleccione un telefono</option>
+                                    <option>Star Wars</option>
+                                    <option>Harry Potter</option>
+                                    <option>Lord of the Rings</option>
+                                    <option>Planet of the Apes</option>
+                                    <option>Star Trek</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
+                            {{-- fecha --}}
+                            <div class="flex-1 form-control justify-center">
+                                <label class="label">
+                                    <span class="label-text">Desde</span>
+                                </label>
+                                <input type="date" class="input input-bordered w-full max-w-xs" />
+                            </div>
+
+                            {{-- fecha --}}
+                            <div class="flex-1 form-control justify-center">
+                                <label class="label">
+                                    <span class="label-text">Hasta</span>
+                                </label>
+                                <input type="date" class="input input-bordered w-full max-w-xs" />
+                            </div>
+
+                            <div class="flex-1 text-center">
+                                <button class="btn btn-info">
+                                    search
+                                </button>
+                            </div>
+                        </div>
+                </div>
+
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         <!-- head -->
