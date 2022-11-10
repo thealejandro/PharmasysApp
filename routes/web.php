@@ -100,3 +100,5 @@ Route::view('purchases/new', 'modules/purchases/admin/new-purchase')->name("modu
 Route::view('items/new', 'modules/purchases/admin/new-item')->name("module.items.new.item");
 Route::view('purchases/record', 'modules/purchases/admin/records')->name("module.purchases.records.purchases");
 Route::view('purchases/credits', 'modules/purchases/admin/credits-phone')->name("module.purchases.credits.phones.purchase");
+
+Route::view('market', 'modules/market/admin/index')->name("module.market.admin.index");
