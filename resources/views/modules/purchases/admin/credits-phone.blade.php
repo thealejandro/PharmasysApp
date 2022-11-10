@@ -8,8 +8,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
             <div class="flex flex-col gap-4 md:gap-6 bg-white w-full overflow-hidden items-center justify-center p-5 shadow-md sm:rounded-lg">
-                {{-- <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-center"> --}}
-
                     <h1 class="card-title">Compra de Saldo</h1>
 
                     <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
@@ -103,9 +101,6 @@
                     <button class="btn btn-info w-full">
                         Save
                     </button>
-
-
-                {{-- </div> --}}
             </div>
 
             <div class="flex-1 flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
