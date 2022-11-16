@@ -28,7 +28,12 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('module.market.admin.index') }}" :active="request()->routeIs('module.market.admin.index')">
-                        {{ __('Market') }}
+                        {{ __('Market Admin') }}
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('module.market.seller.index') }}" :active="request()->routeIs('module.market.seller.index')">
+                        {{ __('Market Seller') }}
                     </x-jet-nav-link>
                 </div>
             </div>
@@ -162,7 +167,10 @@
                 {{ __("Purchases") }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('module.market.admin.index') }}" :active="request()->routeIs('module.market.admin.index')">
-                {{ __("Market") }}
+                {{ __("Market Admin") }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('module.market.seller.index') }}" :active="request()->routeIs('module.market.seller.index')">
+                {{ __("Market Seller") }}
             </x-jet-responsive-nav-link>
         </div>
 
