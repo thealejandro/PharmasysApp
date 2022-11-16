@@ -68,6 +68,30 @@
                         </button>
                     </div>
                 </div>
+                
+                <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center bg-slate-300 py-4 rounded-2xl">
+                    <div class="flex-1 form-control w-full max-w-xs">
+                        <label class="label">
+                            <span class="label-text">NIT de cliente</span>
+                            <span class="label-text-alt">CF: por defecto</span>
+                        </label>
+                        <input type="text" placeholder="CF" class="input input-bordered w-full max-w-xs" />
+                    </div>
+                    <div class="flex-1 form-control w-full max-w-xs">
+                        <label class="label">
+                            <span class="label-text">Nombre de cliente</span>
+                            <span class="label-text-alt">Consumidor Final: por defecto</span>
+                        </label>
+                        <input type="text" placeholder="Consumidor Final" class="input input-bordered w-full max-w-xs" />
+                    </div>
+                    <div class="flex-1 form-control w-full max-w-xs">
+                        <label class="label">
+                            <span class="label-text">Direccion de cliente</span>
+                            <span class="label-text-alt">Ciudad: por defecto</span>
+                        </label>
+                        <input type="text" placeholder="Ciudad" class="input input-bordered w-full max-w-xs" />
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
