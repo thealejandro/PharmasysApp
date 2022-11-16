@@ -1,14 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Sell') }}
+            {{ __('Market Warehouse') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
             <div class="flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md overflow-hidden items-center justify-center sm:rounded-lg">
-
 
                 <div id="choose-items-modal" class="modal w-full items-start pt-10">
                     <div class="modal-box md:w-2/3 w-[90%] h-[90%] max-w-full">
@@ -18,6 +17,9 @@
                         {{-- {{ $actions ?? '' }} --}}
                         <a href="#" class="btn btn-circle bg-red-700">X</a>
                     </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center">
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center">
