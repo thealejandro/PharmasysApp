@@ -50,10 +50,17 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 text-center hover:bg-slate-200 hover:rounded-full p-3">
-                        <div class="form-control gap-2">
+                    <div class="flex-1 text-center">
+                        <div class="form-control gap-2 hover:bg-slate-200 hover:rounded-full p-3">
                             <label class="cursor-pointer label">
                                 <span class="label-text">Generar factura</span>
+                                <input type="checkbox" class="checkbox checkbox-info" />
+                            </label>
+                        </div>
+                        
+                        <div class="form-control gap-2 hover:bg-slate-200 hover:rounded-full p-3">
+                            <label class="cursor-pointer label">
+                                <span class="label-text">Generar comprobante</span>
                                 <input type="checkbox" checked="checked" class="checkbox checkbox-info" />
                             </label>
                         </div>
@@ -68,7 +75,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center bg-slate-300 py-4 rounded-2xl">
                     <div class="flex-1 form-control w-full max-w-xs">
                         <label class="label">
@@ -91,6 +98,10 @@
                         </label>
                         <input type="text" placeholder="Ciudad" class="input input-bordered w-full max-w-xs" />
                     </div>
+
+                    <button class="btn btn-info">
+                        Consultar NIT
+                    </button>
                 </div>
             </div>
 
