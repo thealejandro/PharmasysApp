@@ -22,7 +22,7 @@
                 {{-- Final de modal --}}
 
                 <div class="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-16 px-4 w-full items-center justify-center">
-                    <div class="form-control w-full max-w-xs">
+                    <div class="flex-1 form-control w-full max-w-xs">
                         <label class="label">
                             <span class="label-text">Seleccione alguna sucursal</span>
                         </label>
@@ -43,10 +43,6 @@
                             </button>
                         </a>
                     </div>
-
-                    <button class="btn btn-secondary">
-                        Guardar copia de seguridad
-                    </button>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center">
@@ -57,20 +53,6 @@
                                 <div class="stat-title">Total</div>
                                 <div class="stat-value text-primary">Q0.00</div>
                             </div>
-
-                            <div class="stat place-items-center">
-                                <div class="stat-title">Registro de envio</div>
-                                <div class="stat-value text-secondary">400</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 text-center hover:bg-slate-200 hover:rounded-full p-3">
-                        <div class="form-control">
-                            <label class="cursor-pointer label gap-6">
-                                <span class="label-text">Generar factura</span>
-                                <input type="checkbox" checked="checked" class="checkbox checkbox-info" />
-                            </label>
                         </div>
                     </div>
 

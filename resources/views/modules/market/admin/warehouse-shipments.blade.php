@@ -27,7 +27,21 @@
                             <span class="label-text">Seleccione alguna sucursal</span>
                         </label>
                         <select class="select select-bordered">
-                            <option disabled selected>Sucursal a enviar</option>
+                            <option disabled selected>Sucursal a retirar</option>
+                            <option>Star Wars</option>
+                            <option>Harry Potter</option>
+                            <option>Lord of the Rings</option>
+                            <option>Planet of the Apes</option>
+                            <option>Star Trek</option>
+                        </select>
+                    </div>
+
+                    <div class="form-control w-full max-w-xs">
+                        <label class="label">
+                            <span class="label-text">Seleccione alguna sucursal</span>
+                        </label>
+                        <select class="select select-bordered">
+                            <option disabled selected>Sucursal a recibir</option>
                             <option>Star Wars</option>
                             <option>Harry Potter</option>
                             <option>Lord of the Rings</option>
@@ -43,10 +57,6 @@
                             </button>
                         </a>
                     </div>
-
-                    <button class="btn btn-secondary">
-                        Guardar copia de seguridad
-                    </button>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center">
@@ -65,46 +75,18 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 text-center hover:bg-slate-200 hover:rounded-full p-3">
-                        <div class="form-control">
-                            <label class="cursor-pointer label gap-6">
-                                <span class="label-text">Generar factura</span>
-                                <input type="checkbox" checked="checked" class="checkbox checkbox-info" />
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="flex-1 flex flex-row gap-4 md:gap-8 justify-center">
+                    <div class="flex-1 flex flex-row gap-4 md:gap-10 justify-center">
                         <button class="btn btn-primary text-white">
-                            Vender
+                            Enviar
                         </button>
+
+                        <button class="btn btn-secondary text-white">
+                            Imprimir
+                        </button>
+
                         <button class="btn btn-error text-white">
                             Cancelar
                         </button>
-                    </div>
-                </div>
-
-                <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center bg-slate-300 py-4 rounded-2xl">
-                    <div class="flex-1 form-control w-full max-w-xs">
-                        <label class="label">
-                            <span class="label-text">NIT de cliente</span>
-                            <span class="label-text-alt">CF: por defecto</span>
-                        </label>
-                        <input type="text" placeholder="CF" class="input input-bordered w-full max-w-xs" />
-                    </div>
-                    <div class="flex-1 form-control w-full max-w-xs">
-                        <label class="label">
-                            <span class="label-text">Nombre de cliente</span>
-                            <span class="label-text-alt">Consumidor Final: por defecto</span>
-                        </label>
-                        <input type="text" placeholder="Consumidor Final" class="input input-bordered w-full max-w-xs" />
-                    </div>
-                    <div class="flex-1 form-control w-full max-w-xs">
-                        <label class="label">
-                            <span class="label-text">Direccion de cliente</span>
-                            <span class="label-text-alt">Ciudad: por defecto</span>
-                        </label>
-                        <input type="text" placeholder="Ciudad" class="input input-bordered w-full max-w-xs" />
                     </div>
                 </div>
             </div>
