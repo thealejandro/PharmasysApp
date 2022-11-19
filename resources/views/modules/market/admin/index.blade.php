@@ -12,9 +12,9 @@
                     <div class="flex-1 w-full card bg-base-100 shadow-md">
                         <div class="card-body items-center text-center">
                             <h2 class="card-title">{{ __("Invoicing") }}</h2>
-                            <p>{{ __("Module to register new purchase invoices") }}</p>
+                            <p>{{ __("Module generate invoices") }}</p>
                             <div class="card-actions">
-                            <a href="{{ route('module.purchases.new.purchase') }}">
+                            <a href="{{ route('module.market.admin.warehouse.invoicing') }}">
                                 <button class="btn btn-primary">
                                     {{ __("Go") }}
                                 </button>
@@ -39,10 +39,10 @@
 
                     <div class="flex-1 w-full card bg-base-100 shadow-md">
                         <div class="card-body items-center text-center">
-                            <h2 class="card-title">{{ __("Records") }}</h2>
-                            <p>{{ __("Integrity module in store inventories") }}</p>
+                            <h2 class="card-title">{{ __("All Records") }}</h2>
+                            <p>{{ __("Records all") }}</p>
                             <div class="card-actions">
-                            <a href="{{ route('module.purchases.records.purchases') }}">
+                            <a href="{{ route('module.market.admin.warehouse.records') }}">
                                 <button class="btn btn-primary">
                                     {{ __("Go") }}
                                 </button>
