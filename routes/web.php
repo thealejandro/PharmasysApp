@@ -103,3 +103,6 @@ Route::view('purchases/credits', 'modules/purchases/admin/credits-phone')->name(
 
 Route::view('market/warehouse', 'modules/market/admin/index')->name("module.market.admin.index");
 Route::view('market', 'modules/market/seller/index')->name("module.market.seller.index");
+Route::view('market/warehouse/shipments', 'modules/market/admin/warehouse-shipments')->name("module.market.admin.warehouse.shipments");
+Route::view('market/warehouse/records', 'modules/market/admin/records')->name("module.market.admin.warehouse.records");
+Route::view('market/warehouse/invoicing', 'modules/market/admin/invoicing')->name("module.market.admin.warehouse.invoicing");
