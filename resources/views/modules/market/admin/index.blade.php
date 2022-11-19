@@ -26,9 +26,9 @@
                     <div class="flex-1 w-full card bg-base-100 shadow-md">
                         <div class="card-body items-center text-center">
                             <h2 class="card-title">{{ __("Warehouse Shipments") }}</h2>
-                            <p>{{ __("General store inventory module") }}</p>
+                            <p>{{ __("Shipments warehouse module") }}</p>
                             <div class="card-actions">
-                            <a href="{{ route('module.items.new.item') }}">
+                            <a href="{{ route('module.market.admin.warehouse.shipments') }}">
                                 <button class="btn btn-primary">
                                     {{ __("Go") }}
                                 </button>
