@@ -9,7 +9,6 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
             <div class="flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md overflow-hidden items-center justify-center sm:rounded-lg">
 
-
                 <div id="choose-items-modal" class="modal w-full items-start pt-10">
                     <div class="modal-box md:w-2/3 w-[90%] h-[90%] max-w-full">
                         {{-- {{ $content ?? '' }} --}}
@@ -57,7 +56,7 @@
                                 <input type="checkbox" class="checkbox checkbox-info" />
                             </label>
                         </div>
-                        
+
                         <div class="form-control gap-2 hover:bg-slate-200 hover:rounded-full p-3">
                             <label class="cursor-pointer label">
                                 <span class="label-text">Generar comprobante</span>
@@ -72,6 +71,9 @@
                         </button>
                         <button class="btn btn-error text-white">
                             Cancelar
+                        </button>
+                        <button class="btn btn-info text-white">
+                            Imprimir
                         </button>
                     </div>
                 </div>

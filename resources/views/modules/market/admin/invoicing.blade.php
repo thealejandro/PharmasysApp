@@ -57,11 +57,18 @@
                     </div>
 
                     <div class="flex-1 flex flex-row gap-4 md:gap-8 justify-center">
-                        <button class="btn btn-primary text-white">
-                            Vender
+                        <button class="btn btn-success text-white">
+                            Enviar
                         </button>
                         <button class="btn btn-error text-white">
                             Cancelar
+                        </button>
+                        <button class="btn btn-info text-white">
+                            Imprimir
+                        </button>
+                        <br>
+                        <button class="btn btn-warning text-white">
+                            Reporte de faltantes
                         </button>
                     </div>
                 </div>
@@ -88,6 +95,10 @@
                         </label>
                         <input type="text" placeholder="Ciudad" class="input input-bordered w-full max-w-xs" />
                     </div>
+
+                    <button class="btn btn-info">
+                        Consultar NIT
+                    </button>
                 </div>
             </div>
 
