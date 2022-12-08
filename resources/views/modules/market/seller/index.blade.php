@@ -75,6 +75,12 @@
                         <button class="btn btn-info text-white">
                             Imprimir
                         </button>
+                        <br>
+                        <a href="{{ route("module.market.seller.invoice.record") }}">
+                            <button class="btn btn-sm btn-accent text-white">
+                                Registro de facturas
+                            </button>
+                        </a>
                     </div>
                 </div>
 
