@@ -106,3 +106,4 @@ Route::view('market', 'modules/market/seller/index')->name("module.market.seller
 Route::view('market/warehouse/shipments', 'modules/market/admin/warehouse-shipments')->name("module.market.admin.warehouse.shipments");
 Route::view('market/warehouse/records', 'modules/market/admin/records')->name("module.market.admin.warehouse.records");
 Route::view('market/warehouse/invoicing', 'modules/market/admin/invoicing')->name("module.market.admin.warehouse.invoicing");
+Route::view('market/invoice/record', 'modules/market/seller/recordOfInvoices')->name("module.market.seller.invoice.record");
