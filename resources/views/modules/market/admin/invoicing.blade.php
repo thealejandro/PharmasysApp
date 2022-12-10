@@ -56,21 +56,39 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 flex flex-row gap-4 md:gap-8 justify-center">
+                    <div class="flex-1 text-center">
+                        <div class="form-control gap-2 hover:bg-slate-200 hover:rounded-full p-3">
+                            <label class="cursor-pointer label">
+                                <span class="label-text">Generar factura</span>
+                                <input type="checkbox" class="checkbox checkbox-info" />
+                            </label>
+                        </div>
+
+                        <div class="form-control gap-2 hover:bg-slate-200 hover:rounded-full p-3">
+                            <label class="cursor-pointer label">
+                                <span class="label-text">Generar comprobante</span>
+                                <input type="checkbox" checked="checked" class="checkbox checkbox-info" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 flex md:flex-col flex-row gap-4 md:gap-6 items-center">
                         <button class="btn btn-success text-white">
                             Enviar
                         </button>
                         <button class="btn btn-error text-white">
                             Cancelar
                         </button>
+                    </div>
+                    <div class="flex-1 flex md:flex-col flex-row gap-4 md:gap-6 items-center">
                         <button class="btn btn-info text-white">
                             Imprimir
                         </button>
-                        <br>
                         <button class="btn btn-warning text-white">
                             Reporte de faltantes
                         </button>
                     </div>
+
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center bg-slate-300 py-4 rounded-2xl">
