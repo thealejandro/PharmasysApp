@@ -109,3 +109,7 @@ Route::view('market/warehouse/invoicing', 'modules/market/admin/invoicing')->nam
 Route::view('market/invoice/record', 'modules/market/seller/recordOfInvoices')->name("module.market.seller.invoice.record");
 
 Route::view('admin/settings/editOrAdd', 'modules/edit/index')->name("module.settings.editoradd.index");
+Route::view('admin/settings/editOrAdd/users', 'modules/edit/users/index')->name("module.settings.editoradd.users.index");
+Route::view('admin/settings/editOrAdd/inventories', 'modules/edit/inventories/index')->name("module.settings.editoradd.inventories.index");
+Route::view('admin/settings/editOrAdd/items', 'modules/edit/items/index')->name("module.settings.editoradd.items.index");
+Route::view('admin/settings/editOrAdd/telephonies', 'modules/edit/telephonies/index')->name("module.settings.editoradd.telephonies.index");

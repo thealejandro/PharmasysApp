@@ -22,19 +22,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="flex-1 w-full card bg-base-100 md:shadow-xl shadow-md"> --}}
-                    {{-- <div class="card-body items-center text-center"> --}}
-                        {{-- <h2 class="card-title">{{ __("Overall Inventory") }}</h2> --}}
-                        {{-- <p>{{ __("General store inventory module") }}</p> --}}
-                        {{-- <div class="card-actions"> --}}
-                        {{-- <a href="{{ route('module.inventories.admin.stores.overall') }}"> --}}
-                            {{-- <button class="btn btn-primary"> --}}
-                                {{-- {{ __("Go") }} --}}
-                            {{-- </button> --}}
-                        {{-- </a> --}}
-                        {{-- </div> --}}
-                    {{-- </div> --}}
-                {{-- </div> --}}
+
                 <div class="flex-1 w-full card bg-base-100 shadow-md h-56">
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">{{ __("Integrity") }}</h2>
@@ -48,6 +36,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="flex-1 w-full card bg-base-100 shadow-md h-56">
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">{{ __("See all") }}</h2>
