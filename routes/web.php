@@ -101,11 +101,11 @@ Route::view('items/new', 'modules/purchases/admin/new-item')->name("module.items
 Route::view('purchases/record', 'modules/purchases/admin/records')->name("module.purchases.records.purchases");
 Route::view('purchases/credits', 'modules/purchases/admin/credits-phone')->name("module.purchases.credits.phones.purchase");
 
-Route::view('market/warehouse', 'modules/market/admin/index')->name("module.market.admin.index");
+Route::view('warehouse', 'modules/market/admin/index')->name("module.market.admin.index");
 Route::view('market', 'modules/market/seller/index')->name("module.market.seller.index");
-Route::view('market/warehouse/shipments', 'modules/market/admin/warehouse-shipments')->name("module.market.admin.warehouse.shipments");
-Route::view('market/warehouse/records', 'modules/market/admin/records')->name("module.market.admin.warehouse.records");
-Route::view('market/warehouse/invoicing', 'modules/market/admin/invoicing')->name("module.market.admin.warehouse.invoicing");
+Route::view('warehouse/shipments', 'modules/market/admin/warehouse-shipments')->name("module.market.admin.warehouse.shipments");
+Route::view('warehouse/records', 'modules/market/admin/records')->name("module.market.admin.warehouse.records");
+Route::view('warehouse/invoicing', 'modules/market/admin/invoicing')->name("module.market.admin.warehouse.invoicing");
 Route::view('market/invoice/record', 'modules/market/seller/recordOfInvoices')->name("module.market.seller.invoice.record");
 
 Route::view('admin/settings/editOrAdd', 'modules/edit/index')->name("module.settings.editoradd.index");
@@ -113,3 +113,5 @@ Route::view('admin/settings/editOrAdd/users', 'modules/edit/users/index')->name(
 Route::view('admin/settings/editOrAdd/inventories', 'modules/edit/inventory/index')->name("module.settings.editoradd.inventories.index");
 Route::view('admin/settings/editOrAdd/items', 'modules/edit/items/index')->name("module.settings.editoradd.items.index");
 Route::view('admin/settings/editOrAdd/telephonies', 'modules/edit/telephonies/index')->name("module.settings.editoradd.telephonies.index");
+
+Route::view('market/settlement', 'modules/settlements/index')->name("module.market.admin.settlements.index");
