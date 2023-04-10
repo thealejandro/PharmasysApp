@@ -115,3 +115,6 @@ Route::view('admin/settings/editOrAdd/items', 'modules/edit/items/index')->name(
 Route::view('admin/settings/editOrAdd/telephonies', 'modules/edit/telephonies/index')->name("module.settings.editoradd.telephonies.index");
 
 Route::view('market/settlement', 'modules/settlements/index')->name("module.market.admin.settlements.index");
+
+Route::view('items/expiration', 'modules/expirations/seller/index')->name("module.market.seller.expirations.items");
+Route::view('market/expiration/items', 'modules/expirations/admin/index')->name("module.market.admin.expirations.items");
