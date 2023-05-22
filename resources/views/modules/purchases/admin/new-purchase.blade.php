@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Register New Purchase') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
-            <div class="flex flex-col md:flex-row gap-4 md:gap-6 bg-white w-full overflow-hidden items-center justify-center p-5 shadow-md sm:rounded-lg">
-                {{-- <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-center"> --}}
+        <div class="flex flex-col object-center gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8 md:gap-6">
+            <div class="flex flex-col items-center justify-center w-full gap-4 p-5 overflow-hidden bg-white shadow-md md:flex-row md:gap-6 sm:rounded-lg">
+
                     {{-- proveedor --}}
                     <div class="flex-1 form-control">
                         <label class="label">
@@ -25,9 +25,9 @@
                     </div>
 
                     {{-- switch factura contable --}}
-                    <div class="flex-1 flex justify-center">
+                    <div class="flex justify-center flex-1">
                         <div class="form-control">
-                            <label class="label gap-2 cursor-pointer">
+                            <label class="gap-2 cursor-pointer label">
                                 <span class="label-text">Factura contable</span>
                                 <input type="checkbox" class="toggle" checked />
                             </label>
@@ -39,7 +39,7 @@
                         <label class="label">
                             <span class="label-text">Numero de factura</span>
                         </label>
-                        <input type="text" placeholder="Numero de factura" class="input input-bordered w-full max-w-xs" />
+                        <input type="text" placeholder="Numero de factura" class="w-full max-w-xs input input-bordered" />
                     </div>
 
                     {{-- fecha --}}
@@ -47,12 +47,11 @@
                         <label class="label">
                             <span class="label-text">Fecha de factura</span>
                         </label>
-                        <input type="date" class="input input-bordered w-full max-w-xs" />
+                        <input type="date" class="w-full max-w-xs input input-bordered" />
                     </div>
-                {{-- </div> --}}
             </div>
-            <div class="flex flex-col md:flex-row gap-4 md:gap-5 w-full">
-                <div class="flex-1 flex flex-col bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex flex-col w-full gap-4 md:flex-row md:gap-5">
+                <div class="flex flex-col flex-1 p-5 overflow-hidden bg-white shadow-md sm:rounded-lg">
                     <div class="overflow-x-auto">
                         <table class="table w-full">
                             <!-- head -->
@@ -83,11 +82,11 @@
                     </div>
                 </div>
 
-                <div class="flex-1 flex flex-col gap-4">
-                    <div class="card bg-base-100 shadow-lg">
+                <div class="flex flex-col flex-1 gap-4">
+                    <div class="shadow-lg card bg-base-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ __("Ingreso") }}</h2>
-                            <div class="form-control gap-2">
+                            <div class="gap-2 form-control">
                                 <label class="input-group">
                                     <span>{{ __("Cantidad de compra") }}</span>
                                     <input type="text" placeholder="0" class="input input-bordered" />
@@ -104,35 +103,35 @@
                         </div>
                     </div>
 
-                    <div class="card bg-base-100 shadow-lg">
+                    <div class="shadow-lg card bg-base-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ __("Presentations") }}</h2>
-                            <div class="card-actions flex flex-col w-full">
-                                <div class="flex flex-col gap-1 w-full">
-                                    <label class="input-group w-full">
+                            <div class="flex flex-col w-full card-actions">
+                                <div class="flex flex-col w-full gap-1">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Name") }}</span>
                                         <input type="text" placeholder="Blister" class="input input-bordered" />
                                     </label>
-                                    <label class="input-group w-full">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Quantity") }}</span>
                                         <input type="text" placeholder="0" class="input input-bordered" />
                                     </label>
-                                    <label class="input-group w-full">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Price") }}</span>
                                         <input type="text" placeholder="0.00" class="input input-bordered" />
                                     </label>
                                 </div>
                                 <div class="divider"></div>
-                                <div class="flex flex-col gap-1 w-full">
-                                    <label class="input-group w-full">
+                                <div class="flex flex-col w-full gap-1">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Name") }}</span>
                                         <input type="text" placeholder="Caja" class="input input-bordered" />
                                     </label>
-                                    <label class="input-group w-full">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Quantity") }}</span>
                                         <input type="text" placeholder="0" class="input input-bordered" />
                                     </label>
-                                    <label class="input-group w-full">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Price") }}</span>
                                         <input type="text" placeholder="0.00" class="input input-bordered" />
                                     </label>
@@ -141,16 +140,16 @@
                         </div>
                     </div>
 
-                    <div class="card bg-base-100 shadow-lg">
+                    <div class="shadow-lg card bg-base-100">
                         <div class="card-body">
                             <h2 class="card-title">{{ __("Others") }}</h2>
-                            <div class="card-actions flex flex-col w-full">
-                                <div class="flex flex-col gap-1 w-full">
-                                    <label class="input-group w-full">
+                            <div class="flex flex-col w-full card-actions">
+                                <div class="flex flex-col w-full gap-1">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Expiry") }}</span>
                                         <input type="text" placeholder="mm/aaaa" class="input input-bordered" />
                                     </label>
-                                    <label class="input-group w-full">
+                                    <label class="w-full input-group">
                                         <span>{{ __("Stock") }}</span>
                                         <input type="text" placeholder="0" class="input input-bordered" />
                                     </label>
@@ -159,7 +158,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-success w-full">{{ __("Save") }}</button>
+                    <button class="w-full btn btn-success">{{ __("Save") }}</button>
                 </div>
             </div>
         </div>

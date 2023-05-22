@@ -1,18 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Records') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
-            <div class="flex flex-col gap-4 md:gap-6 bg-white w-full overflow-hidden items-center justify-center p-5 shadow-md sm:rounded-lg">
-                {{-- <div class="flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-center"> --}}
+        <div class="flex flex-col object-center gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8 md:gap-6">
+            <div class="flex flex-col items-center justify-center w-full gap-4 p-5 overflow-hidden bg-white shadow-md md:gap-6 sm:rounded-lg">
 
-                    <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
+                    <div class="flex flex-col items-center w-full gap-4 md:flex-row md:gap-6">
                         {{-- proveedor --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text-alt">Proveedor</span>
                             </label>
@@ -27,23 +26,23 @@
                         </div>
 
                         {{-- numero --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text">Numero de factura</span>
                             </label>
-                            <input type="text" placeholder="Numero de factura" class="input input-bordered w-full max-w-xs" />
+                            <input type="text" placeholder="Numero de factura" class="w-full max-w-xs input input-bordered" />
                         </div>
 
                         {{-- Codigo/nombre del item --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text">Codigo/Nombre de producto</span>
                             </label>
-                            <input type="text" placeholder="Codigo/Nombre de producto" class="input input-bordered w-full max-w-xs" />
+                            <input type="text" placeholder="Codigo/Nombre de producto" class="w-full max-w-xs input input-bordered" />
                         </div>
 
                         {{-- categoria --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text-alt">Categoria</span>
                             </label>
@@ -58,9 +57,9 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
+                    <div class="flex flex-col items-center w-full gap-4 md:flex-row md:gap-6">
                         {{-- marca --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text-alt">Marca</span>
                             </label>
@@ -75,19 +74,19 @@
                         </div>
 
                         {{-- fecha --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text">Desde</span>
                             </label>
-                            <input type="date" class="input input-bordered w-full max-w-xs" />
+                            <input type="date" class="w-full max-w-xs input input-bordered" />
                         </div>
 
                         {{-- fecha --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text">Hasta</span>
                             </label>
-                            <input type="date" class="input input-bordered w-full max-w-xs" />
+                            <input type="date" class="w-full max-w-xs input input-bordered" />
                         </div>
 
                         <button class="btn btn-info">
@@ -95,11 +94,9 @@
                         </button>
                     </div>
 
-
-                {{-- </div> --}}
             </div>
 
-            <div class="flex-1 flex flex-col bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex flex-col flex-1 p-5 overflow-hidden bg-white shadow-md sm:rounded-lg">
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         <!-- head -->
