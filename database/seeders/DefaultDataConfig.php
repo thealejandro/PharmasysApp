@@ -33,7 +33,7 @@ class DefaultDataConfig extends Seeder
         $accountant = Role::create(['name' => 'Accountant']);     //Rol de Contador
         $support    = Role::create(['name' => 'Support']);        //Rol de Soporte
         $tester     = Role::create(['name' => 'Tester']);         //Rol de Tester
-        $baned      = Role::create(['name' => 'Baned']);          //Rol de Baneado (Usuarios desactivados)
+        $baned      = Role::create(['name' => 'Banned']);          //Rol de Baneado (Usuarios desactivados)
         $verified   = Role::create(['name' => 'Verified']); //Rol de Verificado (Usuarios activos y aprobados)
         $root       = Role::create(['name' => 'Root']);   //Rol de Root del Sistema, todos los privilegios aprobados
 
