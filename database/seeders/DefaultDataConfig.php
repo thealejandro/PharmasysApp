@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Managers;
+use App\Models\ManagerAssignments;
 use App\Models\Sellers;
 use App\Models\Stores;
 use App\Models\User;
@@ -79,21 +79,21 @@ class DefaultDataConfig extends Seeder
         $victoria->assignRole($verified);
 
         // Create list Manager's
-        $managerProbgam = Managers::create(['user_id' => $odilia->id, 'user_approve_id' => $daniel->id]);
-        $managerComunal = Managers::create(['user_id' => $vicente->id, 'user_approve_id' => $daniel->id]);
-        $managerFarco   = Managers::create(['user_id' => $rigo->id, 'user_approve_id' => $daniel->id]);
-        $managerProbgam2 = Managers::create(['user_id' => $victoria->id, 'user_approve_id' => $daniel->id]);
+        $managerProbgam = ManagerAssignments::create(['user_id' => $odilia->id, 'user_approve_id' => $daniel->id]);
+        $managerComunal = ManagerAssignments::create(['user_id' => $vicente->id, 'user_approve_id' => $daniel->id]);
+        $managerFarco   = ManagerAssignments::create(['user_id' => $rigo->id, 'user_approve_id' => $daniel->id]);
+        $managerProbgam2 = ManagerAssignments::create(['user_id' => $victoria->id, 'user_approve_id' => $daniel->id]);
 
         // Create store's
-        $probgam    = Stores::create(['name' => 'Probgam', 'manager_id' => $managerProbgam->id, 'dataFEL' => '{"storeCode": 1,"nameStore": "PROBGAM","locationStore": {"direccion": "6 AVENIDA 6-088 Zona 11","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
-        $comunal    = Stores::create(['name' => 'Comunal', 'manager_id' => $managerComunal->id, 'dataFEL' => '{"storeCode": 2,"nameStore": "FARMACIA COMUNAL","locationStore": {"direccion": "2 AVENIDA 6-092 Zona 1","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
-        $farco      = Stores::create(['name' => 'Farco', 'manager_id' => $managerFarco->id, 'dataFEL' => '{"storeCode": 3,"nameStore": "FARCO","locationStore": {"direccion": "1 AVENIDA 03-38 Zona 1","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
-        $probgam2   = Stores::create(['name' => 'Probgam 2', 'manager_id' => $managerProbgam2->id, 'dataFEL' => '{"storeCode": 5,"nameStore": "FARMACIA PROBGAM II","locationStore": {"direccion": "1 AVENIDA 3-46 Zona 1","municipio": "COBAN","departamento": "ALTA VERAPAZ","telefono": 0},"statusActive": true}']);
+        $probgam    = Stores::create(['name' => 'Probgam', 'manager_id' => $managerProbgam->id, 'store_code' => 1, 'store_name' => "PROBGAM", 'store_direction' => "6 AVENIDA 6-088 Zona 11", 'store_municipality' => "COBAN", 'store_department' => "ALTA VERAPAZ", 'store_phone' => 0, 'status_active' => true]);
+        $comunal    = Stores::create(['name' => 'Comunal', 'manager_id' => $managerComunal->id, 'store_code' => 2,'store_name' =>"FARMACIA COMUNAL", 'store_direction' => "2 AVENIDA 6-092 Zona 1",'store_municipality' => "COBAN", 'store_department' => "ALTA VERAPAZ", 'store_phone' => 0, 'status_active' => true]);
+        $farco      = Stores::create(['name' => 'Farco', 'manager_id' => $managerFarco->id, 'store_code' => 3,'store_name' => "FARCO", 'store_direction' => "1 AVENIDA 03-38 Zona 1", 'store_municipality' => "COBAN", 'store_department' => "ALTA VERAPAZ", 'store_phone' => 0, 'status_active' => true]);
+        $probgam2   = Stores::create(['name' => 'Probgam 2', 'manager_id' => $managerProbgam2->id, 'store_code' => 5,'store_name' => "FARMACIA PROBGAM II", 'store_direction' => "1 AVENIDA 3-46 Zona 1", 'store_municipality' => "COBAN", 'store_department' => "ALTA VERAPAZ", 'store_phone' => 0, 'status_active' => true]);
 
         // Create seller's
-        Sellers::create(['user_id' => $odilia->id, 'store_id' => $probgam->storeID]);
-        Sellers::create(['user_id' => $vicente->id, 'store_id' => $comunal->storeID]);
-        Sellers::create(['user_id' => $rigo->id, 'store_id' => $farco->storeID]);
-        Sellers::create(['user_id' => $victoria->id, 'store_id' => $probgam2->storeID]);
+        Sellers::create(['user_id' => $odilia->id, 'store_id' => $probgam->id]);
+        Sellers::create(['user_id' => $vicente->id, 'store_id' => $comunal->id]);
+        Sellers::create(['user_id' => $rigo->id, 'store_id' => $farco->id]);
+        Sellers::create(['user_id' => $victoria->id, 'store_id' => $probgam2->id]);
     }
 }
