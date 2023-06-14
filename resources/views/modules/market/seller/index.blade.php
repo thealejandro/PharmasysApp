@@ -1,26 +1,26 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Market') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
-            <div class="flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md overflow-hidden items-center justify-center sm:rounded-lg">
+        <div class="flex flex-col object-center gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8 md:gap-6">
+            <div class="flex flex-col items-center justify-center gap-4 p-5 overflow-hidden bg-white shadow-md md:gap-6 sm:rounded-lg">
 
-                <div id="choose-items-modal" class="modal w-full items-start pt-10">
+                <div id="choose-items-modal" class="items-start w-full pt-10 modal">
                     <div class="modal-box md:w-2/3 w-[90%] h-[90%] max-w-full">
                         {{-- {{ $content ?? '' }} --}}
                     </div>
                     <div class="modal-action">
                         {{-- {{ $actions ?? '' }} --}}
-                        <a href="#" class="btn btn-circle bg-red-700">X</a>
+                        <a href="#" class="bg-red-700 btn btn-circle">X</a>
                     </div>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center">
-                    <div class="flex-1 text-center pt-2">
+                <div class="flex flex-col items-center justify-center w-full gap-4 px-4 md:flex-row">
+                    <div class="flex-1 pt-2 text-center">
                         <a href="#choose-items-modal">
                             <button class="btn btn-secondary">
                                 Buscar productos
@@ -29,35 +29,23 @@
                     </div>
 
                     <div class="flex-1 text-center">
-                        <div class="stats shadow">
+                        <div class="shadow stats">
                             <div class="stat place-items-center">
-                            <div class="stat-title">Total</div>
-                            <div class="stat-value text-primary">Q0.00</div>
+                                <div class="stat-title">Total</div>
+                                <div class="stat-value text-primary">Q0.00</div>
                             </div>
-
-                            {{-- <div class="stat place-items-center">
-                            <div class="stat-title">Users</div>
-                            <div class="stat-value text-secondary">4,200</div>
-                            <div class="stat-desc text-secondary">↗︎ 40 (2%)</div>
-                            </div> --}}
-
-                            {{-- <div class="stat place-items-center">
-                            <div class="stat-title">New Registers</div>
-                            <div class="stat-value">1,200</div>
-                            <div class="stat-desc">↘︎ 90 (14%)</div>
-                            </div> --}}
                         </div>
                     </div>
 
                     <div class="flex-1 text-center">
-                        <div class="form-control gap-2 hover:bg-slate-200 hover:rounded-full p-3">
+                        <div class="gap-2 p-3 form-control hover:bg-slate-200 hover:rounded-full">
                             <label class="cursor-pointer label">
                                 <span class="label-text">Generar factura</span>
                                 <input type="checkbox" class="checkbox checkbox-info" />
                             </label>
                         </div>
 
-                        <div class="form-control gap-2 hover:bg-slate-200 hover:rounded-full p-3">
+                        <div class="gap-2 p-3 form-control hover:bg-slate-200 hover:rounded-full">
                             <label class="cursor-pointer label">
                                 <span class="label-text">Generar comprobante</span>
                                 <input type="checkbox" checked="checked" class="checkbox checkbox-info" />
@@ -65,46 +53,46 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 flex flex-row gap-4 md:gap-8 justify-center">
-                        <button class="btn btn-primary text-white">
+                    <div class="flex flex-row justify-center flex-1 gap-4 md:gap-8">
+                        <button class="text-white btn btn-primary">
                             Vender
                         </button>
-                        <button class="btn btn-error text-white">
+                        <button class="text-white btn btn-error">
                             Cancelar
                         </button>
-                        <button class="btn btn-info text-white">
+                        <button class="text-white btn btn-info">
                             Imprimir
                         </button>
                         <br>
                         <a href="{{ route("module.market.seller.invoice.record") }}">
-                            <button class="btn btn-accent text-white">
+                            <button class="text-white btn btn-accent">
                                 Registro de facturas
                             </button>
                         </a>
                     </div>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center bg-slate-300 py-4 rounded-2xl">
-                    <div class="flex-1 form-control w-full max-w-xs">
+                <div class="flex flex-col items-center justify-center w-full gap-4 px-4 py-4 md:flex-row bg-slate-300 rounded-2xl">
+                    <div class="flex-1 w-full max-w-xs form-control">
                         <label class="label">
                             <span class="label-text">NIT de cliente</span>
                             <span class="label-text-alt">CF: por defecto</span>
                         </label>
-                        <input type="text" placeholder="CF" class="input input-bordered w-full max-w-xs" />
+                        <input type="text" placeholder="CF" class="w-full max-w-xs input input-bordered" />
                     </div>
-                    <div class="flex-1 form-control w-full max-w-xs">
+                    <div class="flex-1 w-full max-w-xs form-control">
                         <label class="label">
                             <span class="label-text">Nombre de cliente</span>
                             <span class="label-text-alt">Consumidor Final: por defecto</span>
                         </label>
-                        <input type="text" placeholder="Consumidor Final" class="input input-bordered w-full max-w-xs" />
+                        <input type="text" placeholder="Consumidor Final" class="w-full max-w-xs input input-bordered" />
                     </div>
-                    <div class="flex-1 form-control w-full max-w-xs">
+                    <div class="flex-1 w-full max-w-xs form-control">
                         <label class="label">
                             <span class="label-text">Direccion de cliente</span>
                             <span class="label-text-alt">Ciudad: por defecto</span>
                         </label>
-                        <input type="text" placeholder="Ciudad" class="input input-bordered w-full max-w-xs" />
+                        <input type="text" placeholder="Ciudad" class="w-full max-w-xs input input-bordered" />
                     </div>
 
                     <button class="btn btn-info">
@@ -113,7 +101,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex flex-col gap-4 p-5 overflow-hidden bg-white shadow-md md:gap-6 sm:rounded-lg">
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         <!-- head -->
