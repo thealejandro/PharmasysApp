@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(DefaultDataConfig::class);
-        
+        $this->call(DataDBTest::class);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
