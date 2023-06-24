@@ -7,6 +7,10 @@ use App\Models\Items;
 class SellItems extends Component
 {
     public $listProducts = [];
+    public $total = 0;
+    public $nitClient = 'CF';
+    public $nameClient = 'CONSUMIDOR FINAL';
+    public $addressClient = 'CIUDAD';
 
     protected $listeners = ['productAdded' => 'selectedProducts'];
 
@@ -37,6 +41,32 @@ class SellItems extends Component
 
         // También podrías emitir un evento para comunicarte con el componente "choose-items-modal".
         $this->emit('ventaRealizada');
+    }
+
+    public function updatedNitClient()
+    {
+        $nit = $this->nitClient;
+
+        $nit = trim($nit); // Eliminar espacios en blanco en cualquier posición
+
+        // Eliminar puntos (.) si hay caracteres diferentes a un punto o si es diferente a un único punto
+        if (preg_match('/[^.]/', $nit) || $nit !== '.') {
+            $nit = str_replace('.', '', $nit);
+        }
+
+        $nit = str_replace('_', '', $nit); // Eliminar guiones (altos o bajos) en la anteúltima posición
+        $nit = preg_replace('/k$/', 'K', $nit); // Reemplazar "k" minúscula por "K" mayúscula en la última posición
+
+        // Reemplazar "C/F" o "CONSUMIDOR FINAL" por "CF" en mayúsculas
+        $nit = preg_replace('/C\/F|CONSUMIDOR FINAL/i', 'CF', $nit);
+
+        $pattern = '/^((?:[0-9]+|[0-9]+K|CF))$/'; // Expresión regular para validar el formato del NIT
+
+        if (!preg_match($pattern, $nit)) {
+            $this->nitClient = ''; // Si el formato no es válido, limpiar el campo
+        } else {
+            $this->nitClient = $nit; // Actualizar el valor del NIT depurado
+        }
     }
 
     public function render()
