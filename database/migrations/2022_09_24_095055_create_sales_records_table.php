@@ -13,17 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sales_records', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('seller_id')->constrained('sellers');
-            $table->foreignId('store_id')->constrained('stores')->cascadeOnUpdate();
-            $table->boolean('has_invoice')->default(false);
-            $table->json('invoice_details')->nullable();
-            $table->json('sale_data');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Schema::create('sales_records', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('user_id')->constrained('users');
+        //     $table->foreignId('seller_id')->constrained('sellers');
+        //     $table->foreignId('store_id')->constrained('stores')->cascadeOnUpdate();
+        //     $table->boolean('has_invoice')->default(false);
+        //     $table->json('invoice_details')->nullable();
+        //     $table->json('sale_data');
+        //     $table->timestamps();
+        //     $table->softDeletes();
+        // });
+
+        
+
     }
 
     /**

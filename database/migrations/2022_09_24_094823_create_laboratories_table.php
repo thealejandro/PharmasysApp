@@ -12,12 +12,12 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
+    { //renombrar a "brands", para hacerla llamar "marcas"
         Schema::create('laboratories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignId('provider_id')->nullable()->constrained('providers')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('contact_id')->nullable()->constrained('contacts')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('contact_id')->nullable()->constrained('contacts')->cascadeOnUpdate()->nullOnDelete(); // No es necesario porque ya esta enlazado al proveedor
             $table->timestamps();
             $table->softDeletes();
         });

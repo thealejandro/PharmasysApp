@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SalesRecords extends Model
+class Sales extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -24,4 +24,9 @@ class SalesRecords extends Model
         "invoice_details",
         "sale_data"
     ];
+
+    public function saleItems()
+    {
+        return $this->hasMany(SaleItems::class);
+    }
 }

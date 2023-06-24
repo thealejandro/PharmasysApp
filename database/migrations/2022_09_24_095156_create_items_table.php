@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('codebar')->unique();
+            $table->string('barcode')->unique();
             $table->string('name');
+            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('cost', 10, 2)->nullable();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate();
-            $table->foreignId('laboratory_id')->constrained('laboratories')->cascadeOnUpdate();
+            $table->foreignId('laboratory_id')->constrained('laboratories')->cascadeOnUpdate(); // Renombrar a "brand_id", para decir que es "marca_id"
             $table->boolean('generic')->default(false);
             $table->timestamps();
             $table->softDeletes();
