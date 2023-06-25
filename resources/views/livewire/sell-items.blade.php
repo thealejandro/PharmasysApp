@@ -60,7 +60,7 @@
                     <span class="label-text-alt">CF: por defecto</span>
                 </label>
                 <div x-data="{ nit: '{{ $nitClient }}', nitError: false, nitErrorMessage: '' }">
-                    <input wire:model.lazy="nitClient" x-model="nit" type="text" title="El NIT debe ser un número o 'CF', o un número seguido de 'K' al final" placeholder="CF" class="w-full max-w-xs input input-bordered" x-on:input.debounce.500ms="validateNit" />
+                    <input wire:model.lazy="nitClient" x-model="nit" type="text"pattern="^((?:[0-9]+|[0-9]+K|CF))$" title="El NIT debe ser un número o 'CF', o un número seguido de 'K' al final" placeholder="CF" class="w-full max-w-xs input input-bordered" x-on:input.debounce.500ms="validateNit" />
                     <div x-show="nitError" class="text-xs text-red-500" x-text="nitErrorMessage"></div>
                 </div>
             </div>
@@ -134,12 +134,12 @@
             // Reemplazar "C/F" o "CONSUMIDOR FINAL" por "CF" en mayúsculas
             nit = nit.replace(/C\/F|CONSUMIDOR FINAL/i, 'CF');
 
-            const pattern = /^([0-9]+|CF)$|^([0-9]+)K$/; // Expresión regular para validar el formato del NIT
+            const pattern = /^((?:[0-9]+|[0-9]+K|CF))$/; // Expresión regular para validar el formato del NIT
 
             this.nit = nit; // Actualizar el valor del NIT depurado
 
             this.nitError = !pattern.test(nit);
-            this.nitErrorMessage = this.nitError ? 'El NIT debe ser un número o CF, o un número seguido de 'K' al final' : '';
+            this.nitErrorMessage = this.nitError ? 'El NIT debe ser un número o CF, o un número seguido de K al final' : '';
         }
     </script>
 </div>
