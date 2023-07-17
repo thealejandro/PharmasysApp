@@ -37,6 +37,7 @@ class SellItems extends Component
         // y cualquier otra acción necesaria.
 
         // Por ejemplo, podrías mostrar un mensaje de éxito o error.
+
         session()->flash('message', '¡Venta realizada con éxito!');
 
         // También podrías emitir un evento para comunicarte con el componente "choose-items-modal".
@@ -44,7 +45,12 @@ class SellItems extends Component
     }
 
     public function updatedNitClient()
-    {
+    { // Método para depurar el NIT del cliente en tiempo real (cada vez que se modifique el campo) y actualizar el valor del NIT depurado en la propiedad $nitClient
+      // del componente Livewire "sell-items" (en el formulario de venta) y en el componente Livewire "choose-items-modal" (en el formulario de búsqueda de productos)
+      // para que se muestre el NIT depurado en ambos formularios.
+      // El método se ejecuta cada vez que se modifique el campo. El método se ejecuta cada vez que se modifique el campo.
+      // El método se ejecuta cada vez que se modifique el campo.
+
         $nit = $this->nitClient;
 
         $nit = trim($nit); // Eliminar espacios en blanco en cualquier posición
@@ -64,9 +70,10 @@ class SellItems extends Component
 
         if (!preg_match($pattern, $nit)) {
             $this->nitClient = ''; // Si el formato no es válido, limpiar el campo
-        } else {
-            $this->nitClient = $nit; // Actualizar el valor del NIT depurado
         }
+        // } else {
+        //     $this->nitClient = $nit; // Actualizar el valor del NIT depurado
+        // }
     }
 
     public function render()
