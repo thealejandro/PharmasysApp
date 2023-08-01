@@ -70,10 +70,9 @@ class SellItems extends Component
 
         if (!preg_match($pattern, $nit)) {
             $this->nitClient = ''; // Si el formato no es válido, limpiar el campo
+        } else {
+            $this->nitClient = $nit; // Actualizar el valor del NIT depurado
         }
-        // } else {
-        //     $this->nitClient = $nit; // Actualizar el valor del NIT depurado
-        // }
     }
 
     public function render()
