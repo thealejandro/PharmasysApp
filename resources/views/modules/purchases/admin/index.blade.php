@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Module Purchases') }}
-        </h2>
+        {{ __('Module Purchases') }}
     </x-slot>
 
     <div class="py-12">
@@ -13,11 +11,11 @@
                         <h2 class="card-title">{{ __("Add Purchase") }}</h2>
                         <p>{{ __("Module to register new purchase invoices") }}</p>
                         <div class="card-actions">
-                        <a href="{{ route('module.purchases.new.purchase') }}">
-                            <button class="btn btn-primary">
-                                {{ __("Go") }}
-                            </button>
-                        </a>
+                            <a href="{{ route('module.purchases.new.purchase') }}">
+                                <button class="btn btn-primary">
+                                    {{ __("Go") }}
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -27,11 +25,11 @@
                         <h2 class="card-title">{{ __("Add Product") }}</h2>
                         <p>{{ __("General store inventory module") }}</p>
                         <div class="card-actions">
-                        <a href="{{ route('module.items.new.item') }}">
-                            <button class="btn btn-primary">
-                                {{ __("Go") }}
-                            </button>
-                        </a>
+                            <a href="{{ route('module.items.new.item') }}">
+                                <button class="btn btn-primary">
+                                    {{ __("Go") }}
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -41,11 +39,11 @@
                         <h2 class="card-title">{{ __("Shopping Record") }}</h2>
                         <p>{{ __("Integrity module in store inventories") }}</p>
                         <div class="card-actions">
-                        <a href="{{ route('module.purchases.records.purchases') }}">
-                            <button class="btn btn-primary">
-                                {{ __("Go") }}
-                            </button>
-                        </a>
+                            <a href="{{ route('module.purchases.records.purchases') }}">
+                                <button class="btn btn-primary">
+                                    {{ __("Go") }}
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -57,11 +55,11 @@
                         <h2 class="card-title">{{ __("Credits Phone") }}</h2>
                         <p>{{ __("Purchase phone credits") }}</p>
                         <div class="card-actions">
-                        <a href="{{ route('module.purchases.credits.phones.purchase') }}">
-                            <button class="btn btn-primary">
-                                {{ __("Go") }}
-                            </button>
-                        </a>
+                            <a href="{{ route('module.purchases.credits.phones.purchase') }}">
+                                <button class="btn btn-primary">
+                                    {{ __("Go") }}
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>

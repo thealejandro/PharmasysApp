@@ -1,18 +1,114 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Credits Phone') }}
-        </h2>
+        {{ __('Credits Phone') }}
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
-            <div class="flex flex-col gap-4 md:gap-6 bg-white w-full overflow-hidden items-center justify-center p-5 shadow-md sm:rounded-lg">
-                    <h1 class="card-title">Compra de Saldo</h1>
+        <div
+            class="flex flex-col object-center gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8 md:gap-6">
+            <div
+                class="flex flex-col items-center justify-center w-full gap-4 p-5 overflow-hidden bg-white shadow-md md:gap-6 sm:rounded-lg">
+                <h1 class="card-title">Compra de Saldo</h1>
 
-                    <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
-                        {{-- Sucursal --}}
-                        <div class="flex-1 form-control justify-center">
+                <div class="flex flex-col items-center w-full gap-4 md:flex-row md:gap-6">
+                    {{-- Sucursal --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text-alt">Sucursal</span>
+                        </label>
+                        <select class="select select-bordered">
+                            <option disabled selected>Seleccione una sucursal</option>
+                            <option>Star Wars</option>
+                            <option>Harry Potter</option>
+                            <option>Lord of the Rings</option>
+                            <option>Planet of the Apes</option>
+                            <option>Star Trek</option>
+                        </select>
+                    </div>
+
+                    {{-- telefonia --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text-alt">Telefonia</span>
+                        </label>
+                        <select class="select select-bordered">
+                            <option disabled selected>Seleccione una telefonia</option>
+                            <option>Star Wars</option>
+                            <option>Harry Potter</option>
+                            <option>Lord of the Rings</option>
+                            <option>Planet of the Apes</option>
+                            <option>Star Trek</option>
+                        </select>
+                    </div>
+
+                    {{-- telefono --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text-alt">Telefono</span>
+                        </label>
+                        <select class="select select-bordered">
+                            <option disabled selected>Seleccione un telefono</option>
+                            <option>Star Wars</option>
+                            <option>Harry Potter</option>
+                            <option>Lord of the Rings</option>
+                            <option>Planet of the Apes</option>
+                            <option>Star Trek</option>
+                        </select>
+                    </div>
+
+                    {{-- fecha de compra --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text">Fecha de compra</span>
+                        </label>
+                        <input type="date" class="w-full max-w-xs input input-bordered" />
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center w-full gap-4 md:flex-row md:gap-6">
+                    {{-- Saldo comprado --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text">Monto de saldo de compra</span>
+                        </label>
+                        <input type="text" placeholder="Q0.00" class="w-full max-w-xs input input-bordered" />
+                    </div>
+
+                    {{-- Saldo anterior --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text">Monto de saldo anterior</span>
+                        </label>
+                        <input type="text" placeholder="Q0.00" class="w-full max-w-xs input input-bordered" />
+                    </div>
+
+                    {{-- Monto de factura --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text">Monto de factura</span>
+                        </label>
+                        <input type="text" placeholder="Q0.00" class="w-full max-w-xs input input-bordered" />
+                    </div>
+
+                    {{-- Detalles --}}
+                    <div class="justify-center flex-1 form-control">
+                        <label class="label">
+                            <span class="label-text">Detalle</span>
+                        </label>
+                        <input type="text" placeholder="Escriba alguna descripcion..."
+                            class="w-full max-w-xs input input-bordered" />
+                    </div>
+                </div>
+                <button class="w-full btn btn-info">
+                    Save
+                </button>
+            </div>
+
+            <div class="flex flex-col flex-1 gap-4 p-5 overflow-hidden bg-white shadow-md md:gap-6 sm:rounded-lg">
+                <div class="flex flex-col items-center justify-center w-full gap-4 p-5 overflow-hidden md:gap-6">
+                    <div class="flex flex-col items-center w-full gap-4 md:flex-row md:gap-6">
+                        {{-- sucursal --}}
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text-alt">Sucursal</span>
                             </label>
@@ -27,7 +123,7 @@
                         </div>
 
                         {{-- telefonia --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text-alt">Telefonia</span>
                             </label>
@@ -42,7 +138,7 @@
                         </div>
 
                         {{-- telefono --}}
-                        <div class="flex-1 form-control justify-center">
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
                                 <span class="label-text-alt">Telefono</span>
                             </label>
@@ -55,126 +151,31 @@
                                 <option>Star Trek</option>
                             </select>
                         </div>
-
-                        {{-- fecha de compra --}}
-                        <div class="flex-1 form-control justify-center">
-                            <label class="label">
-                                <span class="label-text">Fecha de compra</span>
-                            </label>
-                            <input type="date" class="input input-bordered w-full max-w-xs" />
-                        </div>
                     </div>
 
-                    <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
-                        {{-- Saldo comprado --}}
-                        <div class="flex-1 form-control justify-center">
+                    <div class="flex flex-col items-center w-full gap-4 md:flex-row md:gap-6">
+                        {{-- fecha --}}
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
-                                <span class="label-text">Monto de saldo de compra</span>
+                                <span class="label-text">Desde</span>
                             </label>
-                            <input type="text" placeholder="Q0.00" class="input input-bordered w-full max-w-xs" />
+                            <input type="date" class="w-full max-w-xs input input-bordered" />
                         </div>
 
-                        {{-- Saldo anterior --}}
-                        <div class="flex-1 form-control justify-center">
+                        {{-- fecha --}}
+                        <div class="justify-center flex-1 form-control">
                             <label class="label">
-                                <span class="label-text">Monto de saldo anterior</span>
+                                <span class="label-text">Hasta</span>
                             </label>
-                            <input type="text" placeholder="Q0.00" class="input input-bordered w-full max-w-xs" />
+                            <input type="date" class="w-full max-w-xs input input-bordered" />
                         </div>
 
-                        {{-- Monto de factura --}}
-                        <div class="flex-1 form-control justify-center">
-                            <label class="label">
-                                <span class="label-text">Monto de factura</span>
-                            </label>
-                            <input type="text" placeholder="Q0.00" class="input input-bordered w-full max-w-xs" />
-                        </div>
-
-                        {{-- Detalles --}}
-                        <div class="flex-1 form-control justify-center">
-                            <label class="label">
-                                <span class="label-text">Detalle</span>
-                            </label>
-                            <input type="text" placeholder="Escriba alguna descripcion..." class="input input-bordered w-full max-w-xs" />
+                        <div class="flex-1 text-center">
+                            <button class="btn btn-info">
+                                search
+                            </button>
                         </div>
                     </div>
-                    <button class="btn btn-info w-full">
-                        Save
-                    </button>
-            </div>
-
-            <div class="flex-1 flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
-                <div class="flex flex-col gap-4 md:gap-6 w-full overflow-hidden items-center justify-center p-5">
-                        <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
-                            {{-- sucursal --}}
-                            <div class="flex-1 form-control justify-center">
-                                <label class="label">
-                                    <span class="label-text-alt">Sucursal</span>
-                                </label>
-                                <select class="select select-bordered">
-                                    <option disabled selected>Seleccione una sucursal</option>
-                                    <option>Star Wars</option>
-                                    <option>Harry Potter</option>
-                                    <option>Lord of the Rings</option>
-                                    <option>Planet of the Apes</option>
-                                    <option>Star Trek</option>
-                                </select>
-                            </div>
-
-                            {{-- telefonia --}}
-                            <div class="flex-1 form-control justify-center">
-                                <label class="label">
-                                    <span class="label-text-alt">Telefonia</span>
-                                </label>
-                                <select class="select select-bordered">
-                                    <option disabled selected>Seleccione una telefonia</option>
-                                    <option>Star Wars</option>
-                                    <option>Harry Potter</option>
-                                    <option>Lord of the Rings</option>
-                                    <option>Planet of the Apes</option>
-                                    <option>Star Trek</option>
-                                </select>
-                            </div>
-
-                            {{-- telefono --}}
-                            <div class="flex-1 form-control justify-center">
-                                <label class="label">
-                                    <span class="label-text-alt">Telefono</span>
-                                </label>
-                                <select class="select select-bordered">
-                                    <option disabled selected>Seleccione un telefono</option>
-                                    <option>Star Wars</option>
-                                    <option>Harry Potter</option>
-                                    <option>Lord of the Rings</option>
-                                    <option>Planet of the Apes</option>
-                                    <option>Star Trek</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col md:flex-row gap-4 md:gap-6 w-full items-center">
-                            {{-- fecha --}}
-                            <div class="flex-1 form-control justify-center">
-                                <label class="label">
-                                    <span class="label-text">Desde</span>
-                                </label>
-                                <input type="date" class="input input-bordered w-full max-w-xs" />
-                            </div>
-
-                            {{-- fecha --}}
-                            <div class="flex-1 form-control justify-center">
-                                <label class="label">
-                                    <span class="label-text">Hasta</span>
-                                </label>
-                                <input type="date" class="input input-bordered w-full max-w-xs" />
-                            </div>
-
-                            <div class="flex-1 text-center">
-                                <button class="btn btn-info">
-                                    search
-                                </button>
-                            </div>
-                        </div>
                 </div>
 
                 <div class="overflow-x-auto">

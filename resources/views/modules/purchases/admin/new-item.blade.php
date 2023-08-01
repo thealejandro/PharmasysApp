@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('New Item') }}
-        </h2>
+        {{ __('New Item') }}
     </x-slot>
 
     <div class="py-12">
@@ -15,7 +13,7 @@
                         <div class="form-control">
                             <label class="gap-4 cursor-pointer label">
                                 <span class="label-text">¿Agregar producto a la ultima factura de compra?</span>
-                                <input type="checkbox" class="toggle toggle-primary"/>
+                                <input type="checkbox" class="toggle toggle-primary" />
                             </label>
                         </div>
 
@@ -61,7 +59,8 @@
                             </select>
                         </div>
 
-                        {{-- Se utiliza solo para cuando el toogle esta desmarcado, al estar marcado aparecen las siguientes tarjetas y desactiva este boton --}}
+                        {{-- Se utiliza solo para cuando el toogle esta desmarcado, al estar marcado aparecen las
+                        siguientes tarjetas y desactiva este boton --}}
 
                         <div class="w-full card-actions">
                             <button class="w-full btn btn-primary">Update</button>

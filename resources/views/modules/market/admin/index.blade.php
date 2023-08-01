@@ -1,57 +1,56 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Module Market') }}
-        </h2>
+        {{ __('Module Market') }}
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 overflow-hidden">
-            {{-- <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg"> --}}
-                <div class="flex gap-4 flex-col md:flex-row object-center h-56">
-                    <div class="flex-1 w-full card bg-base-100 shadow-md">
-                        <div class="card-body items-center text-center">
+        <div class="flex flex-col gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8">
+            {{-- <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg"> --}}
+                <div class="flex flex-col object-center h-56 gap-4 md:flex-row">
+                    <div class="flex-1 w-full shadow-md card bg-base-100">
+                        <div class="items-center text-center card-body">
                             <h2 class="card-title">{{ __("Invoicing") }}</h2>
                             <p>{{ __("Module generate invoices") }}</p>
                             <div class="card-actions">
-                            <a href="{{ route('module.market.admin.warehouse.invoicing') }}">
-                                <button class="btn btn-primary">
-                                    {{ __("Go") }}
-                                </button>
-                            </a>
+                                <a href="{{ route('module.market.admin.warehouse.invoicing') }}">
+                                    <button class="btn btn-primary">
+                                        {{ __("Go") }}
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex-1 w-full card bg-base-100 shadow-md">
-                        <div class="card-body items-center text-center">
+                    <div class="flex-1 w-full shadow-md card bg-base-100">
+                        <div class="items-center text-center card-body">
                             <h2 class="card-title">{{ __("Warehouse Shipments") }}</h2>
                             <p>{{ __("Shipments warehouse module") }}</p>
                             <div class="card-actions">
-                            <a href="{{ route('module.market.admin.warehouse.shipments') }}">
-                                <button class="btn btn-primary">
-                                    {{ __("Go") }}
-                                </button>
-                            </a>
+                                <a href="{{ route('module.market.admin.warehouse.shipments') }}">
+                                    <button class="btn btn-primary">
+                                        {{ __("Go") }}
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex-1 w-full card bg-base-100 shadow-md">
-                        <div class="card-body items-center text-center">
+                    <div class="flex-1 w-full shadow-md card bg-base-100">
+                        <div class="items-center text-center card-body">
                             <h2 class="card-title">{{ __("All Records") }}</h2>
                             <p>{{ __("Records all") }}</p>
                             <div class="card-actions">
-                            <a href="{{ route('module.market.admin.warehouse.records') }}">
-                                <button class="btn btn-primary">
-                                    {{ __("Go") }}
-                                </button>
-                            </a>
+                                <a href="{{ route('module.market.admin.warehouse.records') }}">
+                                    <button class="btn btn-primary">
+                                        {{ __("Go") }}
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            {{-- </div> --}}
+                {{--
+            </div> --}}
         </div>
     </div>
 </x-app-layout>

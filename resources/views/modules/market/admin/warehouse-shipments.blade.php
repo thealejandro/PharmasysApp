@@ -1,28 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Warehouse Shipments') }}
-        </h2>
+        {{ __('Warehouse Shipments') }}
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 md:py-8 py-4 flex flex-col gap-4 md:gap-6 object-center overflow-hidden">
-            <div class="flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md overflow-hidden items-center justify-center sm:rounded-lg">
+        <div
+            class="flex flex-col object-center gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8 md:gap-6">
+            <div
+                class="flex flex-col items-center justify-center gap-4 p-5 overflow-hidden bg-white shadow-md md:gap-6 sm:rounded-lg">
 
                 {{-- Inicio de modal --}}
-                <div id="choose-items-modal" class="modal w-full items-start pt-10">
+                <div id="choose-items-modal" class="items-start w-full pt-10 modal">
                     <div class="modal-box md:w-2/3 w-[90%] h-[90%] max-w-full">
                         {{-- {{ $content ?? '' }} --}}
                     </div>
                     <div class="modal-action">
                         {{-- {{ $actions ?? '' }} --}}
-                        <a href="#" class="btn btn-circle bg-red-700">X</a>
+                        <a href="#" class="bg-red-700 btn btn-circle">X</a>
                     </div>
                 </div>
                 {{-- Final de modal --}}
 
-                <div class="flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-16 px-4 w-full items-center justify-center">
-                    <div class="form-control w-full max-w-xs">
+                <div class="flex flex-col items-center justify-center w-full gap-4 px-4 md:flex-row md:gap-8 lg:gap-16">
+                    <div class="w-full max-w-xs form-control">
                         <label class="label">
                             <span class="label-text">Seleccione alguna sucursal</span>
                         </label>
@@ -36,7 +36,7 @@
                         </select>
                     </div>
 
-                    <div class="form-control w-full max-w-xs">
+                    <div class="w-full max-w-xs form-control">
                         <label class="label">
                             <span class="label-text">Seleccione alguna sucursal</span>
                         </label>
@@ -50,7 +50,7 @@
                         </select>
                     </div>
 
-                    <div class="text-center pt-2">
+                    <div class="pt-2 text-center">
                         <a href="#choose-items-modal">
                             <button class="btn btn-secondary">
                                 Buscar productos
@@ -59,10 +59,10 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col md:flex-row gap-4 px-4 w-full items-center justify-center">
+                <div class="flex flex-col items-center justify-center w-full gap-4 px-4 md:flex-row">
 
                     <div class="flex-1 text-center">
-                        <div class="stats shadow">
+                        <div class="shadow stats">
                             <div class="stat place-items-center">
                                 <div class="stat-title">Total</div>
                                 <div class="stat-value text-primary">Q0.00</div>
@@ -75,23 +75,23 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 flex flex-row gap-4 md:gap-10 justify-center">
-                        <button class="btn btn-primary text-white">
+                    <div class="flex flex-row justify-center flex-1 gap-4 md:gap-10">
+                        <button class="text-white btn btn-primary">
                             Enviar
                         </button>
 
-                        <button class="btn btn-secondary text-white">
+                        <button class="text-white btn btn-secondary">
                             Imprimir
                         </button>
 
-                        <button class="btn btn-error text-white">
+                        <button class="text-white btn btn-error">
                             Cancelar
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 md:gap-6 bg-white p-5 shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex flex-col gap-4 p-5 overflow-hidden bg-white shadow-md md:gap-6 sm:rounded-lg">
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         <!-- head -->

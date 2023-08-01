@@ -1,54 +1,54 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Register New Purchase') }}
-        </h2>
+        {{ __('Register New Purchase') }}
     </x-slot>
 
     <div class="py-12">
-        <div class="flex flex-col object-center gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8 md:gap-6">
-            <div class="flex flex-col items-center justify-center w-full gap-4 p-5 overflow-hidden bg-white shadow-md md:flex-row md:gap-6 sm:rounded-lg">
+        <div
+            class="flex flex-col object-center gap-4 px-6 py-4 mx-auto overflow-hidden max-w-7xl lg:px-8 md:py-8 md:gap-6">
+            <div
+                class="flex flex-col items-center justify-center w-full gap-4 p-5 overflow-hidden bg-white shadow-md md:flex-row md:gap-6 sm:rounded-lg">
 
-                    {{-- proveedor --}}
-                    <div class="flex-1 form-control">
-                        <label class="label">
-                            <span class="label-text-alt">Proveedor</span>
+                {{-- proveedor --}}
+                <div class="flex-1 form-control">
+                    <label class="label">
+                        <span class="label-text-alt">Proveedor</span>
+                    </label>
+                    <select class="select select-bordered">
+                        <option disabled selected>Seleccione un proveedor</option>
+                        <option>Star Wars</option>
+                        <option>Harry Potter</option>
+                        <option>Lord of the Rings</option>
+                        <option>Planet of the Apes</option>
+                        <option>Star Trek</option>
+                    </select>
+                </div>
+
+                {{-- switch factura contable --}}
+                <div class="flex justify-center flex-1">
+                    <div class="form-control">
+                        <label class="gap-2 cursor-pointer label">
+                            <span class="label-text">Factura contable</span>
+                            <input type="checkbox" class="toggle" checked />
                         </label>
-                        <select class="select select-bordered">
-                            <option disabled selected>Seleccione un proveedor</option>
-                            <option>Star Wars</option>
-                            <option>Harry Potter</option>
-                            <option>Lord of the Rings</option>
-                            <option>Planet of the Apes</option>
-                            <option>Star Trek</option>
-                        </select>
                     </div>
+                </div>
 
-                    {{-- switch factura contable --}}
-                    <div class="flex justify-center flex-1">
-                        <div class="form-control">
-                            <label class="gap-2 cursor-pointer label">
-                                <span class="label-text">Factura contable</span>
-                                <input type="checkbox" class="toggle" checked />
-                            </label>
-                        </div>
-                    </div>
+                {{-- numero --}}
+                <div class="flex-1 form-control">
+                    <label class="label">
+                        <span class="label-text">Numero de factura</span>
+                    </label>
+                    <input type="text" placeholder="Numero de factura" class="w-full max-w-xs input input-bordered" />
+                </div>
 
-                    {{-- numero --}}
-                    <div class="flex-1 form-control">
-                        <label class="label">
-                            <span class="label-text">Numero de factura</span>
-                        </label>
-                        <input type="text" placeholder="Numero de factura" class="w-full max-w-xs input input-bordered" />
-                    </div>
-
-                    {{-- fecha --}}
-                    <div class="flex-1 form-control">
-                        <label class="label">
-                            <span class="label-text">Fecha de factura</span>
-                        </label>
-                        <input type="date" class="w-full max-w-xs input input-bordered" />
-                    </div>
+                {{-- fecha --}}
+                <div class="flex-1 form-control">
+                    <label class="label">
+                        <span class="label-text">Fecha de factura</span>
+                    </label>
+                    <input type="date" class="w-full max-w-xs input input-bordered" />
+                </div>
             </div>
             <div class="flex flex-col w-full gap-4 md:flex-row md:gap-5">
                 <div class="flex flex-col flex-1 p-5 overflow-hidden bg-white shadow-md sm:rounded-lg">

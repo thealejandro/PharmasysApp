@@ -1,11 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Market') }}
-        </h2>
+        {{ __('Market') }}
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         @livewire('choose-items-modal')
 
         <livewire:sell-items wire:key="sell-items-component" />
