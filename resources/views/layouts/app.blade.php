@@ -29,11 +29,12 @@
             <!-- Page Heading -->
             @if (isset($header))
             <header>
-                <div class="px-4 mx-auto lg:px-8 sm:px-6 max-w-7xl">
+                <div class="w-full px-4 mx-auto lg:px-8 sm:px-6">
                     {{-- <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     </div> --}}
 
-                    <h1 class="text-opacity-100 text-[rgb(17,24,39)] tracking-tight leading-tight font-bold text-3xl">
+                    <h1
+                        class="text-opacity-100 text-[rgb(17,24,39)] tracking-tight text-center leading-tight font-bold text-3xl">
                         {{ $header }}
                     </h1>
                 </div>

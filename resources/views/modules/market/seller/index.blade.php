@@ -3,7 +3,7 @@
         {{ __('Market') }}
     </x-slot>
 
-    <div class="py-6">
+    <div class="pt-6">
         @livewire('choose-items-modal')
 
         <livewire:sell-items wire:key="sell-items-component" />
