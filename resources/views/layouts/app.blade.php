@@ -18,34 +18,35 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
+<body class="min-h-screen font-sans antialiased bg-gray-100">
+
     <x-jet-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <header>
         @livewire('navigation-menu')
+    </header>
 
-        <div class="py-6">
+    <div class="py-4">
 
-            <!-- Page Heading -->
-            @if (isset($header))
-            <header>
-                <div class="w-full px-4 mx-auto lg:px-8 sm:px-6">
-                    {{-- <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    </div> --}}
+        <!-- Page Heading -->
+        @if (isset($header))
+        <header>
+            <div class="w-full lg:max-w-[90%] px-4 mx-auto lg:px-8 sm:px-6">
+                {{-- <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                </div> --}}
 
-                    <h1
-                        class="text-opacity-100 text-[rgb(17,24,39)] tracking-tight text-center leading-tight font-bold text-3xl">
-                        {{ $header }}
-                    </h1>
-                </div>
-            </header>
-            @endif
+                <h1
+                    class="text-opacity-100 text-[rgb(17,24,39)] tracking-tight text-center leading-tight font-bold text-3xl">
+                    {{ $header }}
+                </h1>
+            </div>
+        </header>
+        @endif
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+        <!-- Page Content -->
+        <main class="w-full">
+            {{ $slot }}
+        </main>
     </div>
 
     @stack('modals')
