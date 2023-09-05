@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Items;
+use Illuminate\Support\Facades\Http;
 
 class ChooseItemsModal extends Component
 {
@@ -19,16 +20,20 @@ class ChooseItemsModal extends Component
         } else {
             $searchTerm = '%' . $this->searchTerm . '%';
 
-            $this->filteredProducts = Items::
-                where('id', 'like', $searchTerm)
-                ->orWhere('name', 'like', $searchTerm)
-                ->orWhereHas('category', function ($query) use ($searchTerm) {
-                    $query->where('name', 'like', $searchTerm);
-                })
-                ->orWhereHas('laboratory', function ($query) use ($searchTerm) {
-                    $query->where('name', 'like', $searchTerm);
-                })
-                ->get();
+            // $this->filteredProducts = Items::
+            //     where('id', 'like', $searchTerm)
+            //     ->orWhere('name', 'like', $searchTerm)
+            //     ->orWhereHas('category', function ($query) use ($searchTerm) {
+            //         $query->where('name', 'like', $searchTerm);
+            //     })
+            //     ->orWhereHas('laboratory', function ($query) use ($searchTerm) {
+            //         $query->where('name', 'like', $searchTerm);
+            //     })
+            //     ->get();
+
+            $this->filteredProducts = Http::get('http://34.125.94.119/nawokpaydev/vender/busqueda.php?idtienda=1&cadena=' . $this->searchTerm);
+            $this->filteredProducts = $this->filteredProducts->object();
+            dd($this->filteredProducts);
         }
 
         return view('livewire.choose-items-modal', [
