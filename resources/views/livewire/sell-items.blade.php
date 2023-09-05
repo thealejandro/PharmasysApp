@@ -50,7 +50,7 @@
                             <span class="label-text">NIT de cliente</span>
                         </label>
                         <div x-data="{ nit: '{{ $nitClient }}', nitError: false, nitErrorMessage: '' }">
-                            <input wire:model.lazy="nitClient" x-model="nit" type="text"
+                            <input wire:model.lazy='nitClient' value="{{ $nitClient }}" x-model="nit" type="text"
                                 pattern="^((?:[0-9]+|[0-9]+K|CF))$"
                                 title="El NIT debe ser un número o 'CF', o un número seguido de 'K' al final"
                                 placeholder="CF" class="w-full max-w-xs input input-bordered"
@@ -65,7 +65,7 @@
                         </label>
                         <div>
                             <input type="text" placeholder="Consumidor Final"
-                                class="w-full max-w-xs input input-bordered" />
+                                class="w-full max-w-xs input input-bordered" value="{{ $nameClient }}" />
                         </div>
                     </div>
 
@@ -74,7 +74,8 @@
                             <span class="label-text">Direccion de cliente</span>
                         </label>
                         <div>
-                            <input type="text" placeholder="Ciudad" class="w-full max-w-xs input input-bordered" />
+                            <input type="text" placeholder="Ciudad" class="w-full max-w-xs input input-bordered"
+                                value="{{ $addressClient }}" />
                         </div>
                     </div>
                 </div>

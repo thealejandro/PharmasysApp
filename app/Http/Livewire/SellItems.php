@@ -3,14 +3,15 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Items;
+use Illuminate\Support\Facades\Http;
 
 class SellItems extends Component
 {
     public $listProducts = [];
     public $total = 0;
-    public $nitClient = 'CF';
-    public $nameClient = 'CONSUMIDOR FINAL';
-    public $addressClient = 'CIUDAD';
+    public $nitClient = "";
+    public $nameClient = "";
+    public $addressClient = "";
 
     protected $listeners = ['productAdded' => 'selectedProducts'];
 
@@ -70,8 +71,18 @@ class SellItems extends Component
 
         if (!preg_match($pattern, $nit)) {
             $this->nitClient = ''; // Si el formato no es válido, limpiar el campo
+            $this->addressClient = '';
+            $this->nameClient = '';
         } else {
             $this->nitClient = $nit; // Actualizar el valor del NIT depurado
+
+            $verifyNIT = Http::get('http://34.125.94.119/nawokpay/vender/consultarnit.php?code=developer&nit=' . $this->nitClient . '&idtienda=1');
+            $verifyNIT = $verifyNIT->object();
+            $verifyNIT = $verifyNIT[0];
+
+            $this->nitClient = $verifyNIT->nit;
+            $this->addressClient = $verifyNIT->direccion;
+            $this->nameClient = $verifyNIT->nombre;
         }
     }
 
