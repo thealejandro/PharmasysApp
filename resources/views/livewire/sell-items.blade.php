@@ -103,7 +103,7 @@
         </a>
 
         <div class="mt-4 overflow-x-auto">
-            <table class="table w-full">
+            {{-- <table class="table w-full">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -130,7 +130,9 @@
                     @endforeach
                     @endisset
                 </tbody>
-            </table>
+            </table> --}}
+
+            <livewire:market-seller-sale-list />
         </div>
     </div>
 
