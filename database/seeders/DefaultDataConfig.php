@@ -49,7 +49,8 @@ class DefaultDataConfig extends Seeder
         $user->assignRole($verified);
 
         // Create User's for system Pharmasys
-        $daniel = User::create(['username' => 'daniel', 'first_name' => 'Daniel', 'last_name' => 'Herrarte', 'email' => 'daniel@pharmasys.com', 'password' => Hash::make('Kirax1194')]);
+        // $daniel = User::create(['username' => 'daniel', 'first_name' => 'Daniel', 'last_name' => 'Herrarte', 'email' => 'daniel@pharmasys.com', 'password' => Hash::make('Kirax1194')]);
+        $daniel = User::create(['username' => 'admin', 'first_name' => 'Admin', 'last_name' => NULL, 'email' => 'admin@pharmasys.com', 'password' => Hash::make('admin')]);
         $blanca = User::create(['username' => 'blanca', 'first_name' => 'Blanca', 'last_name' => 'Johnston', 'email' => 'blanca@pharmasys.com', 'password' => Hash::make('abraham')]);
         $rigo   = User::create(['username' => 'rigo', 'first_name' => 'Rigo', 'last_name' => NULL, 'email' => 'rigo@pharmasys.com', 'password' => Hash::make('sipriano')]);
         $vicente = User::create(['username' => 'vicente', 'first_name' => 'Vicente', 'last_name' => NULL, 'email' => 'vicente@pharmasys.com', 'password' => Hash::make('4905')]);
