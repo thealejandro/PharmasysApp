@@ -14,3 +14,7 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+cpjson.json
+```
+I have tried to add the following to my .gitignore file:
+```
