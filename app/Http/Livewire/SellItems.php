@@ -80,6 +80,12 @@ class SellItems extends Component
             $verifyNIT = $verifyNIT->object();
             $verifyNIT = $verifyNIT[0];
 
+            if (!isset($verifyNIT->nit)) {
+                $this->nitClient = '';
+                $this->addressClient = '';
+                $this->nameClient = '';
+            }
+
             $this->nitClient = $verifyNIT->nit;
             $this->addressClient = $verifyNIT->direccion;
             $this->nameClient = $verifyNIT->nombre;
