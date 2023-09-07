@@ -2,7 +2,8 @@
 
     <div class="w-full p-5 overflow-hidden text-center bg-white shadow-md md:basis-1/3 lg:basis-1/4 sm:rounded-lg">
 
-        <div class="flex flex-col gap-8">
+        <div x-data="{ generarFactura: false, generarComprobante: true, hiddenElement: false }"
+            class="flex flex-col gap-8">
             <section class="flex flex-col gap-4 xl:flex-row">
                 <div class="flex-1 text-center">
                     <div class="shadow stats">
@@ -17,21 +18,24 @@
                     <div class="px-1 rounded-full form-control hover:bg-slate-200">
                         <label class="gap-2 cursor-pointer label">
                             <span class="label-text">Generar factura</span>
-                            <input type="checkbox" class="checkbox checkbox-info" />
+                            <input type="checkbox" class="checkbox checkbox-info" x-model="generarFactura"
+                                x-on:click="generarComprobante = !!generarFactura; hiddenElement = !generarFactura;" />
                         </label>
                     </div>
 
                     <div class="px-1 rounded-full form-control hover:bg-slate-200">
                         <label class="gap-2 cursor-pointer label">
                             <span class="label-text">Generar comprobante</span>
-                            <input type="checkbox" checked="checked" class="checkbox checkbox-info" />
+                            <input type="checkbox" class="checkbox checkbox-info" x-model="generarComprobante"
+                                x-on:click="generarFactura = !!generarComprobante; hiddenElement = !!generarComprobante;" />
                         </label>
                     </div>
                 </div>
             </section>
 
             <section class="flex flex-wrap justify-center gap-4 md:flex-row">
-                <button wire:click="vender" class="text-white btn btn-primary">
+                <button wire:click="vender" class="text-white btn btn-primary"
+                    x-bind:class="{ 'hidden': hiddenElement }">
                     Vender
                 </button>
                 <button class="text-white btn btn-error">
@@ -59,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 w-full form-control">
+                    <div class="flex-1 w-full form-control" x-bind:class="{ 'hidden': hiddenElement }">
                         <label class="label">
                             <span class="label-text">Nombre de cliente</span>
                         </label>
@@ -69,7 +73,7 @@
                         </div>
                     </div>
 
-                    <div class="flex-1 w-full form-control">
+                    <div class="flex-1 w-full form-control" x-bind:class="{ 'hidden': hiddenElement }">
                         <label class="label">
                             <span class="label-text">Direccion de cliente</span>
                         </label>
@@ -80,7 +84,8 @@
                     </div>
                 </div>
 
-                <button wire:click="buscarCliente" class="btn btn-outline w-full md:w-[50%]">
+                <button wire:click="buscarCliente" class="btn btn-outline w-full md:w-[50%]" x-model="searchClient"
+                    x-on:click="hiddenElement = false">
                     Buscar cliente
                 </button>
 
