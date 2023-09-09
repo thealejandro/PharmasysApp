@@ -58,7 +58,7 @@
                                 pattern="^((?:[0-9]+|[0-9]+K|CF))$"
                                 title="El NIT debe ser un número o 'CF', o un número seguido de 'K' al final"
                                 placeholder="CF" class="w-full max-w-xs input input-bordered"
-                                x-on:input.debounce.500ms="validateNit" />
+                                x-on:input="validateNit" />
                             <div x-show="nitError" class="text-xs text-red-500" x-text="nitErrorMessage"></div>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                 </div>
 
                 <button wire:click="buscarCliente" class="btn btn-outline w-full md:w-[50%]" x-model="searchClient"
-                    x-on:click="hiddenElement = false">
+                    x-bind:class="{ 'hidden': hiddenElement }">
                     Buscar cliente
                 </button>
 
@@ -163,6 +163,18 @@
 
             this.nitError = !pattern.test(nit);
             this.nitErrorMessage = this.nitError ? 'El NIT debe ser un número o CF, o un número seguido de K al final' : '';
+            if (this.generarFactura) {
+                if (this.nitError) {
+                    this.hiddenElement = true;
+                }
+                if (!this.nitError && this.nit.length > 0) {
+                    this.hiddenElement = false;
+                }
+                if (this.nit.length === 0) {
+                    this.nitError = false;
+                    this.nitErrorMessage = '';
+                }
+            }
         }
     </script>
 </div>
