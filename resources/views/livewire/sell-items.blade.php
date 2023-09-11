@@ -49,7 +49,7 @@
             <section class="p-4 bg-blue-100 bg-opacity-70 rounded-xl">
                 <h1 class="text-2xl font-bold text-center text-slate-400">Datos de cliente</h1>
                 <div class="flex flex-col py-4">
-                    <div class="flex-1 w-full form-control">
+                    <div class="flex-1 w-full form-control" x-bind:class="{'hidden': !hiddenElement}">
                         <label class="label">
                             <span class="label-text">NIT de cliente</span>
                         </label>
@@ -122,8 +122,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @isset($selectedProducts)
-                    @foreach ($selectedProducts as $product)
+                    @isset($listProducts)
+                    @foreach ($listProducts as $product)
                     <tr>
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->name }}</td>
@@ -137,6 +137,8 @@
                     @endisset
                 </tbody>
             </table> --}}
+
+            {{ print_r($listProducts) }}
 
             <livewire:market-seller-sale-list />
         </div>
