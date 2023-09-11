@@ -29,10 +29,9 @@ class SellItems extends Component
     public function selectedProducts($products)
     {
         // Obtener el producto seleccionado según el ID
-        $item = Items::find($products);
+        $item = $products;
 
-        $this->listProducts[] = $item;
-
+        $this->listProducts[] += $item;
     }
 
     public function vender()
@@ -50,13 +49,14 @@ class SellItems extends Component
     }
 
     public function buscarCliente()
-    { // Método para depurar el NIT del cliente en tiempo real (cada vez que se modifique el campo) y actualizar el valor del NIT depurado en la propiedad $nitClient
-      // del componente Livewire "sell-items" (en el formulario de venta) y en el componente Livewire "choose-items-modal" (en el formulario de búsqueda de productos)
-      // para que se muestre el NIT depurado en ambos formularios.
-      // El método se ejecuta cada vez que se modifique el campo. El método se ejecuta cada vez que se modifique el campo.
-      // El método se ejecuta cada vez que se modifique el campo.
+    {
+        // Método para depurar el NIT del cliente en tiempo real (cada vez que se modifique el campo) y actualizar el valor del NIT depurado en la propiedad $nitClient
+        // del componente Livewire "sell-items" (en el formulario de venta) y en el componente Livewire "choose-items-modal" (en el formulario de búsqueda de productos)
+        // para que se muestre el NIT depurado en ambos formularios.
+        // El método se ejecuta cada vez que se modifique el campo. El método se ejecuta cada vez que se modifique el campo.
+        // El método se ejecuta cada vez que se modifique el campo.
 
-    //   dd($this->nitClient); // Depurar el valor del NIT del cliente (en tiempo real
+        //   dd($this->nitClient); // Depurar el valor del NIT del cliente (en tiempo real
 
         $nit = $this->nitClient;
 
@@ -67,7 +67,7 @@ class SellItems extends Component
             $nit = str_replace('.', '', $nit);
         }
 
-        $nit = str_replace('_', '', $nit); // Eliminar guiones (altos o bajos) en la anteúltima posición
+        $nit = str_replace('_', '', $nit); // Eliminar guiones (altos o bajos) en la ante penúltima posición
         $nit = preg_replace('/k$/', 'K', $nit); // Reemplazar "k" minúscula por "K" mayúscula en la última posición
 
         // Reemplazar "C/F" o "CONSUMIDOR FINAL" por "CF" en mayúsculas
