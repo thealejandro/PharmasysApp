@@ -1,8 +1,7 @@
 <?php
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Items;
 use Illuminate\Support\Facades\Http;
 
 class SellItems extends Component
@@ -28,10 +27,31 @@ class SellItems extends Component
 
     public function selectedProducts($products)
     {
-        // Obtener el producto seleccionado según el ID
-        $item = $products;
+        // Método para almacenar los productos seleccionados en la propiedad $selectedProducts
+        if (isset($this->listProducts[$products])) {
+            $this->listProducts[$products]['quantity']++;
+            $this->listProducts[$products]['total'] = $this->listProducts[$products]['price'] * $this->listProducts[$products]['quantity'];
+        } else {
 
-        $this->listProducts[] += $item;
+            $this->listProducts[$products] = [
+                'id' => $products,
+                'name' => $products,
+                'price' => $products,
+                'quantity' => 1,
+                'total' => $products
+            ];
+        }
+
+        $this->emit('listProductsUpdate', $this->listProducts);
+
+        // // Aquí puedes obtener los productos seleccionados
+        // $this->listProducts[$products] = [
+        //     'id' => $products,
+        //     'name' => $products,
+        //     'price' => $products,
+        //     'quantity' => 1,
+        //     'total' => $products
+        // ];
     }
 
     public function vender()
@@ -56,7 +76,7 @@ class SellItems extends Component
         // El método se ejecuta cada vez que se modifique el campo. El método se ejecuta cada vez que se modifique el campo.
         // El método se ejecuta cada vez que se modifique el campo.
 
-        //   dd($this->nitClient); // Depurar el valor del NIT del cliente (en tiempo real
+        // Depurar el valor del NIT del cliente (en tiempo real
 
         $nit = $this->nitClient;
 

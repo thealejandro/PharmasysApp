@@ -138,7 +138,7 @@
                 </tbody>
             </table> --}}
 
-            {{ print_r($listProducts) }}
+            {{-- {{ print_r($listProducts) }} --}}
 
             <livewire:market-seller-sale-list />
         </div>
