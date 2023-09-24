@@ -19,23 +19,26 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased">
+    <body class="min-h-screen font-sans antialiased bg-gray-100 dark:bg-gray-900">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <header>
             @livewire('navigation-menu')
+        </header>
+
+        <div class="py-4">
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                <header>
+                    <div class="w-full lg:max-w-[90%] px-4 mx-auto lg:px-8 sm:px-6">
+                        <h1 class="text-opacity-100 text-[rgb(17,24,39)] tracking-tight text-center leading-tight font-bold text-3xl">{{ $header }}</h1>
                     </div>
                 </header>
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="w-full">
                 {{ $slot }}
             </main>
         </div>

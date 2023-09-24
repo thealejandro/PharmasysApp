@@ -29,12 +29,11 @@ module.exports = {
 
     daisyui: {
         styled: true,
-        themes: ["emerald", "dark"],
+        themes: ["emerald"],
         base: true,
         utils: true,
         logs: true,
         rtl: false,
         prefix: "",
-        darkTheme: "dark",
     }
 };

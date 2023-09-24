@@ -140,7 +140,7 @@
 
             {{-- {{ print_r($listProducts) }} --}}
 
-            <livewire:market-seller-sale-list />
+            {{-- <livewire:market-seller-sale-list /> --}}
         </div>
     </div>
 
