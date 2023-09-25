@@ -3,6 +3,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
+use Livewire\Attributes\On;
 
 class SellItems extends Component
 {
@@ -12,7 +13,6 @@ class SellItems extends Component
     public $nameClient = "";
     public $addressClient = "";
 
-    protected $listeners = ['productAdded' => 'selectedProducts'];
 
     // public function mount()
     // {
@@ -25,33 +25,29 @@ class SellItems extends Component
     //     $this->addressClient;
     // }
 
-    public function selectedProducts($products)
+    #[On('productAdded')]
+    public function selectedProducts($product)
     {
-        // Método para almacenar los productos seleccionados en la propiedad $selectedProducts
-        if (isset($this->listProducts[$products])) {
-            $this->listProducts[$products]['quantity']++;
-            $this->listProducts[$products]['total'] = $this->listProducts[$products]['price'] * $this->listProducts[$products]['quantity'];
-        } else {
+        $presentations = base64_decode($product["presentaciones"]);
+        $presentations = json_decode($presentations, true);
+        $itemCode = $product["codigo"];
 
-            $this->listProducts[$products] = [
-                'id' => $products,
-                'name' => $products,
-                'price' => $products,
+        // Método para almacenar los productos seleccionados en la propiedad $selectedProducts
+        if (isset($this->listProducts[$itemCode])) {
+            $this->listProducts[$itemCode]['quantity']++;
+            $this->listProducts[$itemCode]['total'] = $this->listProducts[$itemCode]['price'] * $this->listProducts[$itemCode]['quantity'];
+        } else {
+            $this->listProducts[$itemCode] = [
+                'id' => $product["codigo"],
+                'name' => $product["categoria"] . ' - ' . $product["producto"] . ' - ' . $product["marca"],
+                'presentation' => $presentations,
+                'price' => $product["precio"],
                 'quantity' => 1,
-                'total' => $products
+                'total' => $product["precio"]
             ];
         }
 
-        $this->emit('listProductsUpdate', $this->listProducts);
-
-        // // Aquí puedes obtener los productos seleccionados
-        // $this->listProducts[$products] = [
-        //     'id' => $products,
-        //     'name' => $products,
-        //     'price' => $products,
-        //     'quantity' => 1,
-        //     'total' => $products
-        // ];
+        $this->total = round(array_sum(array_column($this->listProducts, 'total')), 2);
     }
 
     public function vender()
@@ -65,7 +61,7 @@ class SellItems extends Component
         session()->flash('message', '¡Venta realizada con éxito!');
 
         // También podrías emitir un evento para comunicarte con el componente "choose-items-modal".
-        $this->emit('ventaRealizada');
+        // $this->emit('ventaRealizada');
     }
 
     public function buscarCliente()

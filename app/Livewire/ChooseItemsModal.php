@@ -10,6 +10,7 @@ class ChooseItemsModal extends Component
 {
     public $searchTerm = '';
     public $filteredProducts = [];
+    public $listItems = [];
 
     public function render()
     {
@@ -23,15 +24,20 @@ class ChooseItemsModal extends Component
             $this->filteredProducts = $searchTerm->json();
         }
 
+        foreach ($this->filteredProducts as $product) {
+            $this->listItems[$product["codigo"]] = $product;
+        };
+
         return view('livewire.choose-items-modal', [
             'filteredProducts' => $this->filteredProducts
         ]);
     }
 
-    public function addProduct($productId)
+    public function addProduct($itemCode)
     {
         // Emitir el evento "selectedProducts" en el componente padre "SellItems" y pasar los productos seleccionados
-        $this->emit('productAdded', $productId);
+        $item = $this->listItems[$itemCode];
+        $this->dispatch('productAdded', $item);
     }
 }
 
