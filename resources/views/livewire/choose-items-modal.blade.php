@@ -23,7 +23,7 @@
                     <tr>
                         <th>Código</th>
                         <th>Producto</th>
-                        <th>Precio de venta</th>
+                        <th>Precio</th>
                         <th>Genérico</th>
                         <th>Acciones</th> <!-- Nueva columna para el botón "Agregar" -->
                     </tr>
@@ -33,19 +33,19 @@
                     <tr>
                         <td colspan="5" class="text-center">No se encontraron resultados</td>
                     </tr>
+                    @else
+                        @foreach ($filteredProducts as $product)
+                        <tr class="transition-transform ease-linear cursor-pointer hover hover:scale-[.99]">
+                            <td>{{ $product["codigo"] }}</td>
+                            <td>{{ $product["categoria"] }} - {{ $product["producto"] }} - {{ $product["marca"] }}</td>
+                            <td>Q {{ $product["precio"] }}</td>
+                            <td>{{ $product["generico"] ? "Si" : "No" }}</td>
+                            <td>
+                                <x-w-button.circle wire:click="addProduct({{ $product['codigo'] }})" positive icon="view-grid-add" />
+                            </td>
+                        </tr>
+                        @endforeach
                     @endif
-                    @foreach ($filteredProducts as $product)
-                    <tr class="transition-transform ease-linear cursor-pointer hover hover:scale-[.99]">
-                        <td>{{ $product["codigo"] }}</td>
-                        <td>{{ $product["categoria"] }} - {{ $product["producto"] }} - {{ $product["marca"] }}</td>
-                        <td>{{ $product["precio"] }}</td>
-                        <td>{{ $product["generico"] }}</td>
-                        <td>
-                            <button wire:click="addProduct({{ $product['codigo'] }})"
-                                class="btn btn-primary">Agregar</button>
-                        </td>
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>

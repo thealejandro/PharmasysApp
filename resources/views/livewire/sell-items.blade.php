@@ -6,10 +6,10 @@
             class="flex flex-col gap-8">
             <section class="flex flex-col gap-4 xl:flex-row">
                 <div class="flex-1 text-center">
-                    <div class="shadow stats">
-                        <div class="stat place-items-center">
+                    <div class="w-full shadow stats">
+                        <div class="w-full stat place-items-center">
                             <div class="stat-title">Total</div>
-                            <div class="stat-value text-primary">Q0.00</div>
+                            <div class="stat-value text-primary">Q {{ $total }}</div>
                         </div>
                     </div>
                 </div>
@@ -109,14 +109,14 @@
         </a>
 
         <div class="mt-4 overflow-x-auto">
-            {{-- <table class="table w-full">
+            <table class="table w-full">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Presentación</th>
-                        <th>P/U</th>
+                        <th>Precio</th>
                         <th>Total</th>
                         <th>Acción</th>
                     </tr>
@@ -125,22 +125,32 @@
                     @isset($listProducts)
                     @foreach ($listProducts as $product)
                     <tr>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->id }}</td>
+                        <td>{{ $product["id"] }}</td>
+                        <td>{{ $product["name"] }}</td>
+                        <td>{{ $product["quantity"] }}</td>
+                        <td>
+                            <x-w-native-select
+                                option-label="name"
+                                option-value="id"
+                                wire:model="model">
+                                @foreach($product["presentation"] as $presentations)
+                                    <option value="{{ $presentations["idpresentacion"] }}">{{ $presentations["presentacion"] }}</option>
+                                @endforeach
+                            </x-w-native-select>
+                        </td>
+                        <td>{{ $product["price"] }}</td>
+                        <td>{{ $product["total"] }}</td>
+                        <td>
+                            <x-w-button.circle negative icon="trash" />
+                            {{-- wire:click="removeProduct({{ $product->id }})" --}}
+                        </td>
                     </tr>
                     @endforeach
                     @endisset
                 </tbody>
-            </table> --}}
+            </table>
 
             {{-- {{ print_r($listProducts) }} --}}
-
-            {{-- <livewire:market-seller-sale-list /> --}}
         </div>
     </div>
 
