@@ -61,143 +61,143 @@ return [
     'components' => [
         'avatar' => [
             'class' => Components\Avatar::class,
-            'alias' => 'avatar',
+            'alias' => 'w-avatar',
         ],
         'icon' => [
             'class' => Components\Icon::class,
-            'alias' => 'icon',
+            'alias' => 'w-icon',
         ],
         'icon.spinner' => [
             'class' => Components\Icons\Spinner::class,
-            'alias' => 'icon.spinner',
+            'alias' => 'w-icon.spinner',
         ],
         'color-picker' => [
             'class' => Components\ColorPicker::class,
-            'alias' => 'color-picker',
+            'alias' => 'w-color-picker',
         ],
         'input' => [
             'class' => Components\Input::class,
-            'alias' => 'input',
+            'alias' => 'w-input',
         ],
         'textarea' => [
             'class' => Components\Textarea::class,
-            'alias' => 'textarea',
+            'alias' => 'w-textarea',
         ],
         'label' => [
             'class' => Components\Label::class,
-            'alias' => 'label',
+            'alias' => 'w-label',
         ],
         'error' => [
             'class' => Components\Error::class,
-            'alias' => 'error',
+            'alias' => 'w-error',
         ],
         'errors' => [
             'class' => Components\Errors::class,
-            'alias' => 'errors',
+            'alias' => 'w-errors',
         ],
         'inputs.maskable' => [
             'class' => Components\Inputs\MaskableInput::class,
-            'alias' => 'inputs.maskable',
+            'alias' => 'w-inputs.maskable',
         ],
         'inputs.phone' => [
             'class' => Components\Inputs\PhoneInput::class,
-            'alias' => 'inputs.phone',
+            'alias' => 'w-inputs.phone',
         ],
         'inputs.currency' => [
             'class' => Components\Inputs\CurrencyInput::class,
-            'alias' => 'inputs.currency',
+            'alias' => 'w-inputs.currency',
         ],
         'inputs.number' => [
             'class' => Components\Inputs\NumberInput::class,
-            'alias' => 'inputs.number',
+            'alias' => 'w-inputs.number',
         ],
         'inputs.password' => [
             'class' => Components\Inputs\PasswordInput::class,
-            'alias' => 'inputs.password',
+            'alias' => 'w-inputs.password',
         ],
         'badge' => [
             'class' => Components\Badge::class,
-            'alias' => 'badge',
+            'alias' => 'w-badge',
         ],
         'badge.circle' => [
             'class' => Components\CircleBadge::class,
-            'alias' => 'badge.circle',
+            'alias' => 'w-badge.circle',
         ],
         'button' => [
             'class' => Components\Button::class,
-            'alias' => 'button',
+            'alias' => 'w-button',
         ],
         'button.circle' => [
             'class' => Components\CircleButton::class,
-            'alias' => 'button.circle',
+            'alias' => 'w-button.circle',
         ],
         'dropdown' => [
             'class' => Components\Dropdown::class,
-            'alias' => 'dropdown',
+            'alias' => 'w-dropdown',
         ],
         'dropdown.item' => [
             'class' => Components\Dropdown\DropdownItem::class,
-            'alias' => 'dropdown.item',
+            'alias' => 'w-dropdown.item',
         ],
         'dropdown.header' => [
             'class' => Components\Dropdown\DropdownHeader::class,
-            'alias' => 'dropdown.header',
+            'alias' => 'w-dropdown.header',
         ],
         'notifications' => [
             'class' => Components\Notifications::class,
-            'alias' => 'notifications',
+            'alias' => 'w-notifications',
         ],
         'datetime-picker' => [
             'class' => Components\DatetimePicker::class,
-            'alias' => 'datetime-picker',
+            'alias' => 'w-datetime-picker',
         ],
         'time-picker' => [
             'class' => Components\TimePicker::class,
-            'alias' => 'time-picker',
+            'alias' => 'w-time-picker',
         ],
         'card' => [
             'class' => Components\Card::class,
-            'alias' => 'card',
+            'alias' => 'w-card',
         ],
         'native-select' => [
             'class' => Components\NativeSelect::class,
-            'alias' => 'native-select',
+            'alias' => 'w-native-select',
         ],
         'select' => [
             'class' => Components\Select::class,
-            'alias' => 'select',
+            'alias' => 'w-select',
         ],
         'select.option' => [
             'class' => Components\Select\Option::class,
-            'alias' => 'select.option',
+            'alias' => 'w-select.option',
         ],
         'select.user-option' => [
             'class' => Components\Select\UserOption::class,
-            'alias' => 'select.user-option',
+            'alias' => 'w-select.user-option',
         ],
         'toggle' => [
             'class' => Components\Toggle::class,
-            'alias' => 'toggle',
+            'alias' => 'w-toggle',
         ],
         'checkbox' => [
             'class' => Components\Checkbox::class,
-            'alias' => 'checkbox',
+            'alias' => 'w-checkbox',
         ],
         'radio' => [
             'class' => Components\Radio::class,
-            'alias' => 'radio',
+            'alias' => 'w-radio',
         ],
         'modal' => [
             'class' => Components\Modal::class,
-            'alias' => 'modal',
+            'alias' => 'w-modal',
         ],
         'modal.card' => [
             'class' => Components\ModalCard::class,
-            'alias' => 'modal.card',
+            'alias' => 'w-modal.card',
         ],
         'dialog' => [
             'class' => Components\Dialog::class,
-            'alias' => 'dialog',
+            'alias' => 'w-dialog',
         ],
     ],
 ];
