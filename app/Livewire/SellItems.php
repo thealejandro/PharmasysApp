@@ -26,18 +26,23 @@ class SellItems extends Component
     // }
 
     #[On('productAdded')]
-    public function selectedProducts($product)
+    public function addItem($product)
     {
         $presentations = base64_decode($product["presentaciones"]);
         $presentations = json_decode($presentations, true);
-        $itemCode = $product["codigo"];
+        $itemCode = $product["codigo"] + rand(1, 1000);
 
         // Método para almacenar los productos seleccionados en la propiedad $selectedProducts
-        if (isset($this->listProducts[$itemCode])) {
-            $this->listProducts[$itemCode]['quantity']++;
-            $this->listProducts[$itemCode]['total'] = $this->listProducts[$itemCode]['price'] * $this->listProducts[$itemCode]['quantity'];
-        } else {
+        // del componente Livewire "sell-items" (en el formulario de venta) y en el componente Livewire "choose-items-modal" (en el formulario de búsqueda de productos)
+        // para que se muestren los productos seleccionados en ambos formularios.
+        // El método se ejecuta cada vez que se emita el evento "productAdded" desde el componente "choose-items-modal".
+
+        // if (isset($this->listProducts[$itemCode]) ) {
+        //     $this->listProducts[$itemCode]['quantity']++;
+        //     $this->listProducts[$itemCode]['total'] = $this->listProducts[$itemCode]['price'] * $this->listProducts[$itemCode]['quantity'];
+        // } else {
             $this->listProducts[$itemCode] = [
+                'code' => $itemCode, // Código único para cada producto seleccionado, para poder eliminarlo posteriormente
                 'id' => $product["codigo"],
                 'name' => $product["categoria"] . ' - ' . $product["producto"] . ' - ' . $product["marca"],
                 'presentation' => $presentations,
@@ -45,7 +50,15 @@ class SellItems extends Component
                 'quantity' => 1,
                 'total' => $product["precio"]
             ];
-        }
+        // }
+
+        $this->total = round(array_sum(array_column($this->listProducts, 'total')), 2);
+    }
+
+    public function removeItem($itemCode)
+    {
+        // Método para eliminar un producto de la propiedad $selectedProducts
+        unset($this->listProducts[$itemCode]);
 
         $this->total = round(array_sum(array_column($this->listProducts, 'total')), 2);
     }

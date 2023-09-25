@@ -123,16 +123,13 @@
                 </thead>
                 <tbody>
                     @isset($listProducts)
-                    @foreach ($listProducts as $product)
+                    @foreach ($listProducts as $key => $product)
                     <tr>
                         <td>{{ $product["id"] }}</td>
                         <td>{{ $product["name"] }}</td>
                         <td>{{ $product["quantity"] }}</td>
                         <td>
-                            <x-w-native-select
-                                option-label="name"
-                                option-value="id"
-                                wire:model="model">
+                            <x-w-native-select>
                                 @foreach($product["presentation"] as $presentations)
                                     <option value="{{ $presentations["idpresentacion"] }}">{{ $presentations["presentacion"] }}</option>
                                 @endforeach
@@ -141,7 +138,7 @@
                         <td>{{ $product["price"] }}</td>
                         <td>{{ $product["total"] }}</td>
                         <td>
-                            <x-w-button.circle negative icon="trash" />
+                            <x-w-button.circle negative icon="trash" wire:click='removeItem({{ $product["code"] }})' />
                             {{-- wire:click="removeProduct({{ $product->id }})" --}}
                         </td>
                     </tr>
