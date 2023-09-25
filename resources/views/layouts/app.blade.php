@@ -11,10 +11,12 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <wireui:scripts />
+        @wireUiScripts
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
 
         <!-- Styles -->
         @livewireStyles
@@ -32,7 +34,10 @@
             @if (isset($header))
                 <header>
                     <div class="w-full lg:max-w-[90%] px-4 mx-auto lg:px-8 sm:px-6">
-                        <h1 class="text-opacity-100 text-[rgb(17,24,39)] tracking-tight text-center leading-tight font-bold text-3xl">{{ $header }}</h1>
+                        <h1
+                            class="text-opacity-100 text-[rgb(17,24,39)] tracking-tight text-center leading-tight font-bold text-3xl">
+                            {{ $header }}
+                        </h1>
                     </div>
                 </header>
             @endif
