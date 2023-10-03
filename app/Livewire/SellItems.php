@@ -12,6 +12,7 @@ class SellItems extends Component
     public $nitClient = "";
     public $nameClient = "";
     public $addressClient = "";
+    public $saleId = 0;
 
 
     // public function mount()
@@ -75,6 +76,61 @@ class SellItems extends Component
 
         // También podrías emitir un evento para comunicarte con el componente "choose-items-modal".
         // $this->emit('ventaRealizada');
+    }
+
+    public function cancelSale()
+    {
+        // Método para cancelar la venta y limpiar los productos seleccionados
+        $this->listProducts = [];
+        $this->total = 0;
+        $this->nitClient = "";
+        $this->nameClient = "";
+        $this->addressClient = "";
+    }
+
+    public function saveSale()
+    {
+        if (count($this->listProducts) > 0) {
+            $products = [];
+            foreach ($this->listProducts as $product) {
+                $products[$this->saleId] = [
+                    'id' => $product['id'],
+                    'quantity' => $product['quantity'],
+                    'price' => $product['price'],
+                    'total' => $product['total']
+                ];
+            }
+
+            $data = [
+                'nit' => $this->nitClient,
+                'name' => $this->nameClient,
+                'address' => $this->addressClient,
+                'products' => $products
+            ];
+
+            // $response = Http::post('http://');
+            // $response = $response->object();
+
+            // if ($response->status == 'error') {
+            //     session()->flash('errorSaveSale', '¡Error al guardar la venta!');
+            // }
+
+            // $this->saleId = $response->saleId;
+
+            session()->flash('successSaveSale', '¡Venta guardada con éxito!');
+
+
+
+            // Método para guardar la venta y limpiar los productos seleccionados
+            $this->saleId = 0;
+            $this->listProducts = [];
+            $this->total = 0;
+            $this->nitClient = "";
+            $this->nameClient = "";
+            $this->addressClient = "";
+        } else {
+            session()->flash('notProductsSale', '¡No hay productos seleccionados!');
+        }
     }
 
     public function buscarCliente()

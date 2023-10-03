@@ -4,6 +4,37 @@
 
         <div x-data="{ generarFactura: false, generarComprobante: true, hiddenElement: false, hiddenElement2: false }"
             class="flex flex-col gap-8">
+            @if (session()->has('errorSaveSale'))
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="alert alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    {{ session('errorSaveSale') }}
+                </div>
+            @endif
+
+            @if (session()->has('successSaveSale'))
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="alert alert-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    {{ session('successSaveSale') }}
+                </div>
+            @endif
+
+            @if (session()->has('notProductsSale'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="alert alert-warning">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                {{ session('notProductsSale') }}
+            </div>
+            @endif
+
+
+            <div class="shadow stats">
+                <div class="stat">
+                    <div class="stat-figure text-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                    </div>
+                    <div class="stat-title">Numero de registro</div>
+                    <div class="stat-value">{{ $saleId }}</div>
+                </div>
+            </div>
             <section class="flex flex-col gap-4 xl:flex-row">
                 <div class="flex-1 text-center">
                     <div class="w-full shadow stats">
@@ -33,17 +64,12 @@
                 </div>
             </section>
 
-            <section class="flex flex-wrap justify-center gap-4 md:flex-row">
-                <button wire:click="vender" class="text-white btn btn-primary"
-                    x-bind:class="{ 'hidden': hiddenElement }">
-                    Vender
-                </button>
-                <button class="text-white btn btn-error">
-                    Cancelar
-                </button>
-                <button class="text-white btn btn-info">
-                    Imprimir
-                </button>
+            <section class="flex flex-wrap justify-center gap-6 md:flex-row">
+                <x-w-button rounded lg icon="shopping-cart" x-bind:class="{ 'hidden': hiddenElement }" positive label="Vender" />
+                <x-w-button rounded md icon="x" negative label="Cancelar" wire:click='cancelSale' />
+                <x-w-button rounded md blue icon="save" label="Guardar" wire:click='saveSale' />
+                {{-- <x-w-button rounded md orange icon="receipt-tax" label="Guardar e imprimir" /> --}}
+                <x-w-button rounded md indigo icon="printer" label="Imprimir" />
             </section>
 
             <section class="p-4 bg-blue-100 bg-opacity-70 rounded-xl">
@@ -139,15 +165,12 @@
                         <td>{{ $product["total"] }}</td>
                         <td>
                             <x-w-button.circle negative icon="trash" wire:click='removeItem({{ $product["code"] }})' />
-                            {{-- wire:click="removeProduct({{ $product->id }})" --}}
                         </td>
                     </tr>
                     @endforeach
                     @endisset
                 </tbody>
             </table>
-
-            {{-- {{ print_r($listProducts) }} --}}
         </div>
     </div>
 
