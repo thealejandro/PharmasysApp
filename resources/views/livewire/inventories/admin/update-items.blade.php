@@ -9,93 +9,106 @@
         </div>
     </div>
     <div class="shadow-lg card bg-base-100">
-        <div class="card-body">
+        <div class="gap-3 card-body">
             <h2 class="card-title">{{ __("Location") }}</h2>
-            <div class="gap-2 form-control">
-                <label class="input-group">
-                    <span>{{ __("Estante") }}</span>
-                    <input type="text" placeholder="0" class="input input-bordered" />
-                </label>
-                <label class="input-group">
-                    <span>{{ __("Nivel") }}</span>
-                    <input type="text" placeholder="0" class="input input-bordered" />
-                </label>
-                <label class="input-group">
-                    <span>{{ __("Caja") }}</span>
-                    <input type="text" placeholder="0" class="input input-bordered" />
-                </label>
-            </div>
-            <div class="w-full card-actions">
-                <button class="w-full btn btn-primary">Update</button>
+                <x-w-input placeholder="0" class="pl-[4.6rem]">
+                    <x-slot name="prepend">
+                        <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                            <span class="rounded-l-md text-primary-400">{{ __("Estante") }}</span>
+                        </div>
+                    </x-slot>
+                </x-w-input>
+                <x-w-input placeholder="0" class="pl-14">
+                    <x-slot name="prepend">
+                        <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                            <span class="rounded-l-md text-primary-400">{{ __("Nivel") }}</span>
+                        </div>
+                    </x-slot>
+                </x-w-input>
+                <x-w-input placeholder="0" class="pl-14">
+                    <x-slot name="prepend">
+                        <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                            <span class="rounded-l-md text-primary-400">{{ __("Caja") }}</span>
+                        </div>
+                    </x-slot>
+                </x-w-input>
+            <div class="text-center">
+                <x-w-button icon="save" md rounded positive label="Update" />
             </div>
         </div>
     </div>
     <div class="shadow-lg card bg-base-100">
-        <div class="card-body">
+        <div class="gap-3 card-body">
             <h2 class="card-title">{{ __("Prices") }}</h2>
-            <div class="form-control">
-                <label class="input-group">
-                    <span>{{ __("Purchase") }}</span>
-                    <input type="text" placeholder="0.00" class="input input-bordered" />
-                </label>
-                <div class="divider"></div>
-                <div class="form-control">
-                    <label class="input-group">
-                        <span>{{ __("Sale") }}</span>
-                        <input type="text" placeholder="0.00" class="input input-bordered" />
-                    </label>
-                </div>
-            </div>
-            <div class="w-full card-actions">
-                <button class="w-full btn btn-primary">Update</button>
-            </div>
-        </div>
-    </div>
-    <div class="shadow-lg card bg-base-100">
-        <div class="card-body">
-            <h2 class="card-title">{{ __("Presentations") }}</h2>
-            <div class="flex flex-col w-full card-actions">
-                <div class="flex flex-col w-full gap-1">
-                    <label class="w-full input-group">
-                        <span>{{ __("Name") }}</span>
-                        <input type="text" placeholder="Blister" class="input input-bordered" />
-                    </label>
-                    <label class="w-full input-group">
-                        <span>{{ __("Price") }}</span>
-                        <input type="text" placeholder="0.00" class="input input-bordered" />
-                    </label>
-                </div>
-                <div class="divider"></div>
-                <div class="flex flex-col w-full gap-1">
-                    <label class="w-full input-group">
-                        <span>{{ __("Name") }}</span>
-                        <input type="text" placeholder="Caja" class="input input-bordered" />
-                    </label>
-                    <label class="w-full input-group">
-                        <span>{{ __("Price") }}</span>
-                        <input type="text" placeholder="0.00" class="input input-bordered" />
-                    </label>
-                </div>
-                <button class="w-full btn btn-success">{{ __("Save") }}</button>
+            <x-w-input placeholder="0.00" class="pl-[5.6rem]">
+                <x-slot name="prepend">
+                    <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                        <span class="rounded-l-md text-primary-400">{{ __("Purchase") }}</span>
+                    </div>
+                </x-slot>
+            </x-w-input>
+                <x-w-input placeholder="0.00" class="pl-14">
+                    <x-slot name="prepend">
+                        <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                            <span class="rounded-l-md text-primary-400">{{ __("Sale") }}</span>
+                        </div>
+                    </x-slot>
+                </x-w-input>
+            <div class="text-center">
+                <x-w-button icon="save" md rounded positive label="Update" />
             </div>
         </div>
     </div>
     <div class="shadow-lg card bg-base-100">
-        <div class="card-body">
+        <div class="gap-3 card-body">
+            <h2 class="card-title">{{ __('Presentations') }}</h2>
+            <x-w-input placeholder="{{ __('Presentación') }}" class="pl-16">
+                <x-slot name="prepend">
+                    <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                        <span class="rounded-l-md text-primary-400">{{ __("Name") }}</span>
+                    </div>
+                </x-slot>
+            </x-w-input>
+            <x-w-input placeholder="0.00" class="pl-14">
+                <x-slot name="prepend">
+                    <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                        <span class="rounded-l-md text-primary-400">{{ __("Price") }}</span>
+                    </div>
+                </x-slot>
+            </x-w-input>
+            <div class="m-0 divider"></div>
+            <div class="flex justify-between">
+                <x-w-button icon="save" md rounded positive label="Update" />
+                <x-w-button icon="plus" md rounded primary label="Add" />
+            </div>
+        </div>
+    </div>
+    <div class="shadow-lg card bg-base-100">
+        <div class="gap-3 card-body">
             <h2 class="card-title">{{ __("Others") }}</h2>
-            <div class="flex flex-col w-full card-actions">
-                <div class="flex flex-col w-full gap-1">
-                    <label class="w-full input-group">
-                        <span>{{ __("Expiry") }}</span>
-                        <input type="text" placeholder="mm/aaaa" class="input input-bordered" />
-                    </label>
-                    <label class="w-full input-group">
-                        <span>{{ __("Stock") }}</span>
-                        <input type="text" placeholder="0" class="input input-bordered" />
-                    </label>
-                </div>
-                <button class="w-full btn btn-success">{{ __("Save") }}</button>
+            {{-- <div class="flex flex-col w-full card-actions"> --}}
+                {{-- <div class="flex flex-col w-full gap-1"> --}}
+            <x-w-datetime-picker
+                label="{{ __('Expiration Date') }}"
+                placeholder="mm/aaaa"
+                parse-format="MM-YYYY"
+                wire:model.defer="customFormat"
+                without-timezone
+                display-format="MM-YYYY"
+                without-time
+            />
+            <x-w-input placeholder="0" class="pl-14">
+                <x-slot name="prepend">
+                    <div class="absolute inset-y-0 left-0 flex items-center p-3">
+                        <span class="rounded-l-md text-primary-400">{{ __("Stock") }}</span>
+                    </div>
+                </x-slot>
+            </x-w-input>
+            <div class="flex justify-between">
+                <x-w-button icon="save" md rounded positive label="Update" />
+                <x-w-button icon="plus" md rounded primary label="Add" />
             </div>
+            {{-- </div> --}}
         </div>
     </div>
 </div>

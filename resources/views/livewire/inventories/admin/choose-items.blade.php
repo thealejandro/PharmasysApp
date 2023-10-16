@@ -39,7 +39,6 @@
 
     <div class="w-full py-4 md:py-10">
         <div class="overflow-x-auto">
-        {{-- {{ print_r($items) }} --}}
             <table class="table w-full">
                 <!-- head -->
                 <thead>
@@ -48,6 +47,11 @@
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Cantidad 2</th>
+                        <th>Precio Venta</th>
+                        <th>Precio Compra</th>
+                        <th>Vencimiento</th>
+                        <th>Ubicación</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +61,13 @@
                         <td>{{ $item["categoria"] . ' - ' . $item["producto"] . ' - ' . $item["marca"] }}</td>
                         <td>{{ $item["cantidad1"] }}</td>
                         <td>{{ $item["cantidad2"] }}</td>
+                        <td>{{ $item["precio"] }}</td>
+                        <td>{{ $item["compra"] }}</td>
+                        <td>{{ $item["fecha_ven"] }}</td>
+                        <td>{{ $item["estado"] }}</td>
+                        <td>
+                            <x-w-button icon="pencil-alt" outline rounded primary label="Editar" />
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
