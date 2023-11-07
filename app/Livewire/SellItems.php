@@ -82,7 +82,7 @@ class SellItems extends Component
             );
 
             // Método para realizar la venta y limpiar los productos seleccionados
-            cancelSale();
+            $this->cancelSale();
 
         } else {
             $this->notification()->error(
