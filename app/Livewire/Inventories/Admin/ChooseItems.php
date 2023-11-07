@@ -9,8 +9,10 @@ class ChooseItems extends Component
 {
 
     public $items = [];
-    public $selectedItem = null;
     public $search = '';
+    public $listProducts = [];
+    public $selectedBranch = null;
+
 
     public function mount()
     {
@@ -19,17 +21,47 @@ class ChooseItems extends Component
 
     public function searchItems()
     {
-        $this->items = Http::get('http://34.125.94.119/nawokpaydev/inventario/busqueda.php?idtienda=1&cadena=' . $this->search)->json();
+        trim($this->search);
+        if (strlen($this->search) > 0) {
+            $this->getProducts($this->search);
+        } else {
+            session()->flash('noTextSearch', 'Ingrese un valor para buscar o pulse el botón "Mostrar todos"');
+        }
     }
 
     public function showAllItems()
     {
-        $this->items = Http::get('http://34.125.94.119/nawokpaydev/inventario/busqueda.php?idtienda=1')->json();
+        $this->getProducts(true);
+    }
+
+    private function getProducts(bool $all = false, string $search = "")
+    {
+        if ($all) {
+            $this->listProducts = Http::get('http://' . env('API_IP') . '/nawokpaydev/inventario/busqueda.php?idtienda=1')->json(); // Get all products from API Nawok Pay
+        }
+
+        if (!$all && strlen($search) > 0) {
+            $this->listProducts = Http::get('http://' . env('API_IP') . '/nawokpaydev/inventario/busqueda.php?idtienda=1&cadena=' . $search)->json(); // Get products from API Nawok Pay
+        }
+
+        if (count($this->listProducts) > 0) {
+            foreach ($this->listProducts as $item) {
+                $this->items[$item["idinventario"]] = $item;
+            }
+        } else {
+            session()->flash('noItems', 'No se encontraron productos');
+        }
     }
 
     public function selectItem($item)
     {
-        $this->selectedItem = $item;
+        $currentEditItem = $this->items[$item];
+        $this->dispatch('itemEdit', $currentEditItem);
+    }
+
+    public function selectBranch($branch)
+    {
+        $this->selectedBranch = $branch;
     }
 
     public function render()
