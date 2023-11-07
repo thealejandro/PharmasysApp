@@ -20,6 +20,9 @@
         @livewireStyles
     </head>
     <body class="min-h-screen font-sans antialiased bg-gray-100 dark:bg-gray-900">
+
+        <x-w-notifications />
+
         <x-banner />
 
         <header>
