@@ -65,9 +65,9 @@
             </section>
 
             <section class="flex flex-wrap justify-center gap-6 md:flex-row">
-                <x-w-button rounded lg icon="shopping-cart" x-bind:class="{ 'hidden': hiddenElement }" positive label="Vender" />
+                <x-w-button rounded lg icon="shopping-cart" x-bind:class="{ 'hidden': hiddenElement }" positive label="Vender" wire:click="vender" />
                 <x-w-button rounded md icon="x" negative label="Cancelar" wire:click='cancelSale' />
-                <x-w-button rounded md blue icon="save" label="Guardar" wire:click='saveSale' />
+                {{-- <x-w-button rounded md blue icon="save" label="Guardar" wire:click='saveSale' /> --}}
                 {{-- <x-w-button rounded md orange icon="receipt-tax" label="Guardar e imprimir" /> --}}
                 <x-w-button rounded md indigo icon="printer" label="Imprimir" />
             </section>

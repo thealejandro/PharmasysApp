@@ -4,9 +4,12 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\On;
+use WireUi\Traits\Actions;
 
 class SellItems extends Component
 {
+    use Actions;
+
     public $listProducts = [];
     public $total = 0;
     public $nitClient = "";
@@ -72,7 +75,13 @@ class SellItems extends Component
 
         // Por ejemplo, podrías mostrar un mensaje de éxito o error.
 
-        session()->flash('message', '¡Venta realizada con éxito!');
+        if (count($this->listProducts) > 0) {
+            $this->notification()->success(
+                $title = 'Success',
+                $description = 'Sale completed successfully',
+            );
+        }
+
 
         // También podrías emitir un evento para comunicarte con el componente "choose-items-modal".
         // $this->emit('ventaRealizada');
