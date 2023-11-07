@@ -80,6 +80,15 @@ class SellItems extends Component
                 $title = 'Success',
                 $description = 'Sale completed successfully',
             );
+
+            // Método para realizar la venta y limpiar los productos seleccionados
+            cancelSale();
+
+        } else {
+            $this->notification()->error(
+                $title = 'Error',
+                $description = 'No products selected',
+            );
         }
 
 
