@@ -1,6 +1,8 @@
 <div class="flex flex-col object-center gap-4 px-4 py-2 mx-auto overflow-hidden md:flex-row lg:px-8 md:pt-0 xl:gap-6">
 
+
     <div class="w-full p-5 overflow-hidden text-center bg-white shadow-md md:basis-1/3 lg:basis-1/4 sm:rounded-lg">
+
 
         <div x-data="{ generarFactura: false, generarComprobante: true, hiddenElement: false, hiddenElement2: false }"
             class="flex flex-col gap-8">
@@ -135,6 +137,8 @@
         </a>
 
         <div class="mt-4 overflow-x-auto">
+        {{ print_r($responseInvoice) }}
+
             <table class="table w-full">
                 <thead>
                     <tr>

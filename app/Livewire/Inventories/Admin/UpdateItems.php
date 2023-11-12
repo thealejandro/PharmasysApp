@@ -111,6 +111,34 @@ class UpdateItems extends Component
                     $description = 'Presentation updated successfully',
                 );
             }
+
+            if ($response->status() == 500) {
+                $this->notification()->error(
+                    $title = 'Error',
+                    $description = 'Error when updating the presentation',
+                );
+            }
+
+            if ($response->status() == 404) {
+                $this->notification()->error(
+                    $title = 'Error',
+                    $description = 'Error when updating the presentation',
+                );
+            }
+
+            if ($response->status() == 400) {
+                $this->notification()->error(
+                    $title = 'Error',
+                    $description = 'Error when updating the presentation',
+                );
+            }
+
+            if ($response->status() == 401) {
+                $this->notification()->error(
+                    $title = 'Error',
+                    $description = 'Error when updating the presentation',
+                );
+            }
         }
 
 
