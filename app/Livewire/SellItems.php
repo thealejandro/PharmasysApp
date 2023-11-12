@@ -193,25 +193,25 @@ class SellItems extends Component
             'products' => $this->listProducts
         ];
 
-        $response = Http::post('http://' . env('API_IP') . '/nawokpaydev/vender/generarventa.php', $data);
-        $response = $response->object();
+        // $response = Http::post('http://' . env('API_IP') . '/nawokpaydev/vender/generarventa.php', $data);
+        // $response = $response->object();
 
-        if ($response->ok() && $response->status == 'success') {
+        // if ($response->ok() && $response->status == 'success') {
             $this->notification()->success(
                 $title = 'Success',
                 $description = 'Sale completed successfully',
             );
 
-            // Método para realizar la venta y limpiar los productos seleccionados
-            $this->cancelSale();
-        }
+        //     // Método para realizar la venta y limpiar los productos seleccionados
+        //     $this->cancelSale();
+        // }
 
-        if ($response->status == 'error') {
-            $this->notification()->error(
-                $title = 'Error',
-                $description = 'Error when making the sale',
-            );
-        }
+        // if ($response->status == 'error') {
+            // $this->notification()->error(
+            //     $title = 'Error',
+            //     $description = 'Error when making the sale',
+            // );
+        // }
 
     }
 
