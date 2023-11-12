@@ -165,7 +165,7 @@ class SellItems extends Component
 
         $this->responseInvoice = $request->object();
 
-        if ($response->status == 'success') {
+        if ($request->status == 'success') {
             $this->notification()->success(
                 $title = 'Success',
                 $description = 'Sale completed successfully',
@@ -176,7 +176,7 @@ class SellItems extends Component
         }
 
 
-        if ($response->status == 'error') {
+        if ($request->status == 'error') {
             $this->notification()->error(
                 $title = 'Error',
                 $description = 'Error when making the sale',
