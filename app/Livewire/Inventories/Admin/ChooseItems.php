@@ -44,7 +44,7 @@ class ChooseItems extends Component
             $this->listProducts = Http::get('http://' . env('API_IP') . '/nawokpaydev/inventario/busqueda.php?idtienda=1&cadena=' . $search)->json(); // Get products from API Nawok Pay
         }
 
-        if (count($this->listProducts) > 0) {
+        if (isset($this->listProducts) && count($this->listProducts) > 0) {
             foreach ($this->listProducts as $item) {
                 $this->items[$item["idinventario"]] = $item;
             }

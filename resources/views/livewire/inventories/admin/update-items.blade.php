@@ -9,6 +9,8 @@
         </div>
     </div>
 
+    {{ print_r($dataRaw)  }}
+
     <div class="shadow-lg card bg-base-100">
         <div class="gap-3 card-body">
             <h2 class="card-title">{{ __("Location") }}</h2>

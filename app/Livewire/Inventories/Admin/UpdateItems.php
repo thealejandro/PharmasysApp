@@ -21,6 +21,8 @@ class UpdateItems extends Component
     public $stock = 0;
     public $lockButton = true;
 
+    public $dataRaw = [];
+
 
     #[On('itemEdit')]
     public function loadData($item)
@@ -47,21 +49,23 @@ class UpdateItems extends Component
             'priceSale' => 'required|numeric',
         ]);
 
-        $response = Http::asMultipart()->post('http://' . env('API_IP') . '/nawokpaydev/inventario/actualizarproducto.php', [
-            'idproducto' => $this->item["idproducto"],
-            'codigo' => $this->item["codigo"],
-            'correlativo' => $this->item["correlativo"],
-            'producto' => $this->item["producto"],
-            'idcategoria' => $this->item["categoria"],
-            'idmarca' => $this->item["idmarca"],
-            'imagen' => $this->item["imagen"],
-            'productoplano' => $this->item["codigo"] . ' ' . $this->item["correlativo"] . ' ' . $this->item["categoria"] . ' ' . $this->item["producto"] . ' ' . $this->item["marca"],
-            'compra' => $this->pricePurchase,
-            'minimo' => $this->item["stock"],
-            'fecha' => $this->item["fecha"],
-            'cantidad2' => $this->item["cantidad2"],
-            'idinventario' => $this->item["idinventario"],
+        $response = Http::asForm()->post('http://' . env('API_IP') . '/nawokpaydev/inventario/actualizarproducto.php', [
+            "idproducto" => $this->item["idproducto"],
+            "codigo" => $this->item["codigo"],
+            "correlativo" => $this->item["correlativo"],
+            "producto" => $this->item["producto"],
+            "idcategoria" => $this->item["categoria"],
+            "idmarca" => $this->item["idmarca"],
+            "imagen" => $this->item["imagen"],
+            "productoplano" => $this->item["codigo"] . ' ' . $this->item["correlativo"] . ' ' . $this->item["categoria"] . ' ' . $this->item["producto"] . ' ' . $this->item["marca"],
+            "compra" => $this->pricePurchase,
+            "minimo" => $this->item["stock"],
+            "fecha" => $this->item["fecha"],
+            "cantidad2" => $this->item["cantidad2"],
+            "idinventario" => $this->item["idinventario"],
         ]);
+
+        $dataRaw = $response->json();
 
         // 'precio' => $this->priceSale
 
@@ -85,21 +89,20 @@ class UpdateItems extends Component
         ]);
 
         if (isset($this->presentations[$req])) {
-            $matriz = [
-                1 => [
-                    $this->presentacion,
-                    $this->presentations[$this->presentacion]['presentacion'],
-                    $this->presentations[$this->presentacion]['cantidad'],
-                    $this->presentations[$this->presentacion]['precio'],
-                    $this->presentations[$this->presentacion]['prede'],
-                    $this->presentations[$this->presentacion]['descuento']
-                ]
-            ];
+            $matriz = '{
+                "1":[
+                    "'.$this->presentations[$req]["presentacion"].'",
+                    "'.$this->presentations[$req]["cantidad"].'",
+                    "'.$this->presentations[$req]["precio"].'",
+                    "'.$this->presentations[$req]["prede"].'",
+                    "'.$this->presentations[$req]["descuento"].'"
+                ]}';
 
-            $response = Http::withHeaders([
-                'Content-Type' => 'multipart/form-data',
-            ])->post('http://' . env('API_IP') . '/nawokpaydev/inventario/actualizarpresentaciones.php', [
-                'matriz' => json_encode($matriz),
+            $matriz = str_replace(" ", "", $matriz);
+            $matriz = str_replace("\n", "", $matriz);
+
+            $response = Http::asForm()->post('http://' . env('API_IP') . '/nawokpaydev/inventario/actualizarpresentaciones.php', [
+                'matriz' => $matriz,
                 'items' => $this->item["idinventario"],
                 'idinventario' => $this->item["idinventario"],
             ]);
