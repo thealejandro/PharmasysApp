@@ -143,7 +143,6 @@
     <div class="p-5 overflow-hidden text-center bg-white shadow-md md:basis-2/3 lg:basis-3/4 md:gap-6 sm:rounded-lg">
 
         <div class="mt-4 overflow-x-auto">
-        {{ print_r($responseInvoice) }}
 
             <table class="table w-full">
                 <thead>
