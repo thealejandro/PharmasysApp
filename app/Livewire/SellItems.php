@@ -219,7 +219,7 @@ class SellItems extends Component
 
         $this->responseInvoice = $request->object();
 
-        if ($request->status == 'success') {
+        if ($request->status == 200) {
             $this->notification()->success(
                 $title = 'Success',
                 $description = 'Sale completed successfully',
@@ -230,7 +230,7 @@ class SellItems extends Component
         }
 
 
-        if ($request->status == 'error') {
+        if ($request->status == 500 || $request->status == 400) {
             $this->notification()->error(
                 $title = 'Error',
                 $description = 'Error when making the sale',
