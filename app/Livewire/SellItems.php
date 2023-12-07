@@ -230,7 +230,7 @@ class SellItems extends Component
         }
 
 
-        if ($request->status() == 500 || $request->status == 400) {
+        if ($request->status() == 500 || $request->status() == 400) {
             $this->notification()->error(
                 $title = 'Error',
                 $description = 'Error when making the sale',
