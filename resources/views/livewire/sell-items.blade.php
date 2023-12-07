@@ -6,16 +6,16 @@
         <div x-data="{ generarFactura: false, generarComprobante: true, hiddenElement: false, hiddenElement2: false }"
             class="flex flex-col gap-8">
 
-            {{-- <a href="#choose_items_modal" class="btn btn-secondary">
+            <a href="#choose_items_modal" class="btn btn-secondary">
                 Buscar productos
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
                 </svg>
-            </a> --}}
+            </a>
 
-            <x-w-button rounded info lg icon="search" label="Buscar" onclick="choose_items_modal.showModal()" />
+            {{-- <x-w-button rounded info lg icon="search" label="Buscar" onclick="choose_items_modal.showModal()" /> --}}
 
             @if (session()->has('errorSaveSale'))
                 <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="alert alert-error">
@@ -163,7 +163,27 @@
                     <tr>
                         <td>{{ $product["id"] }}</td>
                         <td>{{ $product["name"] }}</td>
+                        {{-- <td class=""> {{ $isBadQuantity || $isOutOfStock ? 'bg-red-300 border-red-500 border transition-colors animate-pulse' : '' }}
+                            <div class="form-control">
+                                <input type="number"
+                                    class="input input-bordered {{-- {{ $isBadQuantity || $isOutOfStock ? 'border-red-500' : '' }} "
+                                    placeholder="cantidad" wire:model.lazy='quantity' min="1" value="1">
+                            </div> --}}
+                            {{-- @if ($isBadQuantity)
+                                <div class="text-sm font-bold mt-1">Cantidad inválida</div>
+                            @endif
+                            @if ($isOutOfStock)
+                                <div class="text-sm font-bold mt-1">Productos insuficientes</div>
+                            @endif --}}
+
+                            {{-- <x-w-inputs.number /> --}}
+                        {{-- </td> --}}
                         <td>{{ $product["quantity"] }}</td>
+                        {{-- <td>
+                            <div class="form-control">
+                                <input type="number" class="input input-bordered" placeholder="cantidad" wire:model.lazy='quantity' min="1">
+                            </div>
+                        </td> --}}
                         <td>
                             <x-w-native-select>
                                 @foreach($product["presentation"] as $presentations)

@@ -9,6 +9,6 @@
 
         @livewire('sell-items')
 
+        @livewire('choose-items-modal')
     </div>
-    @livewire('choose-items-modal')
 </x-app-layout>

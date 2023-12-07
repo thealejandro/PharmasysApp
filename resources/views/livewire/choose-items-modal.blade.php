@@ -1,10 +1,11 @@
-<dialog id="choose_items_modal" class=" modal">
+<div id="choose_items_modal" class="items-start w-full pt-10 modal">
+{{-- <dialog id="choose_items_modal" class="modal"> --}}
     <div class="modal-box md:w-2/4 w-[90%] h-[80%] max-w-full overflow-hidden">
-        <form method="dialog">
+        {{-- <form method="dialog">
             <button class="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">✕</button>
-        </form>
+        </form> --}}
 
-        {{-- <div class="justify-start mt-0 mb-6 modal-action">
+        <div class="justify-start mt-0 mb-6 modal-action">
             <a href="#" class="pl-1 text-black normal-case border-none bg-stone-200 hover:bg-stone-300 btn btn-sm">
                 <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                     viewBox="0 0 24 24">
@@ -12,7 +13,7 @@
                 </svg>
                 Regresar
             </a>
-        </div> --}}
+        </div>
 
         <h3 class="text-2xl font-bold text-center">Agregar productos</h3>
 
@@ -56,4 +57,5 @@
             </table>
         </div>
     </div>
-</dialog>
+{{-- </dialog> --}}
+</div>
