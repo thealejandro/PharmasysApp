@@ -186,32 +186,56 @@ class SellItems extends Component
 
     private function saleWithoutInvoice()
     {
-        $data = [
-            'nit' => $this->nitClient,
-            'name' => $this->nameClient,
-            'address' => $this->addressClient,
-            'products' => $this->listProducts
-        ];
+        $this->rawListProducts = rtrim($this->rawListProducts, ',');
+        $this->rawListProducts = "[" . $this->rawListProducts . "]";
+        $this->rawListProducts = str_replace("'", '"', $this->rawListProducts);
 
-        // $response = Http::post('http://' . env('API_IP') . '/nawokpaydev/vender/generarventa.php', $data);
-        // $response = $response->object();
+        $this->idClient = 0;
+        $this->nameClient = "Consumidor Final";
+        $this->addressClient = "Ciudad";
+        $this->emailClient = "final@email.com";
 
-        // if ($response->ok() && $response->status == 'success') {
+        $dataClient = '[{
+            "idcliente": "' . $this->idClient . '",
+            "nit": "CF",
+            "nombre": "' . $this->nameClient . '",
+            "direccion": "' . $this->addressClient . '",
+            "correo": "' . $this->emailClient . '"
+        }]';
+
+        $dataClient = str_replace(" ", "", $dataClient);
+        $dataClient = str_replace("\n", "", $dataClient);
+
+
+        $request = Http::asForm()->post('http://' . env('API_IP') . '/nawokpaydev/vender/generarventa.php', [
+            "idtienda" => 1,
+            "idusuario" => 1,
+            "establecimiento" => 1,
+            "nombrecomercial" => "Farmacia Probgam",
+            "tipodocumento" => 2,
+            "matriz" => base64_encode($this->rawListProducts),
+            "cliente" => base64_encode($dataClient),
+        ]);
+
+        $this->responseInvoice = $request->object();
+
+        if ($request->status == 'success') {
             $this->notification()->success(
                 $title = 'Success',
                 $description = 'Sale completed successfully',
             );
 
-        //     // Método para realizar la venta y limpiar los productos seleccionados
-        //     $this->cancelSale();
-        // }
+            // Método para realizar la venta y limpiar los productos seleccionados
+            $this->cancelSale();
+        }
 
-        // if ($response->status == 'error') {
-            // $this->notification()->error(
-            //     $title = 'Error',
-            //     $description = 'Error when making the sale',
-            // );
-        // }
+
+        if ($request->status == 'error') {
+            $this->notification()->error(
+                $title = 'Error',
+                $description = 'Error when making the sale',
+            );
+        }
 
     }
 

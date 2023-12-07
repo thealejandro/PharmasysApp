@@ -22,8 +22,9 @@ class ChooseItems extends Component
     public function searchItems()
     {
         trim($this->search);
+
         if (strlen($this->search) > 0) {
-            $this->getProducts($this->search);
+            $this->getProducts(false, $this->search);
         } else {
             session()->flash('noTextSearch', 'Ingrese un valor para buscar o pulse el botón "Mostrar todos"');
         }
@@ -37,7 +38,7 @@ class ChooseItems extends Component
     private function getProducts(bool $all = false, string $search = "")
     {
         if ($all) {
-            $this->listProducts = Http::get('http://' . env('API_IP') . '/nawokpaydev/inventario/busqueda.php?idtienda=1')->json(); // Get all products from API Nawok Pay
+            $this->listProducts = Http::get('http://' . env('API_IP') . '/nawokpaydev/inventario/cargar.php?idtienda=1&tipo=1')->json(); // Get all products from API Nawok Pay
         }
 
         if (!$all && strlen($search) > 0) {
