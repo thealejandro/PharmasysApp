@@ -31,6 +31,7 @@
                         <th>Código</th>
                         <th>Producto</th>
                         <th>Precio</th>
+                        <th>Existencia</th>
                         <th>Genérico</th>
                         <th>Acciones</th> <!-- Nueva columna para el botón "Agregar" -->
                     </tr>
@@ -46,6 +47,21 @@
                             <td>{{ $product["codigo"] }}</td>
                             <td>{{ $product["categoria"] }} - {{ $product["producto"] }} - {{ $product["marca"] }}</td>
                             <td>Q {{ $product["precio"] }}</td>
+                            <td>
+                                <div class="collapse collapse-arrow bg-base-200">
+                                    <input type="radio" name="my-accordion-2" checked="checked" />
+                                    <div class="collapse-title text-xl font-medium">
+                                        {{ $product["cantidad1"] + $product["cantidad2"] }}
+                                    </div>
+                                    <div class="collapse-content">
+                                        <ul>
+                                            <li>Precio 1 </li>
+                                            <li>Precio 2 </li>
+                                            <li>Precio 3 </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{ $product["generico"] ? "Si" : "No" }}</td>
                             <td>
                                 <x-w-button.circle wire:click="addProduct({{ $product['codigo'] }})" positive icon="view-grid-add" />

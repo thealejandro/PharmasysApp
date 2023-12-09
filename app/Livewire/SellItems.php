@@ -12,7 +12,7 @@ class SellItems extends Component
 
     public $listProducts = [];
     public $rawListProducts = "";
-    public $total = 0;
+    public $total = 0.00;
     public $idClient = "";
     public $emailClient = "";
     public $nitClient = "";
@@ -31,6 +31,18 @@ class SellItems extends Component
     //     $this->nameClient;
     //     $this->addressClient;
     // }
+
+    public function mount()
+    {
+        $this->updatedLastInvoice();
+    }
+
+    private function updatedLastInvoice()
+    {
+        $request = Http::get('http://' . env('API_IP') . '/nawokpaydev/vender/codigo_venta.php');
+        $this->saleId = $request->object();
+        $this->saleId = $this->saleId[0]->id;
+    }
 
     #[On('productAdded')]
     public function addItem($product)
@@ -129,6 +141,9 @@ class SellItems extends Component
                 $description = 'No products selected',
             );
         }
+
+
+        $this->updatedLastInvoice();
 
 
         // También podrías emitir un evento para comunicarte con el componente "choose-items-modal".
@@ -251,6 +266,7 @@ class SellItems extends Component
         $this->emailClient = "";
         $this->saleId = 0;
         $this->rawListProducts = "";
+        $this->updatedLastInvoice();
 
     }
 
@@ -357,10 +373,14 @@ class SellItems extends Component
             $this->idClient = $verifyNIT->idcliente;
 
         }
+
+        $this->updatedLastInvoice();
     }
 
     public function render()
     {
+        $this->total = number_format($this->total, 2, '.', ',');
+
         return view('livewire.sell-items', [
             'selectedProducts' => $this->listProducts
         ]);

@@ -59,8 +59,8 @@ class UpdateItems extends Component
             "imagen" => $this->item["imagen"],
             "productoplano" => $this->item["codigo"] . ' ' . $this->item["correlativo"] . ' ' . $this->item["categoria"] . ' ' . $this->item["producto"] . ' ' . $this->item["marca"],
             "compra" => $this->pricePurchase,
-            "minimo" => $this->item["stock"],
-            "fecha" => $this->item["fecha"],
+            "minimo" => $this->item["stock_minimo"],
+            "fecha" => $this->item["fecha_ven"],
             "cantidad2" => $this->item["cantidad2"],
             "idinventario" => $this->item["idinventario"],
         ]);
