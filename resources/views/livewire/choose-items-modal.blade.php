@@ -48,17 +48,14 @@
                             <td>{{ $product["categoria"] }} - {{ $product["producto"] }} - {{ $product["marca"] }}</td>
                             <td>Q {{ $product["precio"] }}</td>
                             <td>
-                                <div class="collapse collapse-arrow bg-base-200">
-                                    <input type="radio" name="my-accordion-2" checked="checked" />
+                                <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-200">
                                     <div class="collapse-title text-xl font-medium">
                                         {{ $product["cantidad1"] + $product["cantidad2"] }}
                                     </div>
                                     <div class="collapse-content">
-                                        <ul>
-                                            <li>Precio 1 </li>
-                                            <li>Precio 2 </li>
-                                            <li>Precio 3 </li>
-                                        </ul>
+                                        <p>Precio 1</p>
+                                        <p>Precio 2</p>
+                                        <p>Precio 3</p>
                                     </div>
                                 </div>
                             </td>
