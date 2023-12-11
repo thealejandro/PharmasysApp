@@ -19,7 +19,7 @@
 
         <div class="flex flex-col gap-4">
             <input wire:model.lazy='searchTerm' type="text" placeholder="Buscar productos"
-                class="w-full p-2 border rounded-md pointer-events-auto" autofocus>
+                class="w-full p-2 border rounded-md" autofocus />
 
             <div wire:loading wire:target='searchTerm' class="w-full h-full text-center">
                 <span class="text-3xl">Buscando...</span>
@@ -48,8 +48,8 @@
                             <td>{{ $product["categoria"] }} - {{ $product["producto"] }} - {{ $product["marca"] }}</td>
                             <td>Q {{ $product["precio"] }}</td>
                             <td>
-                                <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-200">
-                                    <div class="collapse-title text-xl font-medium">
+                                <div tabindex="0" class="border collapse collapse-arrow border-base-300 bg-base-200">
+                                    <div class="text-xl font-medium collapse-title">
                                         {{ $product["cantidad1"] + $product["cantidad2"] }}
                                     </div>
                                     <div class="collapse-content">
@@ -61,7 +61,7 @@
                             </td>
                             <td>{{ $product["generico"] ? "Si" : "No" }}</td>
                             <td>
-                                <x-w-button.circle wire:click="addProduct({{ $product['codigo'] }})" positive icon="view-grid-add" />
+                                <x-w-button.circle wire:click="addProduct({{ $product['codigo'] }})" positive icon="plus" />
                             </td>
                         </tr>
                         @endforeach
