@@ -3,19 +3,21 @@
     <div class="w-full p-5 overflow-hidden text-center bg-white shadow-md md:basis-1/3 lg:basis-1/4 sm:rounded-lg">
 
 
-        <div x-data="{ generarFactura: false, generarComprobante: true, hiddenElement: false, hiddenElement2: false }"
+        <section x-data="{ generarFactura: false, generarComprobante: true, hiddenElement: false, hiddenElement2: false }"
             class="flex flex-col gap-8">
 
-            <a href="#choose_items_modal" class="btn btn-secondary">
-                Buscar productos
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
-                </svg>
-            </a>
+            {{-- <div>
+                <a href="#choose_items_modal" class="btn btn-secondary">
+                    Buscar productos
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
+                    </svg>
+                </a>
+            <div> --}}
 
-            {{-- <x-w-button rounded info lg icon="search" label="Buscar" onclick="choose_items_modal.showModal()" /> --}}
+            <x-w-button rounded info lg icon="search" label="Buscar" href="#choose_items_modal" />
 
             @if (session()->has('errorSaveSale'))
                 <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="alert alert-error">
@@ -80,63 +82,74 @@
                 </div>
             </section>
 
-            <section class="flex flex-wrap justify-center gap-6 md:flex-row">
-                <x-w-button rounded lg icon="shopping-cart" x-bind:class="{ 'hidden': hiddenElement }" positive label="Vender" wire:click="vender" />
-                <x-w-button rounded md icon="x" negative label="Cancelar" wire:click='cancelSale' />
-                {{-- <x-w-button rounded md blue icon="save" label="Guardar" wire:click='saveSale' /> --}}
-                {{-- <x-w-button rounded md orange icon="receipt-tax" label="Guardar e imprimir" /> --}}
-                <x-w-button rounded md indigo icon="printer" label="Imprimir" />
+            <section class="flex flex-col gap-6">
+                <x-w-button rounded xl icon="shopping-cart" x-bind:class="{ 'hidden': hiddenElement }" positive label="Vender" wire:click="vender" />
+                <div class="flex flex-wrap justify-center gap-6 md:flex-row">
+                    <x-w-button rounded flat outline indigo icon="printer" label="Imprimir" />
+                    @if(count($listProducts) > 0)
+                        <x-w-button rounded flat outline icon="x" negative label="Cancelar" wire:click='cancelSale' />
+                    @endif
+                    {{-- <x-w-button rounded md blue icon="save" label="Guardar" wire:click='saveSale' /> --}}
+                    {{-- <x-w-button rounded md orange icon="receipt-tax" label="Guardar e imprimir" /> --}}
+                </div>
             </section>
 
             <section class="p-4 bg-blue-100 bg-opacity-70 rounded-xl">
-                <h1 class="text-2xl font-bold text-center text-slate-400">Datos de cliente</h1>
-                <div class="flex flex-col py-4">
-                    <div class="flex-1 w-full form-control" x-bind:class="{'hidden': !hiddenElement2}">
-                        <label class="label">
-                            <span class="label-text">NIT de cliente</span>
-                        </label>
-                        <div x-data="{ nit: '{{ $nitClient }}', nitError: false, nitErrorMessage: '' }">
-                            <input wire:model='nitClient' value="{{ $nitClient }}" x-model="nit" type="text"
-                                pattern="^((?:[0-9]+|[0-9]+K|CF))$"
-                                title="El NIT debe ser un número o 'CF', o un número seguido de 'K' al final"
-                                placeholder="CF" class="w-full max-w-xs input input-bordered"
-                                x-on:input="validateNit" />
-                            <div x-show="nitError" class="text-xs text-red-500" x-text="nitErrorMessage"></div>
-                        </div>
-                    </div>
+                <details class="collapse collapse-plus">
+                    <summary class="text-2xl font-bold text-center collapse-title">Datos de Cliente</summary>
+                    <div class="collapse-content">
+                        <div class="flex flex-col py-4">
+                            <div class="flex-1 w-full form-control" x-bind:class="{'hidden': !hiddenElement2}">
+                                <label class="label">
+                                    <span class="label-text">NIT de cliente</span>
+                                </label>
+                                <div x-data="{ nit: '{{ $nitClient }}', nitError: false, nitErrorMessage: '' }">
+                                    <input wire:model='nitClient' value="{{ $nitClient }}" x-model="nit" type="text"
+                                        pattern="^((?:[0-9]+|[0-9]+K|CF))$"
+                                        title="El NIT debe ser un número o 'CF', o un número seguido de 'K' al final"
+                                        placeholder="CF" class="w-full max-w-xs input input-bordered"
+                                        x-on:input="validateNit" />
+                                    <div x-show="nitError" class="text-xs text-red-500" x-text="nitErrorMessage"></div>
+                                </div>
+                            </div>
 
-                    <div class="flex-1 w-full form-control" x-bind:class="{ 'hidden': hiddenElement }">
-                        <label class="label">
-                            <span class="label-text">Nombre de cliente</span>
-                        </label>
-                        <div>
-                            <input type="text" placeholder="Consumidor Final"
-                                class="w-full max-w-xs input input-bordered" value="{{ $nameClient }}" />
-                        </div>
-                    </div>
+                            <div class="flex-1 w-full form-control" x-bind:class="{ 'hidden': hiddenElement }">
+                                <label class="label">
+                                    <span class="label-text">Nombre de cliente</span>
+                                </label>
+                                <div>
+                                    <input type="text" placeholder="Consumidor Final"
+                                        class="w-full max-w-xs input input-bordered" value="{{ $nameClient }}" />
+                                </div>
+                            </div>
 
-                    <div class="flex-1 w-full form-control" x-bind:class="{ 'hidden': hiddenElement }">
-                        <label class="label">
-                            <span class="label-text">Direccion de cliente</span>
-                        </label>
-                        <div>
-                            <input type="text" placeholder="Ciudad" class="w-full max-w-xs input input-bordered"
-                                value="{{ $addressClient }}" />
+                            <div class="flex-1 w-full form-control" x-bind:class="{ 'hidden': hiddenElement }">
+                                <label class="label">
+                                    <span class="label-text">Direccion de cliente</span>
+                                </label>
+                                <div>
+                                    <input type="text" placeholder="Ciudad" class="w-full max-w-xs input input-bordered"
+                                        value="{{ $addressClient }}" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <button wire:click="buscarCliente" class="btn btn-outline w-full md:w-[50%]"
-                    x-bind:class="{ 'hidden': hiddenElement }">
-                    Buscar cliente
-                </button>
+                        <button wire:click="buscarCliente" class="btn btn-outline w-full md:w-[50%]"
+                            x-bind:class="{ 'hidden': hiddenElement }">
+                            Buscar cliente
+                        </button>
+                    </div>
+                </details>
+
+                {{-- <h1 class="text-2xl font-bold text-center text-slate-400">Datos de cliente</h1> --}}
+
 
             </section>
 
             <a href="#" class="text-center hover:underline">
                 Registro de facturas/comprobantes
             </a>
-        </div>
+        </section>
 
     </div>
 
@@ -169,15 +182,24 @@
                                     placeholder="cantidad" wire:model.lazy='quantity' min="1" value="1">
                             </div> --}}
                             {{-- @if ($isBadQuantity)
-                                <div class="text-sm font-bold mt-1">Cantidad inválida</div>
+                                <div class="mt-1 text-sm font-bold">Cantidad inválida</div>
                             @endif
                             @if ($isOutOfStock)
-                                <div class="text-sm font-bold mt-1">Productos insuficientes</div>
+                                <div class="mt-1 text-sm font-bold">Productos insuficientes</div>
                             @endif --}}
 
                             {{-- <x-w-inputs.number /> --}}
                         {{-- </td> --}}
-                        <td>{{ $product["quantity"] }}</td>
+                        {{-- <td>{{ $product["quantity"] }}</td> --}}
+                        <td>
+                            <div x-data="{ count: 1 }" class="flex items-center gap-x-1">
+                                <x-w-button x-hold.click.repeat.200ms="count--" icon="minus" />
+
+                                <span class="bg-teal-600 text-white px-5 py-1.5" x-text="count"></span>
+
+                                <x-w-button x-hold.click.repeat.200ms="count++" icon="plus" />
+                            </div>
+                        </td>
                         {{-- <td>
                             <div class="form-control">
                                 <input type="number" class="input input-bordered" placeholder="cantidad" wire:model.lazy='quantity' min="1">
