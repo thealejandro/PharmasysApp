@@ -195,6 +195,7 @@
                             <div x-data="{ count: 1 }" class="flex items-center gap-x-1">
                                 <x-w-button x-hold.click.repeat.200ms="count--" icon="minus" />
 
+                                {{-- <input type="number" class="bg-teal-600 text-white px-5 py-1.5" x-bind:value="count"></input> --}}
                                 <span class="bg-teal-600 text-white px-5 py-1.5" x-text="count"></span>
 
                                 <x-w-button x-hold.click.repeat.200ms="count++" icon="plus" />
