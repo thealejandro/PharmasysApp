@@ -171,55 +171,9 @@
                 </thead>
                 <tbody>
                     @isset($listProducts)
-                    @foreach ($listProducts as $key => $product)
-                    <tr>
-                        <td>{{ $product["id"] }}</td>
-                        <td>{{ $product["name"] }}</td>
-                        {{-- <td class=""> {{ $isBadQuantity || $isOutOfStock ? 'bg-red-300 border-red-500 border transition-colors animate-pulse' : '' }}
-                            <div class="form-control">
-                                <input type="number"
-                                    class="input input-bordered {{-- {{ $isBadQuantity || $isOutOfStock ? 'border-red-500' : '' }} "
-                                    placeholder="cantidad" wire:model.lazy='quantity' min="1" value="1">
-                            </div> --}}
-                            {{-- @if ($isBadQuantity)
-                                <div class="mt-1 text-sm font-bold">Cantidad inválida</div>
-                            @endif
-                            @if ($isOutOfStock)
-                                <div class="mt-1 text-sm font-bold">Productos insuficientes</div>
-                            @endif --}}
-
-                            {{-- <x-w-inputs.number /> --}}
-                        {{-- </td> --}}
-                        {{-- <td>{{ $product["quantity"] }}</td> --}}
-                        <td>
-                            <div x-data="{ count: 1 }" class="flex items-center gap-x-1">
-                                <x-w-button x-hold.click.repeat.200ms="count--" icon="minus" />
-
-                                {{-- <input type="number" class="bg-teal-600 text-white px-5 py-1.5" x-bind:value="count"></input> --}}
-                                <span class="bg-teal-600 text-white px-5 py-1.5" x-text="count"></span>
-
-                                <x-w-button x-hold.click.repeat.200ms="count++" icon="plus" />
-                            </div>
-                        </td>
-                        {{-- <td>
-                            <div class="form-control">
-                                <input type="number" class="input input-bordered" placeholder="cantidad" wire:model.lazy='quantity' min="1">
-                            </div>
-                        </td> --}}
-                        <td>
-                            <x-w-native-select>
-                                @foreach($product["presentation"] as $presentations)
-                                    <option value="{{ $presentations["idpresentacion"] }}">{{ $presentations["presentacion"] }}</option>
-                                @endforeach
-                            </x-w-native-select>
-                        </td>
-                        <td>{{ $product["price"] }}</td>
-                        <td>{{ $product["total"] }}</td>
-                        <td>
-                            <x-w-button.circle negative icon="trash" wire:click='removeItem({{ $product["code"] }})' />
-                        </td>
-                    </tr>
-                    @endforeach
+                        @foreach ($listProducts as $key => $product)
+                            @livewire('market.seller.sale.table-item', ['product' => $product, 'key' => $key], key($key))
+                        @endforeach
                     @endisset
                 </tbody>
             </table>

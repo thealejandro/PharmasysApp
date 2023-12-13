@@ -98,6 +98,7 @@ class SellItems extends Component
         $this->total = round(array_sum(array_column($this->listProducts, 'total')), 2);
     }
 
+    #[On('removeItem')]
     public function removeItem($itemCode)
     {
         // Método para eliminar un producto de la propiedad $selectedProducts
@@ -282,6 +283,7 @@ class SellItems extends Component
                     'total' => $product['total']
                 ];
             }
+
 
             $data = [
                 'nit' => $this->nitClient,
