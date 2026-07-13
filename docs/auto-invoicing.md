@@ -33,14 +33,18 @@ php artisan invoices:daily {fecha?} {--dry-run} {--time=HH:MM:SS} {--no-reload}
 ```
 
 - `fecha` — `Y-m-d`. Por defecto hoy (America/Guatemala).
-- `--dry-run` — hace ETL y **arma el XML del DTE, pero NO emite** ante la SAT.
+- `--dry-run` — hace ETL y **arma el XML del DTE, pero NO emite** ante la SAT (guarda el XML en `storage/app/dte-dryrun/` para revisar).
 - `--time` — hora de emisión (por defecto, la hora actual).
 - `--no-reload` — no re-extrae del origen; factura lo que ya está en `items_invoice_days`.
+- `--cf-limit` — tope en GTQ por factura CF/Clientes Varios (default **2499**). La SAT rechaza una factura CF desde Q2,500, así que si una tienda vende más, se **divide en varias facturas** por debajo del tope.
 
 Qué hace, en orden:
 1. **Extrae** del origen (conexión `pharmaWeb`) las ventas de la fecha (query *Ventas Diarias*, por rango `[fecha, fecha+1)`).
 2. **Carga** en `items_invoice_days` (`TRUNCATE` + `INSERT`, en transacción).
 3. **Factura** por tienda con `SoapFELController::certificateDTE()`, inyectando la fecha de emisión.
+   Si el total de una tienda alcanza el tope CF (`--cf-limit`, default Q2,499), **divide en
+   varias facturas** por debajo del tope (regla SAT: CF/Clientes Varios no puede desde Q2,500).
+   Los nombres de producto se **escapan para XML** (`&`, `<`, `>`, comillas) para no romper el DTE.
 4. **Idempotencia**: no re-emite si ya existe un DTE para esa tienda+fecha (`fel_invoices`),
    y limpia `items_invoice_days` por tienda tras emitir con éxito. Además un *lock* evita
    corridas simultáneas/dobles.

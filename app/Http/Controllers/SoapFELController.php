@@ -169,6 +169,12 @@ class SoapFELController extends SoapController
         }
     }
 
+    /** Escapa texto para insertarlo de forma segura en el XML del DTE (evita romper por &, <, >, comillas). */
+    private function xmlText($value): string
+    {
+        return htmlspecialchars((string) $value, ENT_QUOTES | ENT_XML1, 'UTF-8');
+    }
+
     public function generateXMLtoCertificate($nitClient, $items, $totalSale, $storeData, $storeId = null, $sellerId = null, ?string $emissionDate = null): object
     {
             //Search in DB dataFEL, with storeID from User Seller
@@ -209,10 +215,10 @@ class SoapFELController extends SoapController
             $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
         }
 
-        $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.getenv("FEL_NAME_ISSUER").'"
-                        CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$storeFEL->nameStore.'" AfiliacionIVA="GEN">
+        $xmlIssuer = '<dte:Emisor NITEmisor="'.getenv("FEL_NIT").'" NombreEmisor="'.$this->xmlText(getenv("FEL_NAME_ISSUER")).'"
+                        CodigoEstablecimiento="'.$storeFEL->storeCode.'" NombreComercial="'.$this->xmlText($storeFEL->nameStore).'" AfiliacionIVA="GEN">
                         <dte:DireccionEmisor>
-                            <dte:Direccion>'.$storeFEL->locationStore->direccion.'</dte:Direccion>
+                            <dte:Direccion>'.$this->xmlText($storeFEL->locationStore->direccion).'</dte:Direccion>
                             <dte:CodigoPostal>16001</dte:CodigoPostal>
                             <dte:Municipio>'.$storeFEL->locationStore->municipio.'</dte:Municipio>
                             <dte:Departamento>'.$storeFEL->locationStore->departamento.'</dte:Departamento>
@@ -220,10 +226,10 @@ class SoapFELController extends SoapController
                         </dte:DireccionEmisor>
                     </dte:Emisor>';
 
-        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor="'.str_replace('"', '&quot;', $nitClient->name).'">';
+        $xmlReceptor = '<dte:Receptor IDReceptor="'.$nitClient->nit.'" NombreReceptor="'.$this->xmlText($nitClient->name).'">';
 
         $xmlReceptorAddress = '<dte:DireccionReceptor>
-                                <dte:Direccion>'.$nitClient->address.'</dte:Direccion>
+                                <dte:Direccion>'.$this->xmlText($nitClient->address).'</dte:Direccion>
                                 <dte:CodigoPostal>0</dte:CodigoPostal>
                                 <dte:Municipio>.</dte:Municipio>
                                 <dte:Departamento>.</dte:Departamento>
@@ -268,7 +274,7 @@ class SoapFELController extends SoapController
             $xmlItem .= '<dte:Item NumeroLinea="'. $key+1 .'" BienOServicio="B">
                             <dte:Cantidad>'.$item["unit_quantity"].'</dte:Cantidad>
                             <dte:UnidadMedida>UNI</dte:UnidadMedida>
-                            <dte:Descripcion>'.$item["name"].'</dte:Descripcion>
+                            <dte:Descripcion>'.$this->xmlText($item["name"]).'</dte:Descripcion>
                             <dte:PrecioUnitario>'.$priceUnity.'</dte:PrecioUnitario>
                             <dte:Precio>'.$itemTotal.'</dte:Precio>
                             <dte:Descuento>0</dte:Descuento>

@@ -35,7 +35,8 @@ class InvoicesDaily extends Command
         {date? : Fecha a facturar (Y-m-d). Por defecto: hoy en America/Guatemala}
         {--dry-run : Extrae, carga y arma el XML del DTE, pero NO emite ante la SAT}
         {--time= : Hora de emision HH:MM:SS (por defecto, la hora actual)}
-        {--no-reload : No re-extrae del origen; factura lo que ya esta en items_invoice_days}';
+        {--no-reload : No re-extrae del origen; factura lo que ya esta en items_invoice_days}
+        {--cf-limit=2499 : Limite (exclusivo) en GTQ por factura CF/Clientes Varios; se divide en varias facturas para no alcanzar Q2,500 (la SAT rechaza desde ese monto)}';
 
     protected $description = 'Extrae las ventas del dia del origen, las carga en items_invoice_days y emite los DTE de Clientes Varios ante la SAT (FEL).';
 
@@ -48,6 +49,7 @@ class InvoicesDaily extends Command
         $dry = (bool) $this->option('dry-run');
         $time = $this->option('time') ?: Carbon::now($tz)->format('H:i:s');
         $emissionDateTime = $date->format('Y-m-d') . 'T' . $time; // Y-m-d\TH:i:s para FechaHoraEmision
+        $cfLimit = (float) $this->option('cf-limit'); // limite CF: cada factura debe quedar < este monto
 
         $this->info(sprintf('[invoices:daily] fecha=%s emision=%s %s', $date->toDateString(), $emissionDateTime, $dry ? '(DRY-RUN)' : ''));
 
@@ -88,39 +90,63 @@ class InvoicesDaily extends Command
                 }
 
                 $saleItems = $this->buildSaleItems($items);
-                $request = $this->buildRequest($store, $saleItems);
+                // Regla SAT: una factura CF/Clientes Varios no puede alcanzar Q2,500.
+                // Se divide en varias facturas, cada una por debajo del limite.
+                $groups = $this->partitionByCfLimit($saleItems, $cfLimit);
+                $storeRow = ['storeID' => $store->storeID, 'items' => $items->count(), 'facturas' => count($groups), 'detalle' => []];
+                $storeHadError = false;
 
-                try {
-                    if ($dry) {
-                        $xml = $fel->generateXMLtoCertificate($request->invoiceData, $saleItems, 0, json_decode($store->dataFEL), $store->id, null, $emissionDateTime);
-                        $dumpDir = storage_path('app/dte-dryrun');
-                        if (! is_dir($dumpDir)) {
-                            mkdir($dumpDir, 0775, true);
-                        }
-                        file_put_contents("{$dumpDir}/dte-{$summary['date']}-store{$store->storeID}.xml", $xml->xmlDocument);
-                        $this->line("Tienda {$store->storeID}: XML armado, GranTotal={$xml->dataRegisterInvoice->bigTotal} (DRY-RUN, no emitido)");
-                        $summary['stores'][] = ['storeID' => $store->storeID, 'status' => 'dry-run OK', 'items' => $items->count(), 'total' => $xml->dataRegisterInvoice->bigTotal];
+                foreach ($groups as $gi => $group) {
+                    $n = $gi + 1;
+                    $groupTotal = round($this->groupTotal($group), 6);
+
+                    // Un solo item que ya excede el limite no se puede partir por monto: se marca para revision manual.
+                    if ($groupTotal >= $cfLimit) {
+                        $this->warn("Tienda {$store->storeID} factura {$n}/" . count($groups) . ": un item excede el limite CF (Q{$groupTotal}); requiere manejo manual, NO se emite.");
+                        $summary['errors'][] = ['storeID' => $store->storeID, 'factura' => $n, 'error' => "item unico excede limite CF (Q{$groupTotal})"];
+                        $storeHadError = true;
                         continue;
                     }
 
-                    $result = $fel->certificateDTE($request, $emissionDateTime);
+                    $request = $this->buildRequest($store, $group);
 
-                    if (is_array($result) && isset($result[0]['serialDTE'])) {
-                        $serial = $result[0]['serialDTE'] . '-' . $result[0]['numberDTE'];
-                        $this->info("Tienda {$store->storeID}: DTE emitido {$serial}");
-                        $summary['stores'][] = ['storeID' => $store->storeID, 'status' => 'emitido', 'serial' => $serial, 'items' => $items->count()];
-                        // Idempotencia intra-corrida: limpia lo ya facturado de esta tienda.
-                        ItemsInvoiceDay::where('storeID', $store->storeID)->delete();
-                    } else {
-                        $msg = is_string($result) ? $result : json_encode($result);
-                        $this->error("Tienda {$store->storeID}: FALLO SAT -> {$msg}");
-                        $summary['errors'][] = ['storeID' => $store->storeID, 'error' => $msg];
+                    try {
+                        if ($dry) {
+                            $xml = $fel->generateXMLtoCertificate($request->invoiceData, $group, 0, json_decode($store->dataFEL), $store->id, null, $emissionDateTime);
+                            $dumpDir = storage_path('app/dte-dryrun');
+                            if (! is_dir($dumpDir)) {
+                                mkdir($dumpDir, 0775, true);
+                            }
+                            file_put_contents("{$dumpDir}/dte-{$summary['date']}-store{$store->storeID}-{$n}.xml", $xml->xmlDocument);
+                            $this->line("Tienda {$store->storeID} factura {$n}/" . count($groups) . ": GranTotal={$xml->dataRegisterInvoice->bigTotal} (DRY-RUN, no emitido)");
+                            $storeRow['detalle'][] = ['factura' => $n, 'items' => count($group), 'total' => $xml->dataRegisterInvoice->bigTotal, 'dry' => true];
+                            continue;
+                        }
+
+                        $result = $fel->certificateDTE($request, $emissionDateTime);
+
+                        if (is_array($result) && isset($result[0]['serialDTE'])) {
+                            $serial = $result[0]['serialDTE'] . '-' . $result[0]['numberDTE'];
+                            $this->info("Tienda {$store->storeID} factura {$n}/" . count($groups) . ": DTE emitido {$serial} (Q{$groupTotal})");
+                            $storeRow['detalle'][] = ['factura' => $n, 'items' => count($group), 'serial' => $serial, 'total' => $groupTotal];
+                        } else {
+                            $msg = is_string($result) ? $result : json_encode($result);
+                            $this->error("Tienda {$store->storeID} factura {$n}: FALLO SAT -> {$msg}");
+                            $summary['errors'][] = ['storeID' => $store->storeID, 'factura' => $n, 'error' => $msg];
+                            $storeHadError = true;
+                        }
+                    } catch (Throwable $e) {
+                        $this->error("Tienda {$store->storeID} factura {$n}: EXCEPCION -> {$e->getMessage()}");
+                        $summary['errors'][] = ['storeID' => $store->storeID, 'factura' => $n, 'error' => $e->getMessage()];
+                        $storeHadError = true;
                     }
-                } catch (Throwable $e) {
-                    $this->error("Tienda {$store->storeID}: EXCEPCION -> {$e->getMessage()}");
-                    $summary['errors'][] = ['storeID' => $store->storeID, 'error' => $e->getMessage()];
-                    // Continuamos con las demas tiendas.
                 }
+
+                // Idempotencia intra-corrida: limpia el staging de la tienda solo si TODAS sus facturas salieron bien.
+                if (! $dry && ! $storeHadError) {
+                    ItemsInvoiceDay::where('storeID', $store->storeID)->delete();
+                }
+                $summary['stores'][] = $storeRow;
             }
         } catch (Throwable $e) {
             $summary['errors'][] = ['fatal' => $e->getMessage()];
@@ -198,6 +224,46 @@ class InvoicesDaily extends Command
             ->exists();
     }
 
+    /** Total de un item tal como lo calcula el XML del DTE: unit_quantity * precio (redondeado a 6). */
+    private function itemTotal(array $item): float
+    {
+        return round(((float) $item['unit_quantity']) * round((float) $item['priceSale'], 6), 6);
+    }
+
+    private function groupTotal(array $group): float
+    {
+        return array_sum(array_map(fn ($it) => $this->itemTotal($it), $group));
+    }
+
+    /**
+     * Divide los items en grupos (facturas) cuyo total quede POR DEBAJO de $limit,
+     * para no romper el tope de facturacion CF/Clientes Varios de la SAT.
+     * Llenado greedy en el orden recibido; cierra el grupo antes de alcanzar el limite.
+     */
+    private function partitionByCfLimit(array $saleItems, float $limit): array
+    {
+        if ($limit <= 0) {
+            return [$saleItems];
+        }
+        $groups = [];
+        $current = [];
+        $sum = 0.0;
+        foreach ($saleItems as $item) {
+            $t = $this->itemTotal($item);
+            if (! empty($current) && ($sum + $t) >= $limit) {
+                $groups[] = $current;
+                $current = [];
+                $sum = 0.0;
+            }
+            $current[] = $item;
+            $sum += $t;
+        }
+        if (! empty($current)) {
+            $groups[] = $current;
+        }
+        return $groups;
+    }
+
     /** Replica EXACTA de SalesTable::generateInvoices() para paridad fiscal con el boton manual. */
     private function buildSaleItems($items): array
     {
@@ -242,8 +308,15 @@ class InvoicesDaily extends Command
 
     private function notify(array $summary): void
     {
-        $emitted = collect($summary['stores'])->where('status', 'emitido')->count();
-        $line = sprintf('[invoices:daily] %s -> %d emitidos, %d errores%s', $summary['date'], $emitted, count($summary['errors']), $summary['dry'] ? ' (DRY-RUN)' : '');
+        $emitted = 0;
+        foreach ($summary['stores'] as $s) {
+            foreach ($s['detalle'] ?? [] as $d) {
+                if (isset($d['serial'])) {
+                    $emitted++;
+                }
+            }
+        }
+        $line = sprintf('[invoices:daily] %s -> %d facturas emitidas, %d errores%s', $summary['date'], $emitted, count($summary['errors']), $summary['dry'] ? ' (DRY-RUN)' : '');
         empty($summary['errors']) ? Log::info($line, $summary) : Log::error($line, $summary);
 
         $to = getenv('INVOICE_NOTIFY_EMAIL');
