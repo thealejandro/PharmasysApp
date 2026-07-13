@@ -88,7 +88,7 @@ class SoapFELController extends SoapController
     /**
      * @throws \Exception
      */
-    public function certificateDTE(Request $dataRequest)
+    public function certificateDTE(Request $dataRequest, ?string $emissionDate = null)
     {
         try {
 
@@ -111,7 +111,7 @@ class SoapFELController extends SoapController
             $service = InstanceSoapClient::init();
 
 //            return $dataRequest->sale_details[0]["presentation"];
-            $responseXMLGenerate = $this->generateXMLtoCertificate($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale, $dataRequest->storeData, $dataRequest->storeId, $dataRequest->sellerId);
+            $responseXMLGenerate = $this->generateXMLtoCertificate($dataRequest->invoiceData, $dataRequest->sale_details, $dataRequest->totalSale, $dataRequest->storeData, $dataRequest->storeId, $dataRequest->sellerId, $emissionDate);
             $xmlGenerate = $responseXMLGenerate->xmlDocument;
 
             $xmlPOST = base64_encode($xmlGenerate);
@@ -132,7 +132,10 @@ class SoapFELController extends SoapController
             //Create Date
             $dateInvoice = now(config('app.timezone'))->format('Y-m-d');
 
-            if (Auth::user()->hasAnyRole(['Grocer', 'Administrator', 'Super-Admin'])) {
+            if ($emissionDate !== null) {
+                // Fecha inyectada (p.ej. desde el comando programado invoices:daily)
+                $dateInvoice = Carbon::parse($emissionDate, config('app.timezone'))->format('Y-m-d');
+            } elseif (Auth::check() && Auth::user()->hasAnyRole(['Grocer', 'Administrator', 'Super-Admin'])) {
                 $dateInvoice = Carbon::create(getenv('FEL_DATE'), config('app.timezone'))->format('Y-m-d');
             }
 
@@ -166,7 +169,7 @@ class SoapFELController extends SoapController
         }
     }
 
-    public function generateXMLtoCertificate($nitClient, $items, $totalSale, $storeData, $storeId = null, $sellerId = null): object
+    public function generateXMLtoCertificate($nitClient, $items, $totalSale, $storeData, $storeId = null, $sellerId = null, ?string $emissionDate = null): object
     {
             //Search in DB dataFEL, with storeID from User Seller
         if (isset($storeData) && $storeData !== null && $storeData !== '' && $storeData !== []) {
@@ -197,7 +200,10 @@ class SoapFELController extends SoapController
         $xmlEmissionData = '<dte:DatosEmision ID="DatosEmision">';
 
         //  FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'";
-        if (Auth::user()->hasAnyRole(['Grocer', 'Administrator', 'Super-Admin'])) {
+        if ($emissionDate !== null) {
+            // Fecha inyectada (p.ej. desde el comando programado invoices:daily), formato Y-m-d\TH:i:s
+            $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.$emissionDate.'" CodigoMoneda="GTQ"/>';
+        } elseif (Auth::check() && Auth::user()->hasAnyRole(['Grocer', 'Administrator', 'Super-Admin'])) {
             $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.getenv("FEL_DATE").'" CodigoMoneda="GTQ"/>';
         } else {
             $xmlGeneralData = '<dte:DatosGenerales Tipo="FACT" FechaHoraEmision="'.now(config('app.timezone'))->format('Y-m-d\TH:i:s').'" CodigoMoneda="GTQ"/>';
