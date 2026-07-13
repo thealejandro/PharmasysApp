@@ -160,16 +160,20 @@ for d in <dias>; do php81 artisan invoices:daily 2026-07-$d; done
 
 ---
 
-## 6. Fase 3 — activar el automático
+## 6. Fase 3 — activar el automático ✅ HECHO (2026-07-13)
 
-1. Descomentar el bloque `invoices:daily` en `app/Console/Kernel.php`.
-2. Desplegar a Heroku.
-3. Add-on **Heroku Scheduler** ejecutando cada 10 min:
+1. ~~Descomentar el bloque `invoices:daily` en `app/Console/Kernel.php`.~~ Hecho (commit `8304c5a`).
+2. ~~Desplegar a Heroku.~~ Hecho: `git push heroku feature/auto-invoicing:master` → `v1281`.
+3. ~~Add-on **Heroku Scheduler**~~ instalado (`scheduler:standard`, gratis) con job:
    ```
    php artisan schedule:run
    ```
-   (Laravel dispara `invoices:daily` a las 23:55 America/Guatemala.)
-4. Confirmar variables `DB_*_2` e `INVOICE_NOTIFY_EMAIL` en la app.
+   cada 10 min. (Laravel dispara `invoices:daily` solo a las 23:55 America/Guatemala.)
+4. ~~Confirmar variables `DB_*_2` e `INVOICE_NOTIFY_EMAIL`~~ configuradas en Heroku.
+
+**Primera corrida automática esperada: hoy 2026-07-13 a las 23:55 (GT).** Verificar al día
+siguiente con `heroku logs --app pharmasysapp --source app | grep invoices:daily` y/o el
+correo de aviso.
 
 ---
 
