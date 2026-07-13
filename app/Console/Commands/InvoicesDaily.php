@@ -93,6 +93,11 @@ class InvoicesDaily extends Command
                 try {
                     if ($dry) {
                         $xml = $fel->generateXMLtoCertificate($request->invoiceData, $saleItems, 0, json_decode($store->dataFEL), $store->id, null, $emissionDateTime);
+                        $dumpDir = storage_path('app/dte-dryrun');
+                        if (! is_dir($dumpDir)) {
+                            mkdir($dumpDir, 0775, true);
+                        }
+                        file_put_contents("{$dumpDir}/dte-{$summary['date']}-store{$store->storeID}.xml", $xml->xmlDocument);
                         $this->line("Tienda {$store->storeID}: XML armado, GranTotal={$xml->dataRegisterInvoice->bigTotal} (DRY-RUN, no emitido)");
                         $summary['stores'][] = ['storeID' => $store->storeID, 'status' => 'dry-run OK', 'items' => $items->count(), 'total' => $xml->dataRegisterInvoice->bigTotal];
                         continue;
@@ -175,8 +180,10 @@ class InvoicesDaily extends Command
             'updated_at'   => $now,
         ], $rows);
 
+        // Nota: usamos DELETE (DML) y no TRUNCATE (DDL) porque TRUNCATE fuerza un
+        // commit implícito en MySQL y rompe la transacción que lo envuelve.
         DB::transaction(function () use ($insert) {
-            DB::table('items_invoice_days')->truncate();
+            DB::table('items_invoice_days')->delete();
             foreach (array_chunk($insert, 500) as $chunk) {
                 DB::table('items_invoice_days')->insert($chunk);
             }
