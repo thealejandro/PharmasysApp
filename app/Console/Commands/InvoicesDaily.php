@@ -216,10 +216,15 @@ class InvoicesDaily extends Command
         });
     }
 
-    /** Idempotencia: ya existe un DTE emitido para esta tienda + fecha? */
+    /**
+     * Idempotencia: ya existe un DTE del LOTE "Clientes Varios" para esta tienda + fecha?
+     * Solo cuenta el lote (sellerId IS NULL); las facturas individuales de vendedores
+     * (sellerId != null, emitidas en caja) NO deben bloquear la facturación del lote.
+     */
     private function alreadyInvoiced(Stores $store, Carbon $date): bool
     {
         return FelInvoices::where('storeId', $store->id)
+            ->whereNull('sellerId')
             ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(invoiceCertificated, '$.date')) = ?", [$date->toDateString()])
             ->exists();
     }
