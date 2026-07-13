@@ -25,13 +25,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // === Facturacion automatica de Clientes Varios (FEL) ===
-        // DESACTIVADO a proposito. Activar SOLO despues de validar con --dry-run y una
-        // emision real controlada. Requiere ademas el add-on "Heroku Scheduler" corriendo
-        // `php artisan schedule:run` cada 10 min. Ver App\Console\Commands\InvoicesDaily.
-        // $schedule->command('invoices:daily')
-        //     ->dailyAt('23:55')
-        //     ->timezone('America/Guatemala')
-        //     ->withoutOverlapping();
+        // Requiere el add-on "Heroku Scheduler" corriendo `php artisan schedule:run`
+        // cada 10 min, y las config vars DB_HOST_2/PORT_2/DATABASE_2/USERNAME_2/PASSWORD_2
+        // (conexion `pharmaWeb` al origen). Ver App\Console\Commands\InvoicesDaily.
+        $schedule->command('invoices:daily')
+            ->dailyAt('23:55')
+            ->timezone('America/Guatemala')
+            ->withoutOverlapping();
     }
 
     /**
