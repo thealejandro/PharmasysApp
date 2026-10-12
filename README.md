@@ -1,64 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PharmasysApp
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Reescritura del sistema de farmacia y punto de venta [Pharmasys](https://github.com/thealejandro/Pharmasys) sobre Laravel 10, Jetstream y Livewire 3.
 
-## About Laravel
+- Estado: **alpha** (rama `0.3.0.1-alpha`). No está en producción; el sistema que opera a diario sigue siendo Pharmasys (Laravel 6).
+- El último trabajo en esta rama es de diciembre de 2023. La rama `feature/auto-invoicing` (julio de 2026) contiene la facturación automática nocturna que después se portó al repo de producción.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Relación con otros repos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Repo | Qué es |
+|---|---|
+| [XACodev/PharmasysPreview](https://github.com/XACodev/PharmasysPreview) | Prototipo original de 2019 en PHP plano + jQuery. |
+| [thealejandro/Pharmasys](https://github.com/thealejandro/Pharmasys) | Sistema en producción (Laravel 6, privado). |
+| **thealejandro/PharmasysApp** (este) | Reescritura en Laravel 10 + Livewire, alpha. |
+| [thealejandro/xPharma](https://github.com/thealejandro/xPharma) | Esqueleto de 2025 en Laravel 12 + React/TypeScript. |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Qué hay implementado
 
-## Learning Laravel
+- Autenticación completa con Jetstream (Fortify): login, registro, verificación de correo, 2FA, tokens de API con Sanctum, perfil y sesiones. Las pruebas de `tests/Feature` son las que trae Jetstream.
+- CRUD vía controladores para los catálogos: categorías, contactos, productos (`items`), laboratorios, encargados (`managers`), proveedores, registros de venta, vendedores y sucursales (`stores`). Las rutas siguen el patrón `recurso`, `recurso/create`, `recurso/{id}/sw`, `recurso/{id}/up`, `DELETE recurso/{id}`.
+- Modelo de datos para compras (`purchases`, `purchase_items`, `purchase_balances`), ventas (`sales`, `sale_items`), inventario por sucursal (`inventorie_stores`) y asignación de encargados.
+- Componentes Livewire: venta de productos (`SellItems`, `Market/Seller/Sale/TableItem`), selección de productos en modal y actualización de inventario por administrador.
+- Pantallas de módulos como vistas Blade (`Route::view`): inventarios, compras, bodega/mercado, envíos, facturación, ajustes, cierres (`settlements`) y vencimientos. Varias son solo maquetas pendientes de lógica.
+- Roles y permisos con `spatie/laravel-permission`; seeders `DefaultDataConfig` (usuarios y configuración inicial) y `DataDBTest` (datos de prueba).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Limitaciones conocidas: las rutas de CRUD y de módulos están fuera del grupo `auth:sanctum`, es decir, sin protección de sesión; no hay facturación electrónica en esta rama; los seeders crean usuarios con contraseñas de ejemplo que deben cambiarse.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Stack
 
-## Laravel Sponsors
+| Componente | Versión |
+|---|---|
+| PHP | ^8.1 (Sail usa 8.2) |
+| Laravel | 10.23 (`composer.lock`) |
+| Jetstream / Livewire | 4.x / 3.0.5 |
+| Sanctum, spatie/laravel-permission, maatwebsite/excel, WireUI | ^3.2, ^5.5, ^3.1, ^1.18 |
+| Front | Blade, Tailwind 3, daisyUI 3.7, Alpine 3.13, Vite 4 |
+| Base de datos | MySQL 8 (docker-compose de Sail) |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Puesta en marcha local
 
-### Premium Partners
+Requisitos: PHP 8.1+ con `ext-soap`, `ext-intl`, `ext-simplexml` y `ext-curl`, Composer, Node 18+, MySQL. Alternativa: Docker con Laravel Sail.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+# Editar .env: DB_* (el ejemplo apunta a un host ficticio)
+php artisan migrate
+php artisan db:seed            # DefaultDataConfig + DataDBTest
+npm install
+npm run dev                    # Vite en desarrollo; npm run build para producción
+php artisan serve
+```
 
-## Contributing
+Con Sail: `./vendor/bin/sail up -d` levanta la app, MySQL, Redis, Meilisearch y Mailpit según `docker-compose.yml`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Scripts útiles
 
-## Code of Conduct
+| Comando | Para qué |
+|---|---|
+| `npm run dev` / `npm run build` | Compilar assets con Vite |
+| `vendor/bin/phpunit` | Pruebas de Jetstream |
+| `vendor/bin/pint` | Formato de código PHP |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Despliegue
 
-## Security Vulnerabilities
+El repo conserva configuración para tres destinos históricos: `Procfile` (Heroku, PHP con Apache), `vercel.json` (Vercel con `vercel-php` y `api/index.php` como entrada) y `docker-compose.yml` (Sail). Ninguno está en uso para esta alpha.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Estructura
 
-## License
+```
+app/Http/Controllers/  CRUD de catálogos, compras, ventas e inventario
+app/Livewire/          Componentes de venta, selección y actualización de productos
+app/Models/            Un modelo por tabla
+app/Actions/           Acciones de Fortify y Jetstream
+database/migrations/   Esquema (2022-2023)
+database/seeders/      DefaultDataConfig, DataDBTest
+resources/views/modules/  Pantallas por módulo (inventories, purchases, market, edit, settlements, expirations)
+resources/views/livewire/ Vistas de componentes Livewire y datatables
+routes/web.php         Rutas de CRUD y de vistas de módulos
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Licencia
+
+Software propietario de XACode. Todos los derechos reservados. (El `license: MIT` de `composer.json` pertenece al esqueleto de Laravel.)
